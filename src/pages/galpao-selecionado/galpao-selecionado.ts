@@ -3,16 +3,16 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-unidades',
-  templateUrl: 'unidades.html',
+  selector: 'page-galpao-selecionado',
+  templateUrl: 'galpao-selecionado.html',
 })
-export class UnidadesPage {
+export class GalpaoSelecionadoPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad UnidadesPage');
+    console.log('ionViewDidLoad GalpaoSelecionadoPage');
   }
 
 }

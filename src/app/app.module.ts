@@ -11,6 +11,15 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { HomeAdmPage } from '../pages/home-adm/home-adm';
+import { RedefinirSenhaPage } from '../pages/redefinir-senha/redefinir-senha';
+import { CadastroGalpaoPage } from '../pages/cadastro-galpao/cadastro-galpao';
+import { CadastroUsuarioPage } from '../pages/cadastro-usuario/cadastro-usuario';
+import { ExcluirGalpaoPage } from '../pages/excluir-galpao/excluir-galpao';
+import { ExcluirUsuarioPage } from '../pages/excluir-usuario/excluir-usuario';
+import { LimparGalpaoPage } from '../pages/limpar-galpao/limpar-galpao';
+import { ContatoPage } from '../pages/contato/contato';
+import { UnidadesPage } from '../pages/unidades/unidades';
+import { LoginPage } from '../pages/login/login';
 
 const firebaseConfig = {
   apiKey: " AIzaSyAZgCNfWAcgwBjuoUfWeilZk-9Mv7CZLVk ",
@@ -26,7 +35,15 @@ const firebaseConfig = {
   declarations: [
     MyApp,
     HomePage,
-    HomeAdmPage
+    HomeAdmPage,
+    RedefinirSenhaPage,
+    CadastroGalpaoPage,
+    CadastroUsuarioPage,
+    ExcluirGalpaoPage,
+    ExcluirUsuarioPage,
+    LimparGalpaoPage,
+    ContatoPage,
+    UnidadesPage
   ],
   imports: [
     BrowserModule,
@@ -39,7 +56,15 @@ const firebaseConfig = {
   entryComponents: [
     MyApp,
     HomePage,
-    HomeAdmPage
+    HomeAdmPage,
+    RedefinirSenhaPage,
+    CadastroGalpaoPage,
+    CadastroUsuarioPage,
+    ExcluirGalpaoPage,
+    ExcluirUsuarioPage,
+    LimparGalpaoPage,
+    ContatoPage,
+    UnidadesPage
   ],
   providers: [
     StatusBar,

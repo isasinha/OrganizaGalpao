@@ -3,16 +3,16 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-unidades',
-  templateUrl: 'unidades.html',
+  selector: 'page-redefinir-senha',
+  templateUrl: 'redefinir-senha.html',
 })
-export class UnidadesPage {
+export class RedefinirSenhaPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad UnidadesPage');
+    console.log('ionViewDidLoad RedefinirSenhaPage');
   }
 
 }

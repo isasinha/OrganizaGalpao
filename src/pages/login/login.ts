@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, LoadingController, AlertController
 import { AuthService } from '../../app/auth.service';
 import { HomePage } from '../home/home';
 import { HomeAdmPage } from '../home-adm/home-adm';
+import { RedefinirSenhaPage } from '../redefinir-senha/redefinir-senha';
 
 @IonicPage()
 @Component({
@@ -35,9 +36,9 @@ export class LoginPage {
     this.authService.login(this.email, this.senha)
                     .then((authState) => {console.log('Logou', authState);loading.dismiss();
                     if(this.email == 'admin@organizagalpao.com.br')
-                      this.navCtrl.setRoot(HomeAdmPage)
+                      this.navCtrl.push(HomeAdmPage)
                     else
-                      this.navCtrl.setRoot(HomePage)
+                      this.navCtrl.push(HomePage)
                     })
                     .catch((error) => {loading.dismiss(); const alert = this.alertCtrl
                     .create({
@@ -47,6 +48,10 @@ export class LoginPage {
                     });
                       console.log('Login falhou', error);
                       alert.present()})
+  }
+
+  redefineSenha(){
+    this.navCtrl.setRoot(RedefinirSenhaPage);
   }
 
 } 

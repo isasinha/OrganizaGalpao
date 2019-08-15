@@ -1,5 +1,8 @@
 <ion-header>
   <ion-navbar>
+    <button ion-button menuToggle>
+        <ion-icon name='menu'></ion-icon>
+    </button>
     <ion-title>Login</ion-title>
   </ion-navbar>
 </ion-header>
@@ -15,7 +18,7 @@
       <ion-input type="password" [(ngModel)]="senha"></ion-input>
     </ion-item>
   </ion-list>
-  <button clear>Esqueci minha senha</button>
+  <button clear (click)="redefineSenha()">Esqueci minha senha</button>
   <ion-buttons end>
     <button ion-button (click)="login()">Login</button>
   </ion-buttons>

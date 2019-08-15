@@ -3,16 +3,16 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-unidades',
-  templateUrl: 'unidades.html',
+  selector: 'page-excluir-usuario',
+  templateUrl: 'excluir-usuario.html',
 })
-export class UnidadesPage {
+export class ExcluirUsuarioPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad UnidadesPage');
+    console.log('ionViewDidLoad ExcluirUsuarioPage');
   }
 
 }

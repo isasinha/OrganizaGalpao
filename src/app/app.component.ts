@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, Nav } from 'ionic-angular';
+import { Platform, Nav, NavController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ContatoPage } from '../pages/contato/contato';
@@ -15,7 +15,7 @@ export class MyApp {
   rootPage:any = 'LoginPage';
   paginaAtiva: any;
 
-  paginas: Array<{titulo: string, pagina: any}>;
+  paginas: Array<{titulo: string, pagina: any, icon: any}>;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {
@@ -23,9 +23,9 @@ export class MyApp {
       splashScreen.hide();
 
       this.paginas = [
-        {titulo: 'Contato', pagina: ContatoPage},
-        {titulo: 'Unidades', pagina: UnidadesPage},
-        {titulo: 'Sair', pagina: LoginPage}
+        {titulo: 'Contato', pagina: ContatoPage, icon: 'call'},
+        {titulo: 'Unidades', pagina: UnidadesPage, icon:'home'},
+        {titulo: 'Sair', pagina: LoginPage, icon:'log-out'}
       ];
 
       this.paginaAtiva = this.paginas[0];
@@ -40,5 +40,6 @@ export class MyApp {
   veSeEstaAtivo(pagina){
     return pagina == this.paginaAtiva;
   }
+
 }
 
