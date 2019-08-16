@@ -15,4 +15,8 @@ export class ContatoPage {
     console.log('ionViewDidLoad ContatoPage');
   }
 
+  enviar(){
+
+  }
+
 }

@@ -1,12 +1,40 @@
 <ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
+  <ion-navbar hideBackButton>
+    <button ion-button menuToggle class='menuToggle'>
       <ion-icon name='menu'></ion-icon>
     </button>
-    <ion-title>cadastro-galpao</ion-title>
   </ion-navbar>
-</ion-header>
+</ion-header> 
 
 <ion-content padding>
+    <h3 style="text-align:center">Administrador</h3>
+    <p style="text-align:center">Cadastrar novo galpão</p>
 
+    <ion-list class="list">
+        <ion-item>
+            <ion-label>Unidade</ion-label>
+            <ion-select [(ngModel)]="unidadeSelecionada" class="select">
+                <ion-option class="option" *ngFor='let unidade of unidades' value={{unidade.unidade}}>{{unidade.unidade}}</ion-option>
+            </ion-select>
+        </ion-item> 
+        <ion-item>
+          <ion-label floating>
+            Galpão
+          </ion-label>
+          <ion-input type="text" [(ngModel)]="galpao"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>
+            Tamanho
+          </ion-label>
+          <ion-input type="text" [(ngModel)]="tamanho"></ion-input>
+        </ion-item>
+      </ion-list>
+      <pre>
+    
+      </pre>
+      <ion-buttons class='botao'>
+        <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
+        <button class='botao-acessa' ion-button (click)="cadastraGalpao()">Confirmar</button>
+      </ion-buttons>
 </ion-content>

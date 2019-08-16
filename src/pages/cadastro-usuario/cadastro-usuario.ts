@@ -46,5 +46,8 @@ export class CadastroUsuarioPage {
                       alert.present();})
   }
 
-
+  voltar(){
+    this.navCtrl.setRoot(HomeAdmPage)
+  }
+  
 }

@@ -1,9 +1,8 @@
 <ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
+  <ion-navbar hideBackButton>
+    <button ion-button menuToggle class='menuToggle'>
       <ion-icon name='menu'></ion-icon>
     </button>
-    <ion-title>Contato</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -14,4 +13,7 @@
     <ion-item>Telefone</ion-item>
     <ion-item>E-mail</ion-item>
   </ion-list>
+  <ion-buttons class='botao'>
+    <button class='botao-acessa' ion-button (click)="enviar()">Enviar</button>
+  </ion-buttons>
 </ion-content>

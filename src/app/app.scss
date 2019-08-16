@@ -1,3 +1,17 @@
 .activeHighLight{
     background-color: map-get($colors, light);
 }
+
+ion-navbar[hidebackbutton] button[menutoggle] {
+    display: block !important;
+}
+
+.back{
+    background-color: #FEFBE4;
+    color: #B04B59;
+}
+
+.menu{
+    background-color: #FEFBE4;
+    color: #B04B59;
+}

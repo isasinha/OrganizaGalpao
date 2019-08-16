@@ -1,12 +1,17 @@
 <ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
+  <ion-navbar hideBackButton>
+    <button ion-button menuToggle class='menuToggle'>
       <ion-icon name='menu'></ion-icon>
     </button>
-    <ion-title>excluir-usuario</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+  <h3 style="text-align:center">Administrador</h3>
+  <p style="text-align:center">Excluir usuário</p>
 
+  <ion-buttons class='botao'>
+    <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
+    <button class='botao-acessa' ion-button (click)="excluiUsuario()">Excluir</button>
+  </ion-buttons>
 </ion-content>

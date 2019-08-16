@@ -1,17 +1,16 @@
 <ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
+  <ion-navbar hideBackButton>
+    <button ion-button menuToggle class='menuToggle'>
       <ion-icon name='menu'></ion-icon>
     </button>
-    <ion-title>Página do Administrador</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
   <h3 style="text-align:center">Administrador</h3>
-  <p>O que deseja fazer?</p>
+  <p style="text-align:center">O que deseja fazer?</p>
   <ion-list>
-    <button ion-item *ngFor='let opcao of opcoes' (click)='opcaoSelecionada($event,opcao)'>
+    <button ion-item *ngFor='let opcao of opcoes' (click)='opcaoEscolhida($event,opcao)'>
       {{opcao.item}}
     </button>
   </ion-list>

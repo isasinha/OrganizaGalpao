@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { HomeAdmPage } from '../home-adm/home-adm';
 
 @IonicPage()
 @Component({
@@ -13,6 +14,14 @@ export class ExcluirUsuarioPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ExcluirUsuarioPage');
+  }
+
+  excluiUsuario(){
+
+  }
+
+  voltar(){
+    this.navCtrl.setRoot(HomeAdmPage)
   }
 
 }
