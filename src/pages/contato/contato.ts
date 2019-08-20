@@ -15,6 +15,10 @@ export class ContatoPage {
     console.log('ionViewDidLoad ContatoPage');
   }
 
+  voltar(){
+    this.navCtrl.pop()
+  }
+
   enviar(){
 
   }

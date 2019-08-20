@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { FormBuilder } from '@angular/forms';
 import { CadastroUsuarioPage } from '../cadastro-usuario/cadastro-usuario';
 import { ExcluirUsuarioPage } from '../excluir-usuario/excluir-usuario';
 import { CadastroGalpaoPage } from '../cadastro-galpao/cadastro-galpao';
 import { LimparGalpaoPage } from '../limpar-galpao/limpar-galpao';
 import { ExcluirGalpaoPage } from '../excluir-galpao/excluir-galpao';
+//import { SavePage } from '../save/save';
 
 @IonicPage()
 @Component({
@@ -25,6 +25,7 @@ export class HomeAdmPage {
       this.opcaoSelecionada = navParams.get('opcao');
       this.opcoes = [
         {item: 'Cadastrar novo usuário', endereco: CadastroUsuarioPage},
+        //{item: 'Cadastrar novo usuário', endereco: SavePage},
         {item: 'Excluir usuário existente', endereco: ExcluirUsuarioPage},
         {item: 'Cadastrar novo galpão', endereco: CadastroGalpaoPage},
         {item: 'Limpar galpão', endereco: LimparGalpaoPage},
@@ -39,10 +40,6 @@ export class HomeAdmPage {
 
   opcaoEscolhida(event, opcao){
     this.navCtrl.push(opcao.endereco);
-  }
-
-  voltar(){
-    this.navCtrl.pop();
   }
 
 }

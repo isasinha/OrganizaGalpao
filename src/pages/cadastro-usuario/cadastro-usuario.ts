@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { AuthService } from '../../app/auth.service';
 import { HomeAdmPage } from '../home-adm/home-adm';
+import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
 
 @IonicPage()
 @Component({
@@ -10,15 +11,20 @@ import { HomeAdmPage } from '../home-adm/home-adm';
 })
 export class CadastroUsuarioPage {
 
-  email = '';
-  senha = '';
+  usuario = {
+    'cpf': '',
+    'senha': '',
+    'tipo': '',
+    'email': ''
+  }
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     private authService: AuthService,
     private loadingCtrl: LoadingController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    public dbService: FirebaseServiceProvider
     ) {
   }
 
@@ -26,14 +32,17 @@ export class CadastroUsuarioPage {
     console.log('ionViewDidLoad CadastroUsuarioPage');
   }
 
+  save(usuario){
+    this.dbService.save(usuario);
+    this.novoUsuario(usuario);
+  }
 
-
-  novoUsuario(){
+  novoUsuario(usuario){
     const loading = this.loadingCtrl.create({
       content: 'Cadastrando...'
     });
     loading.present();
-    this.authService.confirmaNovoUsuario(this.email, this.senha)
+    this.authService.confirmaNovoUsuario(this.usuario.email, this.usuario.senha)
                     .then((data) => {
                       loading.dismiss();
                       this.navCtrl.setRoot(HomeAdmPage);})

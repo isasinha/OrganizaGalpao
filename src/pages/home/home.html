@@ -7,7 +7,12 @@
 </ion-header>
 
 <ion-content padding>
-  <h3>Bem vindo, fulano!</h3>
+  <div *ngIf="user != null">
+    <h3>Bem vindo, {{ user.email }}!</h3>
+  </div>
+  <div *ngIf="user == null">
+    <h3>Bem vindo!</h3>
+  </div>
   <p>Selecione um galpão para editar:</p>
   <br>
   <ion-list>

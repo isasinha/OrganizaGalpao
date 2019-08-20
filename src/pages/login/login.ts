@@ -4,6 +4,7 @@ import { AuthService } from '../../app/auth.service';
 import { HomePage } from '../home/home';
 import { HomeAdmPage } from '../home-adm/home-adm';
 import { RedefinirSenhaPage } from '../redefinir-senha/redefinir-senha';
+import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
 
 @IonicPage()
 @Component({
@@ -12,15 +13,20 @@ import { RedefinirSenhaPage } from '../redefinir-senha/redefinir-senha';
 })
 export class LoginPage {
 
-  email = '';
-  senha = '';
+  usuario = {
+    'cpf': '',
+    'senha': '',
+    'tipo': '',
+    'email': ''
+  }
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     private authService: AuthService,
     private loadingCtrl: LoadingController, 
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    public dbService: FirebaseServiceProvider
     ) { 
   }
 
@@ -28,14 +34,14 @@ export class LoginPage {
     console.log('ionViewDidLoad LoginPage');
   }
 
-  login(){
+  login(usuario){
     const loading = this.loadingCtrl.create({
       content: 'Logando...'
     });
     loading.present();
-    this.authService.login(this.email, this.senha)
+    this.authService.login(this.usuario.email, this.usuario.senha)
                     .then((authState) => {console.log('Logou', authState);loading.dismiss();
-                    if(this.email == 'admin@organizagalpao.com.br')
+                    if(this.usuario.email == 'admin@organizagalpao.com.br')
                       this.navCtrl.push(HomeAdmPage)
                     else
                       this.navCtrl.push(HomePage)

@@ -19,7 +19,8 @@ import { ExcluirUsuarioPage } from '../pages/excluir-usuario/excluir-usuario';
 import { LimparGalpaoPage } from '../pages/limpar-galpao/limpar-galpao';
 import { ContatoPage } from '../pages/contato/contato';
 import { UnidadesPage } from '../pages/unidades/unidades';
-import { LoginPage } from '../pages/login/login';
+import { FirebaseServiceProvider } from '../providers/firebase-service/firebase-service';
+import { SavePage } from '../pages/save/save';
 
 const firebaseConfig = {
   apiKey: " AIzaSyAZgCNfWAcgwBjuoUfWeilZk-9Mv7CZLVk ",
@@ -43,7 +44,8 @@ const firebaseConfig = {
     ExcluirUsuarioPage,
     LimparGalpaoPage,
     ContatoPage,
-    UnidadesPage
+    UnidadesPage,
+    SavePage
   ],
   imports: [
     BrowserModule,
@@ -64,14 +66,16 @@ const firebaseConfig = {
     ExcluirUsuarioPage,
     LimparGalpaoPage,
     ContatoPage,
-    UnidadesPage
+    UnidadesPage,
+    SavePage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthService,
-    AngularFireDatabase
+    AngularFireDatabase,
+    FirebaseServiceProvider
   ]
 })
 export class AppModule {}

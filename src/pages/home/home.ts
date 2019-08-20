@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'page-home',
@@ -7,8 +8,15 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  public user: any;
 
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public firebaseauth: AngularFireAuth) {
+      firebaseauth.user.subscribe((data => {
+        this.user = data;
+    })); 
   }
 
 }

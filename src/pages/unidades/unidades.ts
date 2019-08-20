@@ -15,4 +15,8 @@ export class UnidadesPage {
     console.log('ionViewDidLoad UnidadesPage');
   }
 
+  voltar(){
+    this.navCtrl.pop()
+  }
+
 }
