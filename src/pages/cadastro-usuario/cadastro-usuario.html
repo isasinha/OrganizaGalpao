@@ -13,6 +13,20 @@
   <ion-list> 
     <ion-item>
       <ion-label floating>
+        <ion-icon name='person'></ion-icon>  
+        Nome
+      </ion-label>
+      <ion-input type="text" [(ngModel)]="usuario.nome"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>
+        <ion-icon name='person'></ion-icon>  
+        Sobrenome
+      </ion-label>
+      <ion-input type="text" [(ngModel)]="usuario.sobrenome"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>
         <ion-icon name='contact'></ion-icon>  
         CPF
       </ion-label>

@@ -5,6 +5,7 @@ import { HomePage } from '../home/home';
 import { HomeAdmPage } from '../home-adm/home-adm';
 import { RedefinirSenhaPage } from '../redefinir-senha/redefinir-senha';
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
+import { Usuario } from '../../app/Modelo/usuario';
 
 @IonicPage()
 @Component({
@@ -13,11 +14,13 @@ import { FirebaseServiceProvider } from '../../providers/firebase-service/fireba
 })
 export class LoginPage {
 
-  usuario = {
-    'cpf': '',
-    'senha': '',
-    'tipo': '',
-    'email': ''
+  usuario: Usuario = {
+    nome: '',
+    sobrenome: '',
+    cpf: '',
+    senha: '',
+    tipo: '',
+    email: ''
   }
 
   constructor(
@@ -34,7 +37,7 @@ export class LoginPage {
     console.log('ionViewDidLoad LoginPage');
   }
 
-  login(usuario){
+  login(usuario: Usuario){
     const loading = this.loadingCtrl.create({
       content: 'Logando...'
     });

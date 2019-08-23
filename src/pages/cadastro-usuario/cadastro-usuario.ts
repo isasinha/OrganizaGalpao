@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, LoadingController, AlertController
 import { AuthService } from '../../app/auth.service';
 import { HomeAdmPage } from '../home-adm/home-adm';
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
+import { Usuario } from '../../app/Modelo/usuario';
 
 @IonicPage()
 @Component({
@@ -11,11 +12,13 @@ import { FirebaseServiceProvider } from '../../providers/firebase-service/fireba
 })
 export class CadastroUsuarioPage {
 
-  usuario = {
-    'cpf': '',
-    'senha': '',
-    'tipo': '',
-    'email': ''
+  usuario: Usuario = {
+    nome: '',
+    sobrenome: '',
+    cpf: '',
+    senha: '',
+    tipo: '',
+    email: ''
   }
 
   constructor(
@@ -32,12 +35,12 @@ export class CadastroUsuarioPage {
     console.log('ionViewDidLoad CadastroUsuarioPage');
   }
 
-  save(usuario){
-    this.dbService.save(usuario);
-    this.novoUsuario(usuario);
+  save(usuario: Usuario){
+    this.dbService.save(this.usuario);
+    this.novoUsuario(this.usuario);
   }
 
-  novoUsuario(usuario){
+  novoUsuario(usuario: Usuario){
     const loading = this.loadingCtrl.create({
       content: 'Cadastrando...'
     });
