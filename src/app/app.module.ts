@@ -3,7 +3,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabase, AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AuthService} from './auth.service'
+import { AuthService} from './auth.service';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -21,6 +21,9 @@ import { ContatoPage } from '../pages/contato/contato';
 import { UnidadesPage } from '../pages/unidades/unidades';
 import { FirebaseServiceProvider } from '../providers/firebase-service/firebase-service';
 import { SavePage } from '../pages/save/save';
+import { StoreModule } from '@ngrx/store';
+import { usuarioReducer } from '../reducer/usuario.reducer';
+import { LoginPage } from '../pages/login/login';
 
 const firebaseConfig = {
   apiKey: " AIzaSyAZgCNfWAcgwBjuoUfWeilZk-9Mv7CZLVk ",
@@ -52,7 +55,8 @@ const firebaseConfig = {
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
-    AngularFireAuthModule 
+    AngularFireAuthModule,
+    StoreModule.forRoot(<any>{usuarioState: usuarioReducer})
   ],
   bootstrap: [IonicApp],
   entryComponents: [
