@@ -6,9 +6,6 @@ import { HomeAdmPage } from '../home-adm/home-adm';
 import { RedefinirSenhaPage } from '../redefinir-senha/redefinir-senha';
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
 import { Usuario } from '../../app/Modelo/usuario';
-import { AppStore } from '../../app/app.store';
-import { Store } from '@ngrx/store';
-import { LoginAction } from '../../reducer/usuario.reducer';
 
 @IonicPage()
 @Component({
@@ -32,8 +29,7 @@ export class LoginPage {
     private authService: AuthService,
     private loadingCtrl: LoadingController, 
     private alertCtrl: AlertController,
-    public dbService: FirebaseServiceProvider,
-    private store: Store<AppStore>
+    public dbService: FirebaseServiceProvider
     ) { 
   }
 
@@ -63,9 +59,6 @@ export class LoginPage {
                       alert.present()})
   }
 
-  loginStore(){
-    this.store.dispatch(new LoginAction(this.usuario.email, this.usuario.senha));
-  }
 
   redefineSenha(){
     this.navCtrl.setRoot(RedefinirSenhaPage);

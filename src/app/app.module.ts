@@ -21,9 +21,6 @@ import { ContatoPage } from '../pages/contato/contato';
 import { UnidadesPage } from '../pages/unidades/unidades';
 import { FirebaseServiceProvider } from '../providers/firebase-service/firebase-service';
 import { SavePage } from '../pages/save/save';
-import { StoreModule } from '@ngrx/store';
-import { usuarioReducer } from '../reducer/usuario.reducer';
-import { LoginPage } from '../pages/login/login';
 
 const firebaseConfig = {
   apiKey: " AIzaSyAZgCNfWAcgwBjuoUfWeilZk-9Mv7CZLVk ",
@@ -55,8 +52,7 @@ const firebaseConfig = {
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
-    AngularFireAuthModule,
-    StoreModule.forRoot(<any>{usuarioState: usuarioReducer})
+    AngularFireAuthModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
