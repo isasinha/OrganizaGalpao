@@ -29,8 +29,6 @@ export class CadastroGalpaoPage {
   unidades = [];
   ref = firebase.database().ref('/unidade');
 
-  unidadeSelecionada: Unidade;
-
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
@@ -48,11 +46,11 @@ export class CadastroGalpaoPage {
    
   }
 
-  addGalpao(galpao: Galpao, unidade: Unidade){
+  addGalpao(galpao: Galpao){
     const loading = this.loadingCtrl.create({
       content: 'Cadastrando...'
     });
-    this.dbService.cadastraGalpao(this.galpao, this.unidadeSelecionada);
+    this.dbService.cadastraGalpao(this.galpao);
     loading.present().then((data) => {
                     loading.dismiss();
                     const alert = this.alertCtrl.create({
@@ -67,7 +65,7 @@ export class CadastroGalpaoPage {
                       message: error.message,
                       buttons: ['Ok']});
                     alert.present();});
-
+    this.dbService.alteraUnidade(this.galpao.unidade, this.galpao);                    
     }
 
   addUnidade(unidade: Unidade){
@@ -91,8 +89,22 @@ export class CadastroGalpaoPage {
                     alert.present();});
   }
 
+  // async pegaKey(unidadeSelecionada: Unidade){
+  //   this.unidadeKey = this.unidadeSelecionada.key;
+  // }
+
   voltar(){
     this.navCtrl.setRoot(HomeAdmPage)
+  }
+
+  alteraUnidade(nomeUnidade: string, galpao: Galpao){
+    this.db.list('/unidade').snapshotChanges().subscribe((res) => {
+      res.forEach((element:any) => {
+        if (element.payload.val().unidade == nomeUnidade){
+          this.db.list('/unidade').update(element.key, {galpao:galpao})
+        }
+      })
+    })
   }
 
 }

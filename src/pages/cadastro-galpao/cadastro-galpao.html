@@ -17,7 +17,7 @@
         <ion-input type="text" [(ngModel)]="unidade.unidade"></ion-input>
       </ion-item>
     <ion-buttons class='botaoMenor'>
-      <button class='botao-acessaMenor' ion-button (click)="addUnidade()">Cadastrar</button>
+      <button class='botao-acessaMenor' ion-button (click)="addUnidade(unidade)">Cadastrar</button>
     </ion-buttons>
     </ion-list>
    __________________________________________
@@ -25,7 +25,7 @@
         <p style="text-align:center">Cadastrar novo galpão</p>
         <ion-item>
           <ion-label>Unidade</ion-label>
-          <ion-select [(ngModel)]="unidadeSelecionada" class="select">
+          <ion-select [(ngModel)]="galpao.unidade" class="select">
               <ion-option class="option" *ngFor='let unidade of unidades' value={{unidade.unidade}}>{{unidade.unidade}}</ion-option>
           </ion-select>
         </ion-item>
@@ -56,7 +56,7 @@
       </ion-list>
       <pre></pre>
       <ion-buttons class='botao'>
-        <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
-        <button class='botao-acessa' ion-button (click)="addGalpao()">Cadastrar Galpão</button>
+        <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button> 
+        <button class='botao-acessa' ion-button (click)="addGalpao(galpao)">Cadastrar Galpão</button>
       </ion-buttons>
 </ion-content>
