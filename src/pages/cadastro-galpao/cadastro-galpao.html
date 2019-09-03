@@ -8,33 +8,56 @@
 
 <ion-content padding>
     <h3 style="text-align:center">Administrador</h3>
-    <p style="text-align:center">Cadastrar novo galpão</p>
-
+    <p style="text-align:center">Cadastrar nova unidade</p>
     <ion-list class="list">
-        <ion-item>
-            <ion-label>Unidade</ion-label>
-            <ion-select [(ngModel)]="unidadeSelecionada" class="select">
-                <ion-option class="option" *ngFor='let unidade of unidades' value={{unidade.unidade}}>{{unidade.unidade}}</ion-option>
-            </ion-select>
-        </ion-item> 
+      <ion-item>
+        <ion-label floating>
+          Unidade
+        </ion-label>
+        <ion-input type="text" [(ngModel)]="unidade.unidade"></ion-input>
+      </ion-item>
+    <ion-buttons class='botaoMenor'>
+      <button class='botao-acessaMenor' ion-button (click)="addUnidade()">Cadastrar</button>
+    </ion-buttons>
+    </ion-list>
+   __________________________________________
+    <ion-list class="list">
+        <p style="text-align:center">Cadastrar novo galpão</p>
+        <!-- <ion-item>
+          <ion-label>Unidade</ion-label>
+          <ion-select [(ngModel)]="unidadeSelecionada" class="select">
+              <ion-option class="option" *ngFor='let unidade of unidades' value={{unidade.unidade}}>{{unidade.unidade}}</ion-option>
+          </ion-select>
+        </ion-item> -->
+        <!-- <ion-card *ngFor="let unidade of unidades | async" (click)="onItemClick(unidade)"></ion-card> -->
         <ion-item>
           <ion-label floating>
-            Galpão
+            Nome do galpão
           </ion-label>
-          <ion-input type="text" [(ngModel)]="galpao"></ion-input>
+          <ion-input type="text" [(ngModel)]="galpao.nomeGalpao"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label floating>
-            Tamanho
+            Largura
           </ion-label>
-          <ion-input type="text" [(ngModel)]="tamanho"></ion-input>
+          <ion-input type="text" [(ngModel)]="galpao.largura"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>
+            Altura
+          </ion-label>
+          <ion-input type="text" [(ngModel)]="galpao.altura"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>
+            Profundidade
+          </ion-label>
+          <ion-input type="text" [(ngModel)]="galpao.profundidade"></ion-input>
         </ion-item>
       </ion-list>
-      <pre>
-    
-      </pre>
+      <pre></pre>
       <ion-buttons class='botao'>
         <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
-        <button class='botao-acessa' ion-button (click)="cadastraGalpao()">Confirmar</button>
+        <button class='botao-acessa' ion-button (click)="addGalpao()">Cadastrar Galpão</button>
       </ion-buttons>
 </ion-content>

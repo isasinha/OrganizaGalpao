@@ -20,7 +20,6 @@ import { LimparGalpaoPage } from '../pages/limpar-galpao/limpar-galpao';
 import { ContatoPage } from '../pages/contato/contato';
 import { UnidadesPage } from '../pages/unidades/unidades';
 import { FirebaseServiceProvider } from '../providers/firebase-service/firebase-service';
-import { SavePage } from '../pages/save/save';
 
 const firebaseConfig = {
   apiKey: " AIzaSyAZgCNfWAcgwBjuoUfWeilZk-9Mv7CZLVk ",
@@ -45,7 +44,6 @@ const firebaseConfig = {
     LimparGalpaoPage,
     ContatoPage,
     UnidadesPage,
-    SavePage
   ],
   imports: [
     BrowserModule,
@@ -67,7 +65,6 @@ const firebaseConfig = {
     LimparGalpaoPage,
     ContatoPage,
     UnidadesPage,
-    SavePage
   ],
   providers: [
     StatusBar,

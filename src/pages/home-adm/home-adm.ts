@@ -5,7 +5,6 @@ import { ExcluirUsuarioPage } from '../excluir-usuario/excluir-usuario';
 import { CadastroGalpaoPage } from '../cadastro-galpao/cadastro-galpao';
 import { LimparGalpaoPage } from '../limpar-galpao/limpar-galpao';
 import { ExcluirGalpaoPage } from '../excluir-galpao/excluir-galpao';
-//import { SavePage } from '../save/save';
 
 @IonicPage()
 @Component({
@@ -25,7 +24,6 @@ export class HomeAdmPage {
       this.opcaoSelecionada = navParams.get('opcao');
       this.opcoes = [
         {item: 'Cadastrar novo usuário', endereco: CadastroUsuarioPage},
-        //{item: 'Cadastrar novo usuário', endereco: SavePage},
         {item: 'Excluir usuário existente', endereco: ExcluirUsuarioPage},
         {item: 'Cadastrar novo galpão', endereco: CadastroGalpaoPage},
         {item: 'Limpar galpão', endereco: LimparGalpaoPage},

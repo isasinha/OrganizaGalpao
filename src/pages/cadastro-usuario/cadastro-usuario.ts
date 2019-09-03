@@ -13,7 +13,7 @@ import { Usuario } from '../../app/Modelo/usuario';
 export class CadastroUsuarioPage {
 
   usuario: Usuario = {
-    nome: '',
+    nome: '', 
     sobrenome: '',
     cpf: '',
     senha: '',
@@ -35,12 +35,12 @@ export class CadastroUsuarioPage {
     console.log('ionViewDidLoad CadastroUsuarioPage');
   }
 
-  save(usuario: Usuario){
-    this.dbService.save(this.usuario);
-    this.novoUsuario(this.usuario);
+  addUsuario(usuario: Usuario){
+    this.dbService.cadastraUsuario(this.usuario);
+    this.novoUsuarioLogin(this.usuario);
   }
 
-  novoUsuario(usuario: Usuario){
+  novoUsuarioLogin(usuario: Usuario){
     const loading = this.loadingCtrl.create({
       content: 'Cadastrando...'
     });
@@ -48,7 +48,11 @@ export class CadastroUsuarioPage {
     this.authService.confirmaNovoUsuario(this.usuario.email, this.usuario.senha)
                     .then((data) => {
                       loading.dismiss();
-                      this.navCtrl.setRoot(HomeAdmPage);})
+                      const alert = this.alertCtrl.create({
+                        title: 'Cadastro de usuário',
+                        message: 'Usuário cadastrado com sucesso!',
+                        buttons: ['Ok']});
+                      alert.present().then(r => this.navCtrl.setRoot(HomeAdmPage))})
                     .catch((error) => {
                       loading.dismiss();
                       const alert = this.alertCtrl.create({
