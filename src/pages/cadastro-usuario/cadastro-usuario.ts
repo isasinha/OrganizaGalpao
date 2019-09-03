@@ -5,6 +5,7 @@ import { HomeAdmPage } from '../home-adm/home-adm';
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
 import { Usuario } from '../../app/Modelo/usuario';
 
+
 @IonicPage()
 @Component({
   selector: 'page-cadastro-usuario',
@@ -21,6 +22,8 @@ export class CadastroUsuarioPage {
     email: ''
   }
 
+
+
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -32,7 +35,7 @@ export class CadastroUsuarioPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad CadastroUsuarioPage');
+
   }
 
   addUsuario(usuario: Usuario){
@@ -65,5 +68,5 @@ export class CadastroUsuarioPage {
   voltar(){
     this.navCtrl.setRoot(HomeAdmPage)
   }
-  
+
 }

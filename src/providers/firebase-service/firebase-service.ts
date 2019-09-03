@@ -15,17 +15,15 @@ export class FirebaseServiceProvider {
   }
 
   cadastraGalpao(galpao:Galpao, unidade: Unidade){
-    return this.db.list('unidade').push(unidade.galpao);    
+    this.db.list('unidade.galpao').push(galpao);    
   }
 
   cadastraUnidade(unidade: Unidade){
-    return this.db.list('unidade').push(unidade);    
+    this.db.list('unidade').push(unidade);    
   }
 
   listaUnidades(){
-    return this.db.list('unidade').snapshotChanges().map(data => {
-      return data.map(d => ({key: d.key, ...d.payload.val()}));
-    })
+    this.db.list('unidade')
   }
-
+  
 }

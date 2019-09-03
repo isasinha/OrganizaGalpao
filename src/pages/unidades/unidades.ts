@@ -12,7 +12,7 @@ export class UnidadesPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad UnidadesPage');
+ 
   }
 
   voltar(){

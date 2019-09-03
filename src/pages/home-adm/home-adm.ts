@@ -33,7 +33,7 @@ export class HomeAdmPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad HomeAdmPage');
+
   }
 
   opcaoEscolhida(event, opcao){

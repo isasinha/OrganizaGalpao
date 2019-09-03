@@ -12,7 +12,7 @@ export class GalpaoSelecionadoPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad GalpaoSelecionadoPage');
+
   }
 
 }

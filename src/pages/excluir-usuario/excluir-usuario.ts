@@ -13,7 +13,7 @@ export class ExcluirUsuarioPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ExcluirUsuarioPage');
+
   }
 
   excluiUsuario(){

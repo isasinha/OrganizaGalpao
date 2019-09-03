@@ -13,7 +13,7 @@ export class LimparGalpaoPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LimparGalpaoPage');
+
   }
 
   limpaGalpao(){

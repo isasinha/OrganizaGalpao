@@ -13,7 +13,7 @@ export class ExcluirGalpaoPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ExcluirGalpaoPage');
+
   }
 
   excluiGalpao(){

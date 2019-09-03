@@ -12,7 +12,7 @@ export class RedefinirSenhaPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad RedefinirSenhaPage');
+
   }
 
 }

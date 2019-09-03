@@ -12,7 +12,7 @@ export class ContatoPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ContatoPage');
+
   }
 
   voltar(){

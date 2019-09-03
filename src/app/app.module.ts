@@ -30,6 +30,15 @@ const firebaseConfig = {
   messagingSenderId: "project-866109900277",
 };
 
+export const snapshotToArray = snapshot => {
+  let returnArray = [];
+  snapshot.forEach(element => {
+    let unidade = element.val();
+    unidade.key = element.key;
+    returnArray.push(unidade); 
+  });
+  return returnArray;
+}
 
 @NgModule({
   declarations: [
