@@ -14,7 +14,7 @@
         <ion-label floating>
           Unidade
         </ion-label>
-        <ion-input type="text" [(ngModel)]="unidade.unidade"></ion-input>
+        <ion-input type="text" [(ngModel)]="unidade.nomeUnidade"></ion-input>
       </ion-item>
     <ion-buttons class='botaoMenor'>
       <button class='botao-acessaMenor' ion-button (click)="addUnidade(unidade)">Cadastrar</button>
@@ -26,7 +26,7 @@
         <ion-item>
           <ion-label>Unidade</ion-label>
           <ion-select [(ngModel)]="galpao.unidade" class="select">
-              <ion-option class="option" *ngFor='let unidade of unidades' value={{unidade.unidade}}>{{unidade.unidade}}</ion-option>
+              <ion-option class="option" *ngFor='let unidade of unidades' value={{unidade.nomeUnidade}}>{{unidade.nomeUnidade}}</ion-option>
           </ion-select>
         </ion-item>
         <ion-item>

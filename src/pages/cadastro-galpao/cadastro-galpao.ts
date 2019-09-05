@@ -15,7 +15,7 @@ import { snapshotToArray } from '../../app/app.module';
 export class CadastroGalpaoPage {
 
   unidade: Unidade={
-    unidade: '',
+    nomeUnidade: '',
     galpao: null
   };
   galpao: Galpao = {
@@ -28,6 +28,8 @@ export class CadastroGalpaoPage {
   };
   unidades = [];
   ref = firebase.database().ref('/unidade');
+  key;
+  
 
   constructor(
     public navCtrl: NavController, 
@@ -65,8 +67,22 @@ export class CadastroGalpaoPage {
                       message: error.message,
                       buttons: ['Ok']});
                     alert.present();});
-    this.dbService.alteraUnidade(this.galpao.unidade, this.galpao);                    
+    var nomeUnidade = this.galpao.unidade;
+    var unidadeKey;
+    const snapshotToArrayUnidade = snapshot => {
+      snapshot.forEach(element => {
+        let unidade = element.val();
+        if(unidade.nomeUnidade == nomeUnidade){
+        unidadeKey = element.key;
+        }
+      });
+      return unidadeKey;
     }
+    this.ref.on('value', resp => {
+      this.key = snapshotToArrayUnidade(resp);
+    })
+    this.dbService.insereGalpaoUnidade(this.key, this.galpao);                    
+  }
 
   addUnidade(unidade: Unidade){
     const loading = this.loadingCtrl.create({
@@ -79,7 +95,7 @@ export class CadastroGalpaoPage {
                       title: 'Cadastro de unidade',
                       message: 'Unidade cadastrada com sucesso!',
                       buttons: ['Ok']});
-                    alert.present().then(r => this.unidade.unidade = '')})
+                    alert.present().then(r => this.unidade.nomeUnidade = '')})
                   .catch((error) => {
                     loading.dismiss();
                     const alert = this.alertCtrl.create({
@@ -89,22 +105,8 @@ export class CadastroGalpaoPage {
                     alert.present();});
   }
 
-  // async pegaKey(unidadeSelecionada: Unidade){
-  //   this.unidadeKey = this.unidadeSelecionada.key;
-  // }
-
   voltar(){
     this.navCtrl.setRoot(HomeAdmPage)
-  }
-
-  alteraUnidade(nomeUnidade: string, galpao: Galpao){
-    this.db.list('/unidade').snapshotChanges().subscribe((res) => {
-      res.forEach((element:any) => {
-        if (element.payload.val().unidade == nomeUnidade){
-          this.db.list('/unidade').update(element.key, {galpao:galpao})
-        }
-      })
-    })
   }
 
 }

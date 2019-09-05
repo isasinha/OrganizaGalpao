@@ -9,10 +9,24 @@
 <ion-content padding>
   <h3 style="text-align:center">Administrador</h3>
   <p style="text-align:center">Excluir galpão</p>
-
+  <ion-list class="list">
+    <ion-item>
+      <ion-label>Unidade</ion-label>
+      <ion-select [(ngModel)]="unidade.nomeUnidade" class="select">
+          <ion-option class="option" *ngFor='let unidade of unidades' value={{unidade.nomeUnidade}}>{{unidade.nomeUnidade}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Galpao</ion-label>
+      <ion-select *ngIf='unidade.nomeUnidade' [(ngModel)]="galpao.nomeGalpao" class="select">
+          <ion-option class="option" *ngFor='let galpao of galpoes' value={{galpao.nomeGalpao}}>{{galpao.nomeGalpao}}</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+  <pre></pre>
   <ion-buttons class='botao'>
     <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
-    <button class='botao-acessa' ion-button (click)="excluiGalpao()">Excluir</button>
+    <button class='botao-acessa' ion-button (click)="deletaGalpao(unidade, galpao)">Excluir</button>
   </ion-buttons>
 
 </ion-content>

@@ -8,6 +8,6 @@ export interface Galpao{
 }
 
 export interface Unidade{
-    unidade: string;
+    nomeUnidade: string;
     galpao?: Galpao;
 }

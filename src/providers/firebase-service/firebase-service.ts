@@ -24,23 +24,24 @@ export class FirebaseServiceProvider {
   cadastraUnidade(unidade: Unidade){
     this.db.list('unidade').push(unidade);    
   }
-
-  listaUnidades(){
-    this.db.list('unidade')
-  }
   
-  alteraUnidadeOLD(galpao: Galpao, unidadeKey: any){
-    firebase.database().ref('unidade/'+ unidadeKey).update({galpao:galpao})
+  insereGalpaoUnidade(key: any, galpao: Galpao){
+    this.db.list('/unidade/'+key+'/unidadesGalpao/').update(galpao.nomeGalpao,{
+      unidade: galpao.unidade,
+      nomeGalpao: galpao.nomeGalpao,
+      largura: galpao.largura,
+      altura: galpao.altura,
+      profundidade: galpao.profundidade,
+      imagem: galpao.imagem
+    })
   }
 
-  alteraUnidade(nomeUnidade: string, galpao: Galpao){
-    this.db.list('/unidade').snapshotChanges().subscribe((res) => {
-      res.forEach((element:any) => {
-        if (element.payload.val().unidade == nomeUnidade){
-          this.db.list('/unidade').update(element.key, {galpao:galpao})
-        }
-      })
-    })
+  excluiGalpao(keyGalpao: any){
+    this.db.list('/galpao/'+keyGalpao).remove();
+  }
+
+  excluiGalpaoUnidade(keyUnidade: any, nomeGalpao: string){
+    this.db.object('/unidade/'+keyUnidade+'/unidadesGalpao/'+nomeGalpao).remove();
   }
 
 }
