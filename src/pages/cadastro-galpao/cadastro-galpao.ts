@@ -17,6 +17,7 @@ export class CadastroGalpaoPage {
   unidade: Unidade={
     nomeUnidade: '',
     galpao: null
+    //chave: null
   };
   galpao: Galpao = {
     unidade: '',
@@ -25,10 +26,13 @@ export class CadastroGalpaoPage {
     altura: null,
     profundidade: null,
     imagem: null
+    //chave: null
   };
   unidades = [];
-  ref = firebase.database().ref('/unidade');
-  key;
+  refU = firebase.database().ref('/unidade');
+  refG = firebase.database().ref('/galpao');
+  keyG;
+  keyU;
   
 
   constructor(
@@ -39,7 +43,7 @@ export class CadastroGalpaoPage {
     public dbService: FirebaseServiceProvider,
     public db: AngularFireDatabase
     ) {
-      this.ref.on('value', resp => {
+      this.refU.on('value', resp => {
         this.unidades = snapshotToArray(resp);
       })
   }
@@ -73,15 +77,29 @@ export class CadastroGalpaoPage {
       snapshot.forEach(element => {
         let unidade = element.val();
         if(unidade.nomeUnidade == nomeUnidade){
-        unidadeKey = element.key;
+          unidadeKey = element.key;
         }
       });
       return unidadeKey;
     }
-    this.ref.on('value', resp => {
-      this.key = snapshotToArrayUnidade(resp);
+    this.refU.on('value', resp => {
+      this.keyU = snapshotToArrayUnidade(resp);
     })
-    this.dbService.insereGalpaoUnidade(this.key, this.galpao);                    
+    var nomeGalpao = this.galpao.nomeGalpao;
+    var galpaoKey;
+    const snapshotToArrayGalpao = snapshot => {
+      snapshot.forEach(element => {
+        let galpao = element.val();
+        if(galpao.nomeGalpao == nomeGalpao){
+        galpaoKey = element.key;
+        }
+      });
+      return galpaoKey;
+    }
+    this.refG.on('value', resp => { 
+      this.keyG = snapshotToArrayGalpao(resp);
+    })
+    setTimeout( () => { this.dbService.insereGalpaoUnidade(this.keyU, this.galpao) }, 10000);
   }
 
   addUnidade(unidade: Unidade){

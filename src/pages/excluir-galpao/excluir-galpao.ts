@@ -52,10 +52,10 @@ export class ExcluirGalpaoPage {
       let returnArray = [];
       snapshot.forEach(element => {
         let galpao = element.val();
-        galpao.key = element.key;
-        // if(galpao.key.unidade == nomeUnidade){
+        let nomeUnidadeGalpao = element.unidade;
+        //if(unidade.nomeUnidade == nomeUnidadeGalpao){
           returnArray.push(galpao); 
-        // }
+        //}
       });
       return returnArray;
     }
@@ -68,13 +68,13 @@ export class ExcluirGalpaoPage {
     const loading = this.loadingCtrl.create({
       content: 'Excluindo...'
     });
-    var nomeUnidade = this.galpao.unidade;
+    var nomeUni = this.unidade.nomeUnidade;
     var galpaoKey;
     const snapshotToArrayGalpao = snapshot => {
       snapshot.forEach(element => {
         let galpao = element.val();
-        if(galpao.unidade == nomeUnidade){
-        galpaoKey = element.key;
+        if(galpao.unidade == nomeUni){
+          galpaoKey = element.key;
         }
       });
       return galpaoKey;
@@ -86,9 +86,9 @@ export class ExcluirGalpaoPage {
     var unidadeKey;
     const snapshotToArrayUnidade = snapshot => {
       snapshot.forEach(element => {
-        let unidade = element.val();
-        if(unidade.nomeUnidade == nomeUnidade){
-        unidadeKey = element.key;
+        let unidadeLista = element.val();
+        if(unidadeLista.nomeUnidade == nomeUnidade){
+          unidadeKey = element.key;
         }
       });
       return unidadeKey;
@@ -96,8 +96,8 @@ export class ExcluirGalpaoPage {
     this.refU.on('value', resp => {
       this.keyUnidade = snapshotToArrayUnidade(resp);
     })
-    this.dbService.excluiGalpao(this.keyGalpao);
-    this.dbService.excluiGalpaoUnidade(this.keyUnidade, this.galpao.nomeGalpao);    
+    setTimeout( () => { this.dbService.excluiGalpao(this.keyGalpao) }, 10000);
+    setTimeout( () => { this.dbService.excluiGalpaoUnidade(this.keyUnidade, this.galpao.nomeGalpao) }, 10000);
     loading.present().then((data) => {
                     loading.dismiss();
                     const alert = this.alertCtrl.create({
@@ -112,6 +112,10 @@ export class ExcluirGalpaoPage {
                       message: error.message,
                       buttons: ['Ok']});
                     alert.present();});
+    var unidadeNaoVazia = this.db.list('/unidade/'+this.keyUnidade+'/unidadesGalpao/')
+    if (!unidadeNaoVazia){
+      this.dbService.excluiUnidade(this.keyUnidade)
+    }
   }
 
   voltar(){

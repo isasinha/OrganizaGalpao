@@ -13,20 +13,16 @@ export class FirebaseServiceProvider {
 
   }
 
-  cadastraUsuario(usuario:Usuario){
-    this.db.list('usuario').push(usuario);
+  cadastraUnidade(unidade: Unidade){
+    this.db.list('unidade').push(unidade);
   }
 
   cadastraGalpao(galpao:Galpao){
     this.db.list('galpao').push(galpao);    
   }
 
-  cadastraUnidade(unidade: Unidade){
-    this.db.list('unidade').push(unidade);    
-  }
-  
-  insereGalpaoUnidade(key: any, galpao: Galpao){
-    this.db.list('/unidade/'+key+'/unidadesGalpao/').update(galpao.nomeGalpao,{
+  insereGalpaoUnidade(keyU: any, galpao: Galpao){
+    this.db.list('/unidade/'+keyU+'/unidadesGalpao/').update(galpao.nomeGalpao,{
       unidade: galpao.unidade,
       nomeGalpao: galpao.nomeGalpao,
       largura: galpao.largura,
@@ -34,6 +30,10 @@ export class FirebaseServiceProvider {
       profundidade: galpao.profundidade,
       imagem: galpao.imagem
     })
+  }
+
+  cadastraUsuario(usuario:Usuario){
+    this.db.list('usuario').push(usuario);
   }
 
   excluiGalpao(keyGalpao: any){
@@ -44,4 +44,7 @@ export class FirebaseServiceProvider {
     this.db.object('/unidade/'+keyUnidade+'/unidadesGalpao/'+nomeGalpao).remove();
   }
 
+  excluiUnidade(keyUnidade: any){
+    this.db.object('/unidade/').remove();
+  }
 }
