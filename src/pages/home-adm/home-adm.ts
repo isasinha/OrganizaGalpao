@@ -5,6 +5,7 @@ import { ExcluirUsuarioPage } from '../excluir-usuario/excluir-usuario';
 import { CadastroGalpaoPage } from '../cadastro-galpao/cadastro-galpao';
 import { LimparGalpaoPage } from '../limpar-galpao/limpar-galpao';
 import { ExcluirGalpaoPage } from '../excluir-galpao/excluir-galpao';
+import { ExcluirUnidadePage } from '../excluir-unidade/excluir-unidade';
 
 @IonicPage()
 @Component({
@@ -27,7 +28,8 @@ export class HomeAdmPage {
         {item: 'Excluir usuário existente', endereco: ExcluirUsuarioPage},
         {item: 'Cadastrar novo galpão', endereco: CadastroGalpaoPage},
         {item: 'Limpar galpão', endereco: LimparGalpaoPage},
-        {item: 'Excluir galpão', endereco: ExcluirGalpaoPage}
+        {item: 'Excluir galpão', endereco: ExcluirGalpaoPage},
+        {item: 'Excluir unidade', endereco: ExcluirUnidadePage}
       ];
 
   }

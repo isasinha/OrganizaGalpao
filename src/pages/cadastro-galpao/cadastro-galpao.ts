@@ -17,7 +17,6 @@ export class CadastroGalpaoPage {
   unidade: Unidade={
     nomeUnidade: '',
     galpao: null
-    //chave: null
   };
   galpao: Galpao = {
     unidade: '',
@@ -26,7 +25,6 @@ export class CadastroGalpaoPage {
     altura: null,
     profundidade: null,
     imagem: null
-    //chave: null
   };
   unidades = [];
   refU = firebase.database().ref('/unidade');

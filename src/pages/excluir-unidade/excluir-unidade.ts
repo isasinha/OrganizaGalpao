@@ -9,10 +9,10 @@ import { snapshotToArray } from '../../app/app.module';
 
 @IonicPage()
 @Component({
-  selector: 'page-excluir-galpao',
-  templateUrl: 'excluir-galpao.html',
+  selector: 'page-unidade-galpao',
+  templateUrl: 'excluir-unidade.html',
 })
-export class ExcluirGalpaoPage {
+export class ExcluirUnidadePage {
 
   unidade: Unidade={
     nomeUnidade: '',
@@ -48,23 +48,9 @@ export class ExcluirGalpaoPage {
   }
 
   ionViewDidLoad() {
-    const snapshotToArrayGalpao = snapshot => {
-      let returnArray = [];
-      snapshot.forEach(element => {
-        let galpao = element.val();
-        //let nomeUnidadeGalpao = element.unidade;
-        //if(unidade.nomeUnidade == nomeUnidadeGalpao){
-          returnArray.push(galpao); 
-        //}
-      });
-      return returnArray;
-    }
-    this.refG.on('value', resp => {
-      this.galpoes = snapshotToArrayGalpao(resp);
-    })
   }
 
-  deletaGalpao(unidade: Unidade, galpao: Galpao){
+  deletaGalpao(unidade: Unidade){
     const loading = this.loadingCtrl.create({
       content: 'Excluindo...'
     });
@@ -73,6 +59,7 @@ export class ExcluirGalpaoPage {
     const snapshotToArrayGalpao = snapshot => {
       snapshot.forEach(element => {
         let galpao = element.val();
+        let unidadeGalpao = element.unidade;
         if(galpao.unidade == nomeUni){
           galpaoKey = element.key;
         }

@@ -45,6 +45,6 @@ export class FirebaseServiceProvider {
   }
 
   excluiUnidade(keyUnidade: any){
-    this.db.object('/unidade/').remove();
+    this.db.object('/unidade/'+keyUnidade).remove();
   }
 }
