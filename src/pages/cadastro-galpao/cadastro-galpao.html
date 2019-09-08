@@ -11,32 +11,32 @@
     <ion-list class="list">
       <p style="text-align:center">Cadastrar novo galpão</p>
       <ion-item>
-        <ion-label>Unidade</ion-label>
+        <ion-label>Unidade*</ion-label>
         <ion-select [(ngModel)]="unidade.key" class="select">
           <ion-option class="option" *ngFor='let unidade of unidades' value={{unidade.key}}>{{unidade.nomeUnidade}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
         <ion-label floating>
-          Nome do galpão
+          Nome do galpão*
         </ion-label>
         <ion-input type="text" [(ngModel)]="galpao.nomeGalpao"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>
-          Largura
+          Largura*
         </ion-label>
         <ion-input type="text" [(ngModel)]="galpao.largura"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>
-          Altura
+          Altura*
         </ion-label>
         <ion-input type="text" [(ngModel)]="galpao.altura"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>
-          Profundidade
+          Profundidade*
         </ion-label>
         <ion-input type="text" [(ngModel)]="galpao.profundidade"></ion-input>
       </ion-item>

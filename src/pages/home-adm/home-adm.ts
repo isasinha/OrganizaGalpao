@@ -31,7 +31,7 @@ export class HomeAdmPage {
         {item: 'Limpar galpão', endereco: LimparGalpaoPage},
         {item: 'Excluir galpão', endereco: ExcluirGalpaoPage},
         {item: 'Excluir unidade', endereco: ExcluirUnidadePage},
-        {item: 'Excluir usuário existente', endereco: ExcluirUsuarioPage}
+        {item: 'Excluir usuário', endereco: ExcluirUsuarioPage}
       ];
 
   }

@@ -21,8 +21,10 @@ export class CadastroUsuarioPage {
     tipo: '',
     email: ''
   }
-
-
+  tiposUsuario = [
+    'Administrador', 
+    'Usuário'
+  ]
 
   constructor(
     public navCtrl: NavController, 
