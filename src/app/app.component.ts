@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { ContatoPage } from '../pages/contato/contato';
 import { UnidadesPage } from '../pages/unidades/unidades';
 import { LoginPage } from '../pages/login/login';
+import { HomeAdmPage } from '../pages/home-adm/home-adm';
 import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
@@ -13,7 +14,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage:any = 'LoginPage';
+  rootPage:any = 'HomeAdmPage';
   paginaAtiva: any;
 
   paginas: Array<{titulo: string, pagina: any, icon: any}>;

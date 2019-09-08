@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { HomeAdmPage } from '../home-adm/home-adm';
-import { Galpao, Unidade } from '../../app/Modelo/galpao';
+import { Galpao, Unidade, snapshotToArrayUnidade, snapshotToArrayGalpao } from '../../app/Modelo/galpao';
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
 import { AngularFireDatabase } from '@angular/fire/database';
 import * as firebase from 'firebase';
-import { snapshotToArray } from '../../app/app.module';
 
 @IonicPage()
 @Component({
@@ -15,24 +14,24 @@ import { snapshotToArray } from '../../app/app.module';
 export class ExcluirGalpaoPage {
 
   unidade: Unidade={
-    nomeUnidade: '',
-    galpao: null
+    nomeUnidade: null,
+    unidadesGalpao: null,
+    endereco: null,
+    telefone: null
   };
   galpao: Galpao = {
-    unidade: '',
-    nomeGalpao: '',
+    nomeGalpao: null,
     largura: null,
     altura: null,
     profundidade: null,
     imagem: null
   };
-  unidades = [];
+  unidades:Array<Unidade> = [];
   galpoes = [];
   keyGalpao;
   keyUnidade;
-  refU = firebase.database().ref('/unidade');
-  refG = firebase.database().ref('/galpao');
-
+  ref = firebase.database().ref('/unidade/');
+  
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -41,83 +40,36 @@ export class ExcluirGalpaoPage {
     public dbService: FirebaseServiceProvider,
     public db: AngularFireDatabase
     ) {
-      this.refU.on('value', resp => {
-        this.unidades = snapshotToArray(resp);
+      this.ref.on('value', resp => {
+        this.unidades = snapshotToArrayUnidade(resp);
       })
-       
   }
 
   ionViewDidLoad() {
-    const snapshotToArrayGalpao = snapshot => {
-      let returnArray = [];
-      snapshot.forEach(element => {
-        let galpao = element.val();
-        //let nomeUnidadeGalpao = element.unidade;
-        //if(unidade.nomeUnidade == nomeUnidadeGalpao){
-          returnArray.push(galpao); 
-        //}
-      });
-      return returnArray;
-    }
-    this.refG.on('value', resp => {
+
+  }
+
+  selecionaGalpao(key: any){
+    this.ref.child(key+'/unidadesGalpao/').on('value', resp => {
       this.galpoes = snapshotToArrayGalpao(resp);
     })
   }
 
-  deletaGalpao(unidade: Unidade, galpao: Galpao){
+  deletaGalpao(keyUnidade: any, keyGalpao: any){
     const loading = this.loadingCtrl.create({
       content: 'Excluindo...'
     });
-    var nomeUni = this.unidade.nomeUnidade;
-    var galpaoKey;
-    const snapshotToArrayGalpao = snapshot => {
-      snapshot.forEach(element => {
-        let galpao = element.val();
-        if(galpao.unidade == nomeUni){
-          galpaoKey = element.key;
-        }
-      });
-      return galpaoKey;
-    }
-    this.refG.on('value', resp => {
-      this.keyGalpao = snapshotToArrayGalpao(resp);
-    })
-    var nomeUnidade = this.unidade.nomeUnidade;
-    var unidadeKey;
-    const snapshotToArrayUnidade = snapshot => {
-      snapshot.forEach(element => {
-        let unidadeLista = element.val();
-        if(unidadeLista.nomeUnidade == nomeUnidade){
-          unidadeKey = element.key;
-        }
-      });
-      return unidadeKey;
-    }
-    this.refU.on('value', resp => {
-      this.keyUnidade = snapshotToArrayUnidade(resp);
-    })
-    setTimeout( () => { this.dbService.excluiGalpao(this.keyGalpao) }, 10000);
-    setTimeout( () => { this.dbService.excluiGalpaoUnidade(this.keyUnidade, this.galpao.nomeGalpao) }, 10000);
-    loading.present().then((data) => {
-                    loading.dismiss();
-                    const alert = this.alertCtrl.create({
+    setTimeout( () => { this.dbService.excluiGalpao(keyUnidade, keyGalpao) }, 10000);
+    loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
                       title: 'Exclusão de Galpão',
                       message: 'Galpão excluído com sucesso!',
                       buttons: ['Ok']});
-                    alert.present().then(r => {this.unidade.nomeUnidade = '',this.galpao.nomeGalpao = ''} )})
-                  .catch((error) => {
-                    loading.dismiss();
-                    const alert = this.alertCtrl.create({
+                    alert.present().then(r => this.navCtrl.setRoot('HomeAdmPage'))})
+                  .catch((error) => {loading.dismiss(); const alert = this.alertCtrl.create({
                       title: 'Exclusão de galpão falhou',
                       message: error.message,
                       buttons: ['Ok']});
                     alert.present();});
-    setTimeout( () => { 
-    firebase.database().ref('/unidade/'+this.keyUnidade+'/unidadesGalpao').once("value", snapshot => {
-      if (!snapshot.exists()){
-        this.dbService.excluiUnidade(this.keyUnidade)
-      }
-    });}, 10000);
   }
 
   voltar(){

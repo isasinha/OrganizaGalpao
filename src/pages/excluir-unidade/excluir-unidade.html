@@ -1,15 +1,29 @@
-<!--
-  Generated template for the ExcluirUnidadePage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-  <ion-navbar>
-    <ion-title>excluir-unidade</ion-title>
+  <ion-navbar hideBackButton>
+    <button ion-button menuToggle class='menuToggle'>
+      <ion-icon name='menu'></ion-icon>
+    </button>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+  <h3 style="text-align:center">Administrador</h3>
+  <p style="text-align:center">Excluir unidade</p>
+  <ion-list class="list">
+    <ion-item>
+      <ion-label>Unidade</ion-label>
+      <ion-select [(ngModel)]="unidade.key" class="select">
+          <ion-option class="option" *ngFor='let unidade of unidades' value={{unidade.key}}>{{unidade.nomeUnidade}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <br>
+      <p class='texto1'>Atenção! A exclusão de unidade realiza também a exclusão de todos os galpões e seus conteúdos vinculados a ela.</p>
+      <p class='texto2'> ESSA AÇÃO NÃO PODERÁ SER DESFEITA!</p>
+  </ion-list>
+  <pre></pre>
+  <ion-buttons class='botao'>
+    <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
+    <button class='botao-acessa' ion-button (click)="deletaUnidade(unidade.key)">Excluir</button>
+  </ion-buttons>
 
 </ion-content>

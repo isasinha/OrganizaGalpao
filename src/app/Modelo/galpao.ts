@@ -1,5 +1,4 @@
 export interface Galpao{
-    unidade: string;
     nomeGalpao: string;
     largura: number;
     altura: number;
@@ -9,5 +8,27 @@ export interface Galpao{
 
 export interface Unidade{
     nomeUnidade: string;
-    galpao?: Galpao;
+    unidadesGalpao?: Galpao;
+    endereco?: string;
+    telefone?: string;
+}
+
+export const snapshotToArrayUnidade = snapshot => {
+    let returnArray = [];
+    snapshot.forEach(element => {
+       let unidade = element.val();
+       unidade.key = element.key;
+      returnArray.push(unidade); 
+    });
+    return returnArray;
+}
+
+export const snapshotToArrayGalpao = snapshot => {
+    let returnArray = [];
+    snapshot.forEach(element => {
+       let galpao = element.val();
+       galpao.key = element.key;
+      returnArray.push(galpao); 
+    });
+    return returnArray;
 }

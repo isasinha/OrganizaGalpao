@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-navbar hideBackButton>
+    <button ion-button menuToggle class='menuToggle'>
+      <ion-icon name='menu'></ion-icon>
+    </button>
+  </ion-navbar>
+</ion-header> 
+  
+<ion-content padding>
+  <h3 style="text-align:center">Administrador</h3>
+  <p style="text-align:center">Cadastrar nova unidade</p>
+  <ion-list class="list">
+    <ion-item>
+      <ion-label floating>
+        Unidade
+      </ion-label>
+      <ion-input type="text" [(ngModel)]="unidade.nomeUnidade"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>
+        Endereço
+      </ion-label>
+      <ion-input type="text" [(ngModel)]="unidade.endereco"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>
+        Telefone
+      </ion-label>
+      <ion-input type="text" [(ngModel)]="unidade.telefone"></ion-input>
+    </ion-item>
+  </ion-list>
+  <pre></pre>
+  <ion-buttons class='botao'>
+    <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button> 
+    <button class='botao-acessa' ion-button (click)="addUnidade(unidade)">Cadastrar Unidade</button>
+  </ion-buttons>
+</ion-content>

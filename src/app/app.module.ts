@@ -10,16 +10,18 @@ import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { HomeAdmPage } from '../pages/home-adm/home-adm';
 import { RedefinirSenhaPage } from '../pages/redefinir-senha/redefinir-senha';
 import { CadastroGalpaoPage } from '../pages/cadastro-galpao/cadastro-galpao';
+import { CadastroUnidadePage } from '../pages/cadastro-unidade/cadastro-unidade';
 import { CadastroUsuarioPage } from '../pages/cadastro-usuario/cadastro-usuario';
 import { ExcluirGalpaoPage } from '../pages/excluir-galpao/excluir-galpao';
+import { ExcluirUnidadePage } from '../pages/excluir-unidade/excluir-unidade';
 import { ExcluirUsuarioPage } from '../pages/excluir-usuario/excluir-usuario';
 import { LimparGalpaoPage } from '../pages/limpar-galpao/limpar-galpao';
 import { ContatoPage } from '../pages/contato/contato';
 import { UnidadesPage } from '../pages/unidades/unidades';
 import { FirebaseServiceProvider } from '../providers/firebase-service/firebase-service';
+import { HomeAdmPageModule } from '../pages/home-adm/home-adm.module';
 
 const firebaseConfig = {
   apiKey: " AIzaSyAZgCNfWAcgwBjuoUfWeilZk-9Mv7CZLVk ",
@@ -30,50 +32,45 @@ const firebaseConfig = {
   messagingSenderId: "project-866109900277",
 };
 
-export const snapshotToArray = snapshot => {
-  let returnArray = [];
-  snapshot.forEach(element => {
-    let unidade = element.val();
-    unidade.key = element.key;
-    returnArray.push(unidade); 
-  });
-  return returnArray;
-}
-
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    HomeAdmPage,
+    
     RedefinirSenhaPage,
     CadastroGalpaoPage,
+    CadastroUnidadePage,
     CadastroUsuarioPage,
     ExcluirGalpaoPage,
+    ExcluirUnidadePage,
     ExcluirUsuarioPage,
     LimparGalpaoPage,
     ContatoPage,
-    UnidadesPage,
+    UnidadesPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    HomeAdmPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
-    HomeAdmPage,
+    
     RedefinirSenhaPage,
     CadastroGalpaoPage,
+    CadastroUnidadePage,
     CadastroUsuarioPage,
     ExcluirGalpaoPage,
+    ExcluirUnidadePage,
     ExcluirUsuarioPage,
     LimparGalpaoPage,
     ContatoPage,
-    UnidadesPage,
+    UnidadesPage
   ],
   providers: [
     StatusBar,
