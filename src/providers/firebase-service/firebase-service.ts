@@ -10,7 +10,8 @@ export class FirebaseServiceProvider {
   ref = firebase.database().ref('/unidade');
 
 
-  constructor(public db: AngularFireDatabase) {
+  constructor(
+    public db: AngularFireDatabase) {
 
   }
 
@@ -33,17 +34,21 @@ export class FirebaseServiceProvider {
   excluiUnidade(keyUnidade: any){
     this.db.object('/unidade/'+keyUnidade).remove();
   }
+
+  listaUnidade(){
+    return this.db.list('unidade/');
+  }
+
+  editaGalpao(keyUnidade: any, keyGalpao: any, galpao: Galpao){
+    //this.db.list('/unidade/'+keyUnidade+'/unidadesGalpao/').update(keyGalpao,{
+
+    this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).update({galpao:{
+      nomeGalpao: galpao.nomeGalpao,
+      largura: galpao.largura,
+      altura: galpao.altura,
+      profundidade: galpao.profundidade,
+      imagem: galpao.imagem
+    }})
+  }
+
 }
-
-
-
-  // insereGalpaoUnidade(keyU: any, galpao: Galpao){
-  //   this.db.list('/unidade/'+keyU+'/unidadesGalpao/').update(galpao.nomeGalpao,{
-  //     unidade: galpao.unidade,
-  //     nomeGalpao: galpao.nomeGalpao,
-  //     largura: galpao.largura,
-  //     altura: galpao.altura,
-  //     profundidade: galpao.profundidade,
-  //     imagem: galpao.imagem
-  //   })
-  // }

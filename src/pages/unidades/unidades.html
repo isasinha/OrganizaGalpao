@@ -9,10 +9,11 @@
 <ion-content padding>
   <h2>Unidades</h2>
   <ion-list>
-    <ion-item>Unidade 1</ion-item>
-    <ion-item>Unidade 2</ion-item>
-    <ion-item>Unidade 3</ion-item>
-    <ion-item>Unidade 4</ion-item>
+    <ion-item *ngFor='let unidade of unidades'>
+      <p>{{unidade.nomeUnidade}}</p>
+      <p>{{unidade.endereco}}</p>
+      <p>{{unidade.telefone}}</p>
+    </ion-item>
   </ion-list>
   <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
 </ion-content>

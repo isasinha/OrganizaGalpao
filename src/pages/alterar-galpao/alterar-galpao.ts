@@ -8,10 +8,11 @@ import * as firebase from 'firebase';
 
 @IonicPage()
 @Component({
-  selector: 'page-excluir-galpao',
-  templateUrl: 'excluir-galpao.html',
+  selector: 'page-alterar-galpao',
+  templateUrl: 'alterar-galpao.html',
 })
-export class ExcluirGalpaoPage {
+export class AlterarGalpaoPage {
+
 
   unidade: Unidade={
     nomeUnidade: null,
@@ -34,20 +35,21 @@ export class ExcluirGalpaoPage {
   
   constructor(
     public navCtrl: NavController, 
-    public navParams: NavParams,
+    public navParams: NavParams, 
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     public dbService: FirebaseServiceProvider,
     public db: AngularFireDatabase
     ) {
-      this.ref.on('value', resp => { 
-        this.unidades = snapshotToArrayUnidade(resp);
-      })
+      
   }
 
   ionViewDidLoad() {
-
+    this.ref.on('value', resp => {
+      this.unidades = snapshotToArrayUnidade(resp);
+    })
   }
+
 
   selecionaGalpao(key: any){
     this.ref.child(key+'/unidadesGalpao/').on('value', resp => {
@@ -55,18 +57,18 @@ export class ExcluirGalpaoPage {
     })
   }
 
-  deletaGalpao(keyUnidade: any, keyGalpao: any){
+  alteraGalpao(keyUnidade: any, keyGalpao: any, galpao: Galpao,){
     const loading = this.loadingCtrl.create({
-      content: 'Excluindo...'
+      content: 'Alterando...'
     });
-    setTimeout( () => { this.dbService.excluiGalpao(keyUnidade, keyGalpao) }, 10000);
+    setTimeout( () => { this.dbService.editaGalpao(keyUnidade, keyGalpao, galpao) }, 10000);
     loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                      title: 'Exclusão de Galpão',
-                      message: 'Galpão excluído com sucesso!',
+                      title: 'Alteração de Galpão',
+                      message: 'Galpão alterado com sucesso!',
                       buttons: ['Ok']});
                     alert.present().then(r => this.navCtrl.setRoot('HomeAdmPage'))})
                   .catch((error) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                      title: 'Exclusão de galpão falhou',
+                      title: 'Alteração de galpão falhou',
                       message: error.message,
                       buttons: ['Ok']});
                     alert.present();});

@@ -7,6 +7,9 @@ import { LimparGalpaoPage } from '../limpar-galpao/limpar-galpao';
 import { ExcluirGalpaoPage } from '../excluir-galpao/excluir-galpao';
 import { ExcluirUnidadePage } from '../excluir-unidade/excluir-unidade';
 import { CadastroUnidadePage } from '../cadastro-unidade/cadastro-unidade';
+import { GalpoesPage } from '../galpoes/galpoes';
+import { AlterarUnidadePage } from '../alterar-unidade/alterar-unidade';
+import { AlterarGalpaoPage } from '../alterar-galpao/alterar-galpao';
 
 @IonicPage()
 @Component({
@@ -28,6 +31,9 @@ export class HomeAdmPage {
         {item: 'Cadastrar novo usuário', endereco: CadastroUsuarioPage},
         {item: 'Cadastrar nova unidade', endereco: CadastroUnidadePage},
         {item: 'Cadastrar novo galpão', endereco: CadastroGalpaoPage},
+        {item: 'Listar galpões por unidade', endereco: GalpoesPage},
+        {item: 'Alterar dados da unidade', endereco: AlterarUnidadePage},
+        {item: 'Alterar dados do galpão', endereco: AlterarGalpaoPage},
         {item: 'Limpar galpão', endereco: LimparGalpaoPage},
         {item: 'Excluir galpão', endereco: ExcluirGalpaoPage},
         {item: 'Excluir unidade', endereco: ExcluirUnidadePage},

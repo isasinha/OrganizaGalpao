@@ -22,6 +22,9 @@ import { ContatoPage } from '../pages/contato/contato';
 import { UnidadesPage } from '../pages/unidades/unidades';
 import { FirebaseServiceProvider } from '../providers/firebase-service/firebase-service';
 import { HomeAdmPageModule } from '../pages/home-adm/home-adm.module';
+import { GalpoesPage } from '../pages/galpoes/galpoes';
+import { AlterarUnidadePage } from '../pages/alterar-unidade/alterar-unidade';
+import { AlterarGalpaoPage } from '../pages/alterar-galpao/alterar-galpao';
 
 const firebaseConfig = {
   apiKey: " AIzaSyAZgCNfWAcgwBjuoUfWeilZk-9Mv7CZLVk ",
@@ -41,12 +44,15 @@ const firebaseConfig = {
     CadastroGalpaoPage,
     CadastroUnidadePage,
     CadastroUsuarioPage,
+    AlterarUnidadePage,
+    AlterarGalpaoPage,
     ExcluirGalpaoPage,
     ExcluirUnidadePage,
     ExcluirUsuarioPage,
     LimparGalpaoPage,
     ContatoPage,
-    UnidadesPage
+    UnidadesPage,
+    GalpoesPage,
   ],
   imports: [
     BrowserModule,
@@ -65,12 +71,15 @@ const firebaseConfig = {
     CadastroGalpaoPage,
     CadastroUnidadePage,
     CadastroUsuarioPage,
+    AlterarUnidadePage,
+    AlterarGalpaoPage,
     ExcluirGalpaoPage,
     ExcluirUnidadePage,
     ExcluirUsuarioPage,
     LimparGalpaoPage,
     ContatoPage,
-    UnidadesPage
+    UnidadesPage,
+    GalpoesPage,
   ],
   providers: [
     StatusBar,
