@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, ModalOptions } from 'ionic-angular';
 import { LimparGalpaoPage } from '../limpar-galpao/limpar-galpao';
 
 @IonicPage()
@@ -35,9 +35,15 @@ export class HomeAdmPage {
 
   opcaoEscolhida(event, opcao){
     if(opcao.item == 'Limpar galpão'){
-      this.navCtrl.push(opcao.endereco);
+      this.navCtrl.push(opcao.endereco); 
     }else{
-      const myModal = this.modal.create(opcao.endereco)
+      const myModalOptions: ModalOptions = {
+        showBackdrop: true,
+        enableBackdropDismiss:true,
+        cssClass: 'modalclass'
+      }
+
+      const myModal = this.modal.create(opcao.endereco,{},myModalOptions)
       myModal.present();
     }
   }

@@ -21,8 +21,8 @@ export class ModalAlterarAdmPage {
   
     this.opcaoSelecionada = navParams.get('opcao');
     this.opcoes = [
-      {item: 'Alterar dados da unidade', endereco: AlterarUnidadePage},
-      {item: 'Alterar dados do galpão', endereco: AlterarGalpaoPage}
+      {item: 'Dados da unidade', endereco: AlterarUnidadePage},
+      {item: 'Dados do galpão', endereco: AlterarGalpaoPage}
     ];
   }
 

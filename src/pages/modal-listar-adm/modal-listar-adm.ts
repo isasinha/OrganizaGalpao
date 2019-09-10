@@ -21,8 +21,8 @@ export class ModalListarAdmPage {
   
     this.opcaoSelecionada = navParams.get('opcao');
     this.opcoes = [
-      {item: 'Listar unidades', endereco: ListarUnidadesPage},
-      {item: 'Listar galpões por unidade', endereco: GalpoesPage}
+      {item: 'Unidades', endereco: ListarUnidadesPage},
+      {item: 'Galpões por unidade', endereco: GalpoesPage}
     ];
   }
 

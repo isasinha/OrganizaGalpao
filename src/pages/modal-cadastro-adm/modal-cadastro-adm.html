@@ -1,17 +1,17 @@
-<ion-header>
-    <ion-navbar hideBackButton>
-    </ion-navbar>
-  </ion-header>
-  
-  <ion-content padding>
-    <h3 style="text-align:center">Administrador</h3>
-    <p style="text-align:center">O que deseja cadastrar?</p>
-    <ion-list>
-      <button ion-item *ngFor='let opcao of opcoes' (click)='opcaoEscolhida($event,opcao)'>
-        {{opcao.item}}
-      </button>
-    </ion-list>
-    <ion-buttons class='botao'>
-      <button class='botao-acessaMenor' ion-button (click)="closeModal()">Cancelar</button>
-    </ion-buttons>
-  </ion-content>
+<ion-header class= 'container'>
+  <!-- <ion-navbar hideBackButton>
+  </ion-navbar> -->
+</ion-header>
+
+<ion-content padding class= 'container' no-bounce>
+  <h5 style="text-align:center">O que deseja cadastrar?</h5>
+  <pre></pre>
+  <ion-list>
+    <button ion-item *ngFor='let opcao of opcoes' (click)='opcaoEscolhida($event,opcao)'>
+      {{opcao.item}}
+    </button>
+  </ion-list>
+  <ion-buttons class='botao'>
+    <button class='botao-acessa' full ion-button (click)="closeModal()">Cancelar</button>
+  </ion-buttons>
+</ion-content>
