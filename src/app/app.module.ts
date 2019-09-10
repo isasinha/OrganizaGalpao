@@ -25,6 +25,7 @@ import { HomeAdmPageModule } from '../pages/home-adm/home-adm.module';
 import { GalpoesPage } from '../pages/galpoes/galpoes';
 import { AlterarUnidadePage } from '../pages/alterar-unidade/alterar-unidade';
 import { AlterarGalpaoPage } from '../pages/alterar-galpao/alterar-galpao';
+import { ListarUnidadesPage } from '../pages/listar-unidades/listar-unidades';
 
 const firebaseConfig = {
   apiKey: " AIzaSyAZgCNfWAcgwBjuoUfWeilZk-9Mv7CZLVk ",
@@ -53,6 +54,7 @@ const firebaseConfig = {
     ContatoPage,
     UnidadesPage,
     GalpoesPage,
+    ListarUnidadesPage
   ],
   imports: [
     BrowserModule,
@@ -80,6 +82,7 @@ const firebaseConfig = {
     ContatoPage,
     UnidadesPage,
     GalpoesPage,
+    ListarUnidadesPage
   ],
   providers: [
     StatusBar,

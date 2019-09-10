@@ -10,6 +10,7 @@ import { CadastroUnidadePage } from '../cadastro-unidade/cadastro-unidade';
 import { GalpoesPage } from '../galpoes/galpoes';
 import { AlterarUnidadePage } from '../alterar-unidade/alterar-unidade';
 import { AlterarGalpaoPage } from '../alterar-galpao/alterar-galpao';
+import { ListarUnidadesPage } from '../listar-unidades/listar-unidades';
 
 @IonicPage()
 @Component({
@@ -31,6 +32,7 @@ export class HomeAdmPage {
         {item: 'Cadastrar novo usuário', endereco: CadastroUsuarioPage},
         {item: 'Cadastrar nova unidade', endereco: CadastroUnidadePage},
         {item: 'Cadastrar novo galpão', endereco: CadastroGalpaoPage},
+        {item: 'Listar unidades', endereco: ListarUnidadesPage},
         {item: 'Listar galpões por unidade', endereco: GalpoesPage},
         {item: 'Alterar dados da unidade', endereco: AlterarUnidadePage},
         {item: 'Alterar dados do galpão', endereco: AlterarGalpaoPage},

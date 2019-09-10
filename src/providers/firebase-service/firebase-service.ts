@@ -40,15 +40,46 @@ export class FirebaseServiceProvider {
   }
 
   editaGalpao(keyUnidade: any, keyGalpao: any, galpao: Galpao){
-    //this.db.list('/unidade/'+keyUnidade+'/unidadesGalpao/').update(keyGalpao,{
 
-    this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).update({
-      nomeGalpao: galpao.nomeGalpao,
-      largura: galpao.largura,
-      altura: galpao.altura,
-      profundidade: galpao.profundidade,
-      imagem: galpao.imagem
-    })
+    if(galpao.nomeGalpao != null){
+      this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).update({
+        nomeGalpao: galpao.nomeGalpao
+      })
+    }
+    if(galpao.largura != null){
+      this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).update({
+        largura: galpao.largura
+      })
+    }
+    if(galpao.altura != null){
+      this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).update({
+        altura: galpao.altura
+      })
+    }
+    if(galpao.profundidade != null){
+      this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).update({
+        profundidade: galpao.profundidade
+      })
+    }
+  }
+
+  editaUnidade(keyUnidade: any, unidade: Unidade){
+
+    if(unidade.nomeUnidade != null){
+      this.ref.child('/'+keyUnidade).update({
+        nomeUnidade: unidade.nomeUnidade
+      })
+    }
+    if(unidade.endereco != null){
+      this.ref.child('/'+keyUnidade).update({
+        endereco: unidade.endereco
+      })
+    }
+    if(unidade.telefone != null){
+      this.ref.child('/'+keyUnidade).update({
+        telefone: unidade.telefone
+      })
+    }
   }
 
 }
