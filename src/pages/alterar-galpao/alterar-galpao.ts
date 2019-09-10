@@ -29,6 +29,7 @@ export class AlterarGalpaoPage {
   };
   unidades:Array<Unidade> = [];
   galpoes = [];
+  galpaoSelecionado = [];
   keyGalpao;
   keyUnidade;
   ref = firebase.database().ref('/unidade/');
@@ -51,9 +52,27 @@ export class AlterarGalpaoPage {
   }
 
 
-  selecionaGalpao(key: any){
-    this.ref.child(key+'/unidadesGalpao/').on('value', resp => {
+  selecionaGalpao(keyUnidade: any){
+    this.keyUnidade = keyUnidade;
+    this.ref.child(keyUnidade+'/unidadesGalpao/').on('value', resp => {
       this.galpoes = snapshotToArrayGalpao(resp);
+    })
+  }
+
+  exibirGalpaoSelecionado(keyGalpao: any){
+    const snapshotToArrayGalpaoSelecionado = snapshot => {
+      let returnArray = [];
+      snapshot.forEach(element => {
+         let galpao = element.val();
+         galpao.key = element.key;
+        if(galpao.key == keyGalpao){
+          returnArray.push(galpao); 
+        }
+      });
+      return returnArray;
+    }
+    this.ref.child(this.keyUnidade+'/unidadesGalpao/').on('value', resp => {
+      this.galpaoSelecionado = snapshotToArrayGalpaoSelecionado(resp);
     })
   }
 

@@ -42,13 +42,13 @@ export class FirebaseServiceProvider {
   editaGalpao(keyUnidade: any, keyGalpao: any, galpao: Galpao){
     //this.db.list('/unidade/'+keyUnidade+'/unidadesGalpao/').update(keyGalpao,{
 
-    this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).update({galpao:{
+    this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).update({
       nomeGalpao: galpao.nomeGalpao,
       largura: galpao.largura,
       altura: galpao.altura,
       profundidade: galpao.profundidade,
       imagem: galpao.imagem
-    }})
+    })
   }
 
 }

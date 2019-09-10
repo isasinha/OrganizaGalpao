@@ -1,3 +1,5 @@
+import { GalpaoSelecionadoPage } from "../../pages/galpao-selecionado/galpao-selecionado";
+
 export interface Galpao{
     nomeGalpao: string;
     largura: number;
