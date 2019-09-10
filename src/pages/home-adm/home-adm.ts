@@ -1,16 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { CadastroUsuarioPage } from '../cadastro-usuario/cadastro-usuario';
-import { ExcluirUsuarioPage } from '../excluir-usuario/excluir-usuario';
-import { CadastroGalpaoPage } from '../cadastro-galpao/cadastro-galpao';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { LimparGalpaoPage } from '../limpar-galpao/limpar-galpao';
-import { ExcluirGalpaoPage } from '../excluir-galpao/excluir-galpao';
-import { ExcluirUnidadePage } from '../excluir-unidade/excluir-unidade';
-import { CadastroUnidadePage } from '../cadastro-unidade/cadastro-unidade';
-import { GalpoesPage } from '../galpoes/galpoes';
-import { AlterarUnidadePage } from '../alterar-unidade/alterar-unidade';
-import { AlterarGalpaoPage } from '../alterar-galpao/alterar-galpao';
-import { ListarUnidadesPage } from '../listar-unidades/listar-unidades';
 
 @IonicPage()
 @Component({
@@ -24,23 +14,18 @@ export class HomeAdmPage {
 
   constructor(
     public navCtrl: NavController, 
-    public navParams: NavParams
-    ) {
-    
-      this.opcaoSelecionada = navParams.get('opcao');
-      this.opcoes = [
-        {item: 'Cadastrar novo usuário', endereco: CadastroUsuarioPage},
-        {item: 'Cadastrar nova unidade', endereco: CadastroUnidadePage},
-        {item: 'Cadastrar novo galpão', endereco: CadastroGalpaoPage},
-        {item: 'Listar unidades', endereco: ListarUnidadesPage},
-        {item: 'Listar galpões por unidade', endereco: GalpoesPage},
-        {item: 'Alterar dados da unidade', endereco: AlterarUnidadePage},
-        {item: 'Alterar dados do galpão', endereco: AlterarGalpaoPage},
-        {item: 'Limpar galpão', endereco: LimparGalpaoPage},
-        {item: 'Excluir galpão', endereco: ExcluirGalpaoPage},
-        {item: 'Excluir unidade', endereco: ExcluirUnidadePage},
-        {item: 'Excluir usuário', endereco: ExcluirUsuarioPage}
-      ];
+    public navParams: NavParams,
+    private modal: ModalController
+  ) {
+  
+    this.opcaoSelecionada = navParams.get('opcao');
+    this.opcoes = [
+      {item: 'Cadastrar', endereco: 'ModalCadastroAdmPage'},
+      {item: 'Listar', endereco: 'ModalListarAdmPage'},
+      {item: 'Alterar', endereco: 'ModalAlterarAdmPage'},
+      {item: 'Limpar galpão', endereco: LimparGalpaoPage},
+      {item: 'Excluir', endereco: 'ModalExcluirAdmPage'}
+    ];
 
   }
 
@@ -49,7 +34,12 @@ export class HomeAdmPage {
   }
 
   opcaoEscolhida(event, opcao){
-    this.navCtrl.push(opcao.endereco);
+    if(opcao.item == 'Limpar galpão'){
+      this.navCtrl.push(opcao.endereco);
+    }else{
+      const myModal = this.modal.create(opcao.endereco)
+      myModal.present();
+    }
   }
 
 }

@@ -29,7 +29,7 @@ export class ListarUnidadesPage {
 
   }
 
-  ionViewDidLoad() {
+  ionViewDidEnter() {
     this.ref.on('value', resp => { 
       this.unidades = snapshotToArrayUnidade(resp);
     });
