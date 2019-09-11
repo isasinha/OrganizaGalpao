@@ -1,13 +1,19 @@
 <ion-header>
-  <ion-navbar hideBackButton>
+  <!-- <ion-navbar hideBackButton>
     <button ion-button menuToggle class='menuToggle'>
       <ion-icon name='menu'></ion-icon>
     </button>
-  </ion-navbar>
-</ion-header>
+  </ion-navbar> -->
+</ion-header> 
 
-<ion-content padding class="fundo">
-  <img src='../../assets/imgs/logoOrgGalp.png'>
+
+<ion-content padding class='fundo'>
+  <br>  
+  <div class='container'>
+  <button ion-button small menuToggle class='menuToggle'>
+    <ion-icon name='menu'></ion-icon>
+  </button>
+  <img class="logoOrgGalp" src='../../assets/imgs/logoOrgGalp.png'>
   <ion-list class="list">
     <ion-item>
       <ion-label floating>
@@ -31,4 +37,5 @@
   <ion-buttons class='botao'>
     <button class='botao-acessa' ion-button (click)="login()">Acessar</button>
   </ion-buttons>
+</div>
 </ion-content>

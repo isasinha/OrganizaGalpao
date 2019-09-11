@@ -1,12 +1,17 @@
 <ion-header>
-  <ion-navbar hideBackButton>
+  <!-- <ion-navbar hideBackButton>
     <button ion-button menuToggle class='menuToggle'>
       <ion-icon name='menu'></ion-icon>
     </button>
-  </ion-navbar>
-</ion-header>
+  </ion-navbar> -->
+</ion-header> 
 
 <ion-content padding>
+  <br>  
+  <div class='container'>
+  <button ion-button small menuToggle class='menuToggle'>
+    <ion-icon name='menu'></ion-icon>
+  </button>
   <h3 style="text-align:center">Administrador</h3>
   <p style="text-align:center">O que deseja fazer?</p>
   <ion-list>
@@ -14,4 +19,5 @@
       {{opcao.item}}
     </button>
   </ion-list>
+  </div>
 </ion-content>

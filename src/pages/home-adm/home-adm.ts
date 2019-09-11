@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, ModalOptions } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { LimparGalpaoPage } from '../limpar-galpao/limpar-galpao';
+import { GalpoesPage } from '../galpoes/galpoes';
+import { OpcaoAlterarAdmPage } from '../opcao-alterar-adm/opcao-alterar-adm';
+import { OpcaoExcluirAdmPage } from '../opcao-excluir-adm/opcao-excluir-adm';
+import { OpcaoCadastroAdmPage } from '../opcao-cadastro-adm/opcao-cadastro-adm';
 
 @IonicPage()
 @Component({
@@ -14,38 +18,22 @@ export class HomeAdmPage {
 
   constructor(
     public navCtrl: NavController, 
-    public navParams: NavParams,
-    private modal: ModalController
+    public navParams: NavParams
   ) {
   
     this.opcaoSelecionada = navParams.get('opcao');
     this.opcoes = [
-      {item: 'Cadastrar', endereco: 'ModalCadastroAdmPage'},
-      {item: 'Listar', endereco: 'ModalListarAdmPage'},
-      {item: 'Alterar', endereco: 'ModalAlterarAdmPage'},
+      {item: 'Cadastrar', endereco: OpcaoCadastroAdmPage},
+      {item: 'Listar galpões por unidade', endereco: GalpoesPage},
+      {item: 'Alterar', endereco: OpcaoAlterarAdmPage},
       {item: 'Limpar galpão', endereco: LimparGalpaoPage},
-      {item: 'Excluir', endereco: 'ModalExcluirAdmPage'}
+      {item: 'Excluir', endereco: OpcaoExcluirAdmPage}
     ];
 
   }
 
-  ionViewDidLoad() {
-
-  }
-
   opcaoEscolhida(event, opcao){
-    if(opcao.item == 'Limpar galpão'){
-      this.navCtrl.push(opcao.endereco); 
-    }else{
-      const myModalOptions: ModalOptions = {
-        showBackdrop: true,
-        enableBackdropDismiss:true,
-        cssClass: 'modalclass'
-      }
-
-      const myModal = this.modal.create(opcao.endereco,{},myModalOptions)
-      myModal.present();
-    }
+    this.navCtrl.setRoot(opcao.endereco); 
   }
 
 }

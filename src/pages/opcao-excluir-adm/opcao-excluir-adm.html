@@ -1,0 +1,23 @@
+<ion-header>
+  <!-- <ion-navbar hideBackButton>
+    <button ion-button menuToggle class='menuToggle'>
+      <ion-icon name='menu'></ion-icon>
+    </button>
+  </ion-navbar> -->
+</ion-header> 
+
+<ion-content padding no-bounce>
+  <br>  
+  <div class='container'>
+  <h5 style="text-align:center">O que deseja excluir?</h5> 
+  <pre></pre>
+  <ion-list>
+    <button ion-item *ngFor='let opcao of opcoes' (click)='opcaoEscolhida($event,opcao)'>
+      {{opcao.item}} 
+    </button>
+  </ion-list>
+  <ion-buttons class='botao'>
+    <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
+  </ion-buttons>
+  </div>
+</ion-content>

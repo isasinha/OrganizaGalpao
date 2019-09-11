@@ -25,7 +25,9 @@ import { HomeAdmPageModule } from '../pages/home-adm/home-adm.module';
 import { GalpoesPage } from '../pages/galpoes/galpoes';
 import { AlterarUnidadePage } from '../pages/alterar-unidade/alterar-unidade';
 import { AlterarGalpaoPage } from '../pages/alterar-galpao/alterar-galpao';
-import { ListarUnidadesPage } from '../pages/listar-unidades/listar-unidades';
+import { OpcaoAlterarAdmPage } from '../pages/opcao-alterar-adm/opcao-alterar-adm';
+import { OpcaoCadastroAdmPage } from '../pages/opcao-cadastro-adm/opcao-cadastro-adm';
+import { OpcaoExcluirAdmPage } from '../pages/opcao-excluir-adm/opcao-excluir-adm';
 
 const firebaseConfig = {
   apiKey: " AIzaSyAZgCNfWAcgwBjuoUfWeilZk-9Mv7CZLVk ",
@@ -54,7 +56,9 @@ const firebaseConfig = {
     ContatoPage,
     UnidadesPage,
     GalpoesPage,
-    ListarUnidadesPage
+    OpcaoAlterarAdmPage,
+    OpcaoCadastroAdmPage,
+    OpcaoExcluirAdmPage
   ],
   imports: [
     BrowserModule,
@@ -67,8 +71,7 @@ const firebaseConfig = {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
-    
+    HomePage,    
     RedefinirSenhaPage,
     CadastroGalpaoPage,
     CadastroUnidadePage,
@@ -82,7 +85,9 @@ const firebaseConfig = {
     ContatoPage,
     UnidadesPage,
     GalpoesPage,
-    ListarUnidadesPage
+    OpcaoAlterarAdmPage,
+    OpcaoCadastroAdmPage,
+    OpcaoExcluirAdmPage
   ],
   providers: [
     StatusBar,

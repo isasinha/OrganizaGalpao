@@ -7,8 +7,8 @@ ion-navbar[hidebackbutton] button[menutoggle] {
 }
 
 .back{
-    background-color: #FEFBE4;
-    color: #B04B59;
+    background-color: #B04B59;
+    color: #FEFBE4;
 }
 
 .menu{
@@ -23,5 +23,9 @@ ion-navbar[hidebackbutton] button[menutoggle] {
 .select .option{
     background-color: #FEFBE4;
     color: #B04B59;
+
+.scroll-content {overflow-y: auto;}
+
+
 }
   

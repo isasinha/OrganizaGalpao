@@ -1,46 +1,50 @@
 <ion-header>
-  <ion-navbar hideBackButton>
-    <button ion-button menuToggle class='menuToggle'>
-      <ion-icon name='menu'></ion-icon>
-    </button>
-  </ion-navbar>
+  <!-- <ion-navbar hideBackButton>
+
+  </ion-navbar> -->
 </ion-header> 
 
 <ion-content padding>
-    <h3 style="text-align:center">Administrador</h3>
-    <ion-list class="list">
-      <p style="text-align:center">Alterar unidade</p>
-      <ion-item>
-        <ion-label>Unidade</ion-label>
-        <ion-select [(ngModel)]="unidade.key" class="select" (ionChange)="exibirUnidadeSelecionada(unidade.key)">
-          <ion-option class="option" *ngFor='let unidade of unidades' value={{unidade.key}}>{{unidade.nomeUnidade}}</ion-option>
-        </ion-select>
-      </ion-item>
-      <pre></pre>
-      <ion-list class="list" *ngIf='unidadeSelecionada.length > 0'>
-        <ion-item *ngFor='let unidadeSel of unidadeSelecionada'>
-          <ion-label>
-            Nome da unidade
-          </ion-label>
-          <ion-input type="text" [(ngModel)]="unidade.nomeUnidade" placeholder="{{unidadeSel.nomeUnidade}}"></ion-input>
-        </ion-item>
-        <ion-item *ngFor='let unidadeSel of unidadeSelecionada'>
-          <ion-label>
-            Endereço
-          </ion-label>
-          <ion-input type="text" [(ngModel)]="unidade.endereco" placeholder="{{unidadeSel.endereco}}"></ion-input>
-        </ion-item>
-        <ion-item *ngFor='let unidadeSel of unidadeSelecionada'>
-          <ion-label>
-            Telefone
-          </ion-label>
-          <ion-input type="text" [(ngModel)]="unidade.telefone" placeholder="{{unidadeSel.telefone}}"></ion-input>
-        </ion-item>
-      </ion-list>
-    </ion-list>
+  <br>
+  <div class='container'>
+  <button ion-button small menuToggle class='menuToggle'>
+    <ion-icon name='menu'></ion-icon>
+  </button>
+  <h3 style="text-align:center">Administrador</h3>
+  <ion-list class="list">
+    <p style="text-align:center">Alterar unidade</p>
+    <ion-item>
+      <ion-label>Unidade</ion-label>
+      <ion-select [(ngModel)]="unidade.key" class="select" (ionChange)="exibirUnidadeSelecionada(unidade.key)">
+        <ion-option class="option" *ngFor='let unidade of unidades' value={{unidade.key}}>{{unidade.nomeUnidade}}</ion-option>
+      </ion-select>
+    </ion-item>
     <pre></pre>
-    <ion-buttons class='botao'>
-      <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button> 
-      <button class='botao-acessa' ion-button (click)="alteraUnidade(unidade.key, unidade)">Alterar Unidade</button>
-    </ion-buttons>
+    <ion-list class="list" *ngIf='unidadeSelecionada.length > 0'>
+      <ion-item *ngFor='let unidadeSel of unidadeSelecionada'>
+        <ion-label>
+          Nome da unidade
+        </ion-label>
+        <ion-input type="text" [(ngModel)]="unidade.nomeUnidade" placeholder="{{unidadeSel.nomeUnidade}}"></ion-input>
+      </ion-item>
+      <ion-item *ngFor='let unidadeSel of unidadeSelecionada'>
+        <ion-label>
+          Endereço
+        </ion-label>
+        <ion-input type="text" [(ngModel)]="unidade.endereco" placeholder="{{unidadeSel.endereco}}"></ion-input>
+      </ion-item>
+      <ion-item *ngFor='let unidadeSel of unidadeSelecionada'>
+        <ion-label>
+          Telefone
+        </ion-label>
+        <ion-input type="text" [(ngModel)]="unidade.telefone" placeholder="{{unidadeSel.telefone}}"></ion-input>
+      </ion-item>
+    </ion-list>
+  </ion-list>
+  <pre></pre>
+  <ion-buttons class='botao'>
+    <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button> 
+    <button class='botao-acessa' ion-button (click)="alteraUnidade(unidade.key, unidade)">Alterar Unidade</button>
+  </ion-buttons>
+  </div>
 </ion-content>

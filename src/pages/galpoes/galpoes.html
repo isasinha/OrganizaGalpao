@@ -1,12 +1,17 @@
 <ion-header>
-  <ion-navbar hideBackButton>
+  <!-- <ion-navbar hideBackButton>
     <button ion-button menuToggle class='menuToggle'>
       <ion-icon name='menu'></ion-icon>
     </button>
-  </ion-navbar>
-</ion-header>
+  </ion-navbar> -->
+</ion-header> 
 
 <ion-content padding>
+  <br>  
+  <div class='container'>
+  <button ion-button small menuToggle class='menuToggle'>
+    <ion-icon name='menu'></ion-icon>
+  </button>
   <h3 style="text-align:center">Administrador</h3>
   <p style="text-align:center">Galpões cadastrados</p>
   <ion-list class="list">
@@ -27,5 +32,5 @@
   <ion-buttons class='botao'>
     <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
   </ion-buttons>
-
+  </div>
 </ion-content>
