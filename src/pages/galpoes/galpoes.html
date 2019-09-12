@@ -1,36 +1,29 @@
 <ion-header>
-  <!-- <ion-navbar hideBackButton>
-    <button ion-button menuToggle class='menuToggle'>
-      <ion-icon name='menu'></ion-icon>
-    </button>
-  </ion-navbar> -->
 </ion-header> 
 
 <ion-content padding>
   <br>  
   <div class='container'>
-  <button ion-button small menuToggle class='menuToggle'>
-    <ion-icon name='menu'></ion-icon>
-  </button>
-  <h3 style="text-align:center">Administrador</h3>
-  <p style="text-align:center">Galpões cadastrados</p>
-  <ion-list class="list">
-    <ion-item>
-      <ion-label>Unidade</ion-label>
-      <ion-select [(ngModel)]="unidade.key" class="select" (ionChange)="listaGalpaoPorUnidade(unidade.key)">
-          <ion-option class="option" *ngFor='let unidade of unidades' value={{unidade.key}}>{{unidade.nomeUnidade}}</ion-option>
-      </ion-select>
-    </ion-item>
-    <ion-item class="option" *ngFor='let galpao of galpoes'>
-      <p>Nome do Galpão: {{galpao.nomeGalpao}}</p>
-      <p>Largura: {{galpao.largura}}</p>
-      <p>Altura: {{galpao.altura}}</p>
-      <p>Profundidade: {{galpao.profundidade}}</p>
-    </ion-item>
-  </ion-list>
-  <pre></pre>
-  <ion-buttons class='botao'>
-    <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
-  </ion-buttons>
+    <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon>
+    <h3 style="text-align:center">Administrador</h3>
+    <p style="text-align:center">Galpões cadastrados</p>
+    <ion-list class="list">
+      <ion-item>
+        <ion-label>Unidade</ion-label>
+        <ion-select [(ngModel)]="unidade.key" class="select" (ionChange)="listaGalpaoPorUnidade(unidade.key)">
+            <ion-option class="option" *ngFor='let unidade of unidades' value={{unidade.key}}>{{unidade.nomeUnidade}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item class="option" *ngFor='let galpao of galpoes'>
+        <p>Nome do Galpão: {{galpao.nomeGalpao}}</p>
+        <p>Largura: {{galpao.largura}}</p>
+        <p>Altura: {{galpao.altura}}</p>
+        <p>Profundidade: {{galpao.profundidade}}</p>
+      </ion-item>
+    </ion-list>
+    <pre></pre>
+    <ion-buttons class='botao'>
+      <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
+    </ion-buttons>
   </div>
 </ion-content>

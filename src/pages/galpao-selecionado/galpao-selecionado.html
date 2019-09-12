@@ -1,16 +1,12 @@
 <ion-header>
-  <!-- <ion-navbar hideBackButton>
-    <button ion-button menuToggle class='menuToggle'>
-      <ion-icon name='menu'></ion-icon>
-    </button>
-  </ion-navbar> -->
 </ion-header> 
 
 <ion-content padding>
   <br>  
   <div class='container'>
-  <button ion-button small menuToggle class='menuToggle'>
-    <ion-icon name='menu'></ion-icon>
-  </button>
+    <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon>
+    <ion-buttons class='botao'>
+      <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
+    </ion-buttons>
   </div>
 </ion-content>

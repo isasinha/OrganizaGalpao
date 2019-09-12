@@ -5,7 +5,18 @@ page-opcao-excluir-adm {
         .container{
             width: 60%;
             height: 100%;
-            margin: auto;  
+            margin: auto;
+        }
+    
+        .back{
+            display: none
+        }
+    }
+    
+    @media only screen and (max-width: 600px){
+     
+        .botao{
+            display: none
         }
     }
 

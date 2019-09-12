@@ -1,23 +1,16 @@
 <ion-header>
-  <!-- <ion-navbar hideBackButton>
-    <button ion-button menuToggle class='menuToggle'>
-      <ion-icon name='menu'></ion-icon>
-    </button>
-  </ion-navbar> -->
 </ion-header> 
 
 <ion-content padding>
   <br>  
   <div class='container'>
-  <button ion-button small menuToggle class='menuToggle'>
-    <ion-icon name='menu'></ion-icon>
-  </button>
-  <h3 style="text-align:center">Administrador</h3>
-  <p style="text-align:center">Limpar Galpão</p>
+    <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon>
+    <h3 style="text-align:center">Administrador</h3>
+    <p style="text-align:center">Limpar Galpão</p>
 
-  <ion-buttons class='botao'>
-    <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
-    <button class='botao-acessa' ion-button (click)="limpaGalpao()">Limpar</button>
-  </ion-buttons>
+    <ion-buttons class='botao'>
+      <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
+      <button class='botao-acessa' ion-button (click)="limpaGalpao()">Limpar</button>
+    </ion-buttons>
   </div>
 </ion-content>

@@ -1,41 +1,37 @@
 <ion-header>
-  <!-- <ion-navbar hideBackButton>
-    <button ion-button menuToggle class='menuToggle'>
-      <ion-icon name='menu'></ion-icon>
-    </button>
-  </ion-navbar> -->
 </ion-header> 
 
 
 <ion-content padding class='fundo'>
   <br>  
   <div class='container'>
-  <button ion-button small menuToggle class='menuToggle'>
-    <ion-icon name='menu'></ion-icon>
-  </button>
-  <img class="logoOrgGalp" src='../../assets/imgs/logoOrgGalp.png'>
-  <ion-list class="list">
-    <ion-item>
-      <ion-label floating>
-        <ion-icon name='mail'></ion-icon>  
-        email
-      </ion-label>
-      <ion-input type="text" [(ngModel)]="usuario.email"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label floating>
-        <ion-icon name='lock'></ion-icon>
-          Senha
+    <ion-icon name='menu' large menuToggle class='menuToggle'></ion-icon>
+    <br>
+    <div class='logoOrgGalp'>
+      <img class="logoOrgGalp" src='../../assets/imgs/logoOrgGalp.png'>
+    </div>
+    <ion-list class="list">
+      <ion-item>
+        <ion-label floating>
+          <ion-icon name='mail'></ion-icon>  
+          email
         </ion-label>
-      <ion-input type="password" [(ngModel)]="usuario.senha"></ion-input>
-    </ion-item>
-  </ion-list>
-  <button clear (click)="redefineSenha()" class='botao-esqueci'>Esqueci minha senha</button>
-  <pre>
+        <ion-input type="text" [(ngModel)]="usuario.email"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>
+          <ion-icon name='lock'></ion-icon>
+            Senha
+          </ion-label>
+        <ion-input type="password" [(ngModel)]="usuario.senha"></ion-input>
+      </ion-item>
+    </ion-list>
+    <button clear (click)="redefineSenha()" class='botao-esqueci'>Esqueci minha senha</button>
+    <pre>
 
-  </pre>
-  <ion-buttons class='botao'>
-    <button class='botao-acessa' ion-button (click)="login()">Acessar</button>
-  </ion-buttons>
-</div>
+    </pre>
+    <ion-buttons class='botaoLogin'>
+      <button class='botao-acessaLogin' ion-button (click)="login()">Acessar</button>
+    </ion-buttons>
+  </div>
 </ion-content>

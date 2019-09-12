@@ -8,5 +8,16 @@ page-opcao-cadastro-adm {
             height: 100%;
             margin: auto;
         }
+
+        .back{
+            display: none
+        }
+    }
+
+    @media only screen and (max-width: 600px){
+     
+        .botao{
+            display: none
+        }
     }
 }

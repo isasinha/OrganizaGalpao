@@ -1,26 +1,19 @@
 <ion-header>
-  <!-- <ion-navbar hideBackButton>
-    <button ion-button menuToggle class='menuToggle'>
-      <ion-icon name='menu'></ion-icon>
-    </button>
-  </ion-navbar> -->
 </ion-header> 
 
 <ion-content padding>
   <br>  
   <div class='container'>
-  <button ion-button small menuToggle class='menuToggle'>
-    <ion-icon name='menu'></ion-icon>
-  </button>
-  <h2>Contato</h2>
-  <ion-list>
-    <ion-item>Endereço</ion-item>
-    <ion-item>Telefone</ion-item>
-    <ion-item>E-mail</ion-item>
-  </ion-list>
-  <ion-buttons class='botao'>
-    <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
-    <button class='botao-acessa' ion-button (click)="enviar()">Enviar</button>
-  </ion-buttons>
+    <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon>
+    <h2>Contato</h2>
+    <ion-list>
+      <ion-item>Endereço</ion-item>
+      <ion-item>Telefone</ion-item>
+      <ion-item>E-mail</ion-item>
+    </ion-list>
+    <ion-buttons class='botao'>
+      <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
+      <button class='botao-acessa' ion-button (click)="enviar()">Enviar</button>
+    </ion-buttons>
   </div>
 </ion-content>

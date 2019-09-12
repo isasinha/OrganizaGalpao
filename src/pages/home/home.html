@@ -1,33 +1,26 @@
 <ion-header>
-  <!-- <ion-navbar hideBackButton>
-    <button ion-button menuToggle class='menuToggle'>
-      <ion-icon name='menu'></ion-icon>
-    </button>
-  </ion-navbar> -->
 </ion-header> 
 
 <ion-content padding>
   <br>  
   <div class='container'>
-  <button ion-button small menuToggle class='menuToggle'>
-    <ion-icon name='menu'></ion-icon>
-  </button>
-  <div *ngIf="user != null">
-    <h3>Bem vindo, {{ user.email }}!</h3>
-  </div>
-  <div *ngIf="user == null">
-    <h3>Bem vindo!</h3>
-  </div>
-  <p>Selecione um galpão para editar:</p>
-  <br>
-  <ion-list>
-    Unidade A:
-    <ion-item>Galpão 315</ion-item>
-    <ion-item>Galpão 410</ion-item>
-  </ion-list>
-  <ion-list>
-      Unidade B:
-      <ion-item>Galpão 115</ion-item>
-  </ion-list>
+    <ion-icon name='menu' large menuToggle class='menuToggle'></ion-icon>
+    <div *ngIf="user != null">
+      <h3>Bem vindo, {{ user.email }}!</h3>
+    </div>
+    <div *ngIf="user == null">
+      <h3>Bem vindo!</h3>
+    </div>
+    <p>Selecione um galpão para editar:</p>
+    <br>
+    <ion-list>
+      Unidade A:
+      <ion-item>Galpão 315</ion-item>
+      <ion-item>Galpão 410</ion-item>
+    </ion-list>
+    <ion-list>
+        Unidade B:
+        <ion-item>Galpão 115</ion-item>
+    </ion-list>
   </div>
 </ion-content>

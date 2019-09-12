@@ -7,17 +7,27 @@ ion-navbar[hidebackbutton] button[menutoggle] {
 }
 
 .back{
-    background-color: #B04B59;
-    color: #FEFBE4;
+    background-color: #FEFBE4;
+    color: #B04B59;
+    font-size: 150%; 
+}
+
+.menuToggle{
+    background-color: #FEFBE4;
+    color: #B04B59;
+    font-size: 150%; 
+}
+
+.backMenu{
+    background-color: #FEFBE4;
+    color: #B04B59;
+    margin-left: 5%;
+    font-size: 150%; 
 }
 
 .menu{
     background-color: #FEFBE4;
     color: #B04B59;
-}
-
-.botao-acessaMenor{
-    float: center;
 }
 
 .select .option{

@@ -1,67 +1,60 @@
 <ion-header>
-  <!-- <ion-navbar hideBackButton>
-    <button ion-button menuToggle class='menuToggle'>
-      <ion-icon name='menu'></ion-icon>
-    </button>
-  </ion-navbar> -->
 </ion-header> 
 
 <ion-content padding>
   <br>  
   <div class='container'>
-  <button ion-button small menuToggle class='menuToggle'>
-    <ion-icon name='menu'></ion-icon>
-  </button>
-  <h3 style="text-align:center">Administrador</h3>
-  <p style="text-align:center">Cadastrar novo usuário</p>
+    <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon>
+    <h3 style="text-align:center">Administrador</h3>
+    <p style="text-align:center">Cadastrar novo usuário</p>
 
-  <ion-list> 
-    <ion-item>
-      <ion-label floating>
-        <ion-icon name='person'></ion-icon>  
-        Nome*
-      </ion-label>
-      <ion-input type="text" [(ngModel)]="usuario.nome"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label floating>
-        <ion-icon name='person'></ion-icon>  
-        Sobrenome*
-      </ion-label>
-      <ion-input type="text" [(ngModel)]="usuario.sobrenome"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label floating>
-        <ion-icon name='contact'></ion-icon>  
-        CPF*
-      </ion-label>
-      <ion-input type="text" [(ngModel)]="usuario.cpf"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label floating>
-        <ion-icon name='lock'></ion-icon>  
-        Senha*
-      </ion-label>
-      <ion-input type="text" [(ngModel)]="usuario.senha"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label floating>
-        <ion-icon name='body'></ion-icon>  
-        Tipo de Usuário*
-      </ion-label>
-      <ion-select [(ngModel)]="usuario.tipo" class="select">
-        <ion-option class="option" *ngFor='let tipoUsuario of tiposUsuario' value={{tipoUsuario}}>{{tipoUsuario}}</ion-option>
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <ion-label floating>
-        <ion-icon name='mail'></ion-icon>  
-        E-mail*
-      </ion-label>
-      <ion-input type="text" [(ngModel)]="usuario.email"></ion-input>
-    </ion-item>
-    <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
-    <button class='botao-acessa' ion-button (click)='addUsuario(usuario)'>Cadastrar</button>
-  </ion-list>
+    <ion-list> 
+      <ion-item>
+        <ion-label floating>
+          <ion-icon name='person'></ion-icon>  
+          Nome*
+        </ion-label>
+        <ion-input type="text" [(ngModel)]="usuario.nome"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>
+          <ion-icon name='person'></ion-icon>  
+          Sobrenome*
+        </ion-label>
+        <ion-input type="text" [(ngModel)]="usuario.sobrenome"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>
+          <ion-icon name='contact'></ion-icon>  
+          CPF*
+        </ion-label>
+        <ion-input type="text" [(ngModel)]="usuario.cpf"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>
+          <ion-icon name='lock'></ion-icon>  
+          Senha*
+        </ion-label>
+        <ion-input type="text" [(ngModel)]="usuario.senha"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>
+          <ion-icon name='body'></ion-icon>  
+          Tipo de Usuário*
+        </ion-label>
+        <ion-select [(ngModel)]="usuario.tipo" class="select">
+          <ion-option class="option" *ngFor='let tipoUsuario of tiposUsuario' value={{tipoUsuario}}>{{tipoUsuario}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>
+          <ion-icon name='mail'></ion-icon>  
+          E-mail*
+        </ion-label>
+        <ion-input type="text" [(ngModel)]="usuario.email"></ion-input>
+      </ion-item>
+      <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
+      <button class='botao-acessa' ion-button (click)='addUsuario(usuario)'>Cadastrar</button>
+    </ion-list>
   </div>
 </ion-content>

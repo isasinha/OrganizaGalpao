@@ -1,63 +1,57 @@
 <ion-header>
-    <!-- <ion-navbar hideBackButton>
+</ion-header> 
 
-    </ion-navbar> -->
-  </ion-header> 
-  
-  <ion-content padding>
-    <br>
-    <div class='container'>
-    <button ion-button small menuToggle class='menuToggle'>
-      <ion-icon name='menu'></ion-icon>
-    </button>
-      <h3 style="text-align:center">Administrador</h3>
-      <ion-list class="list">
-        <p style="text-align:center">Alterar galpão</p>
-        <ion-item>
-          <ion-label>Unidade</ion-label>
-          <ion-select [(ngModel)]="unidade.key" class="select" (ionChange)="selecionaGalpao(unidade.key)">
-            <ion-option class="option" *ngFor='let unidade of unidades' value={{unidade.key}}>{{unidade.nomeUnidade}}</ion-option>
-          </ion-select>
-        </ion-item>
-        <ion-item>
-          <ion-label>Galpao</ion-label>
-          <ion-select *ngIf='galpoes.length > 0' [(ngModel)]="galpao.key" class="select" (ionChange)="exibirGalpaoSelecionado(galpao.key)">
-              <ion-option class="option" *ngFor='let galpao of galpoes' value={{galpao.key}}>{{galpao.nomeGalpao}}</ion-option>
-          </ion-select>
-        </ion-item>
-        <pre></pre>
-        <ion-list class="list" *ngIf='galpaoSelecionado.length > 0'>
-          <ion-item *ngFor='let galpaoSel of galpaoSelecionado'>
-            <ion-label>
-              Nome do galpão
-            </ion-label>
-            <ion-input type="text" [(ngModel)]="galpao.nomeGalpao" placeholder="{{galpaoSel.nomeGalpao}}"></ion-input>
-          </ion-item>
-          <ion-item *ngFor='let galpaoSel of galpaoSelecionado'>
-            <ion-label>
-              Largura
-            </ion-label>
-            <ion-input type="text" [(ngModel)]="galpao.largura" placeholder="{{galpaoSel.largura}}"></ion-input>
-          </ion-item>
-          <ion-item *ngFor='let galpaoSel of galpaoSelecionado'>
-            <ion-label>
-              Altura
-            </ion-label>
-            <ion-input type="text" [(ngModel)]="galpao.altura" placeholder="{{galpaoSel.altura}}"></ion-input>
-          </ion-item>
-          <ion-item *ngFor='let galpaoSel of galpaoSelecionado'>
-            <ion-label>
-              Profundidade
-            </ion-label>
-            <ion-input type="text" [(ngModel)]="galpao.profundidade" placeholder="{{galpaoSel.profundidade}}"></ion-input>
-          </ion-item>
-        </ion-list>
-      </ion-list>
+<ion-content padding>
+  <br>
+  <div class='container'>
+    <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon>
+    <h3 style="text-align:center">Administrador</h3>
+    <ion-list class="list">
+      <p style="text-align:center">Alterar galpão</p>
+      <ion-item>
+        <ion-label>Unidade</ion-label>
+        <ion-select [(ngModel)]="unidade.key" class="select" (ionChange)="selecionaGalpao(unidade.key)">
+          <ion-option class="option" *ngFor='let unidade of unidades' value={{unidade.key}}>{{unidade.nomeUnidade}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Galpao</ion-label>
+        <ion-select *ngIf='galpoes.length > 0' [(ngModel)]="galpao.key" class="select" (ionChange)="exibirGalpaoSelecionado(galpao.key)">
+            <ion-option class="option" *ngFor='let galpao of galpoes' value={{galpao.key}}>{{galpao.nomeGalpao}}</ion-option>
+        </ion-select>
+      </ion-item>
       <pre></pre>
-      <ion-buttons class='botao'>
-        <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button> 
-        <button class='botao-acessa' ion-button (click)="alteraGalpao(unidade.key, galpao.key, galpao)">Alterar Galpão</button>
-      </ion-buttons>
-    </div>
-  </ion-content>
-  
+      <ion-list class="list" *ngIf='galpaoSelecionado.length > 0'>
+        <ion-item *ngFor='let galpaoSel of galpaoSelecionado'>
+          <ion-label>
+            Nome do galpão
+          </ion-label>
+          <ion-input type="text" [(ngModel)]="galpao.nomeGalpao" placeholder="{{galpaoSel.nomeGalpao}}"></ion-input>
+        </ion-item>
+        <ion-item *ngFor='let galpaoSel of galpaoSelecionado'>
+          <ion-label>
+            Largura
+          </ion-label>
+          <ion-input type="text" [(ngModel)]="galpao.largura" placeholder="{{galpaoSel.largura}}"></ion-input>
+        </ion-item>
+        <ion-item *ngFor='let galpaoSel of galpaoSelecionado'>
+          <ion-label>
+            Altura
+          </ion-label>
+          <ion-input type="text" [(ngModel)]="galpao.altura" placeholder="{{galpaoSel.altura}}"></ion-input>
+        </ion-item>
+        <ion-item *ngFor='let galpaoSel of galpaoSelecionado'>
+          <ion-label>
+            Profundidade
+          </ion-label>
+          <ion-input type="text" [(ngModel)]="galpao.profundidade" placeholder="{{galpaoSel.profundidade}}"></ion-input>
+        </ion-item>
+      </ion-list>
+    </ion-list>
+    <pre></pre>
+    <ion-buttons class='botao'>
+      <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button> 
+      <button class='botao-acessa' ion-button (click)="alteraGalpao(unidade.key, galpao.key, galpao)">Alterar Galpão</button>
+    </ion-buttons>
+  </div>
+</ion-content>
