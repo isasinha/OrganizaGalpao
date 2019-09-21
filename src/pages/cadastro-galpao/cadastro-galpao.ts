@@ -65,37 +65,38 @@ export class CadastroGalpaoPage {
 
 
   addGalpao(nomesGalpao: any, galpao: Galpao, novaKey: any){
-    const loading = this.loadingCtrl.create({
-      content: 'Cadastrando...'
-    });
     this.dbService.cadastraGalpao(novaKey, galpao, nomesGalpao);
-    loading.present().then((data) => { loading.dismiss(); const alert = this.alertCtrl.create({
-                      title: 'Cadastro de galpão',
-                      message: 'Galpão cadastrado com sucesso!',
-                      buttons: ['Ok']});
-                    alert.present().then(r => this.navCtrl.setRoot('HomeAdmPage'))})
-                  .catch((error) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                      title: 'Cadastro de galpão falhou',
-                      message: error.message,
-                      buttons: ['Ok']});
-                    alert.present();})
+    this.exibeAlerta();
   }
 
   addGalpaoUni(nomesGalpao:any, galpao: Galpao){
+    this.dbService.cadastraGalpao(this.keyU, galpao, nomesGalpao);
+    this.exibeAlerta();
+  }
+
+  exibeAlerta(){
     const loading = this.loadingCtrl.create({
       content: 'Cadastrando...'
     });
-    this.dbService.cadastraGalpao(this.keyU, galpao, nomesGalpao);
     loading.present().then((data) => { loading.dismiss(); const alert = this.alertCtrl.create({
-                      title: 'Cadastro de galpão',
-                      message: 'Galpão cadastrado com sucesso!',
-                      buttons: ['Ok']});
-                    alert.present().then(r => this.navCtrl.setRoot('HomeAdmPage'))})
-                  .catch((error) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                      title: 'Cadastro de galpão falhou',
-                      message: error.message,
-                      buttons: ['Ok']});
-                    alert.present();})
+      title: 'Cadastro de galpão',
+      subTitle: 'Galpão cadastrado com sucesso!',
+      message: 'Deseja cadastrar outro galpão?',
+      buttons: [{
+        text: 'Não',
+        handler: () => {this.navCtrl.setRoot('HomeAdmPage')}
+      },
+      {
+        text: 'Sim',
+        handler: () => {this.navCtrl.setRoot(this.navCtrl.getActive().component), this.qtdeGalpoes = ''}
+      }]});
+    alert.present()
+  })
+  .catch((error) => {loading.dismiss(); const alert = this.alertCtrl.create({
+      title: 'Cadastro de galpão falhou',
+      message: error.message,
+      buttons: ['Ok']});
+    alert.present();})
   }
 
   voltar(){
