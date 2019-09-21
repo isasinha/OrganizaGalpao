@@ -6,20 +6,34 @@
   <div class='container'>
     <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon>
     <h3 style="text-align:center">Administrador</h3>
-    <ion-list class="list">
-      <p style="text-align:center">Cadastrar novo galpão</p>
+    <p style="text-align:center">Cadastrar novo galpão</p>
+    <ion-list class='list'>
+      <p class='texto1'>Quantos galpões com as mesmas configurações deseja cadastrar?</p>
       <ion-item>
+        <ion-input type="text" [(ngModel)]="qtdeGalpoes" placeholder="ex.: 5" (keyup)='geraArrayGalpoes(qtdeGalpoes)'></ion-input>
+      </ion-item>
+    </ion-list> 
+    <br class='br'>
+    <br>
+    <ion-list *ngIf='galpoes.length > 0' class="list">
+      <ion-item *ngIf='keyU == null'>
         <ion-label>Unidade*</ion-label>
-        <ion-select [(ngModel)]="unidade.key" class="select">
+        <ion-select [(ngModel)]="novaKey" class="select">
           <ion-option class="option" *ngFor='let unidade of unidades' value={{unidade.key}}>{{unidade.nomeUnidade}}</ion-option>
         </ion-select>
       </ion-item>
-      <ion-item>
+      <br *ngIf='galpoes.length > 1' class='br'>
+      <br>
+      <p *ngIf='galpoes.length > 1' style="text-align:center">Digite abaixo o nome de cada novo galpão:</p>
+      <ion-item *ngFor='let galpao of galpoes; let i = index'>
         <ion-label floating>
           Nome do galpão*
         </ion-label>
-        <ion-input type="text" [(ngModel)]="galpao.nomeGalpao"></ion-input>
+        <ion-input type="text" [(ngModel)]="nomesGalpao[i]"></ion-input>
       </ion-item>
+      <br *ngIf='galpoes.length > 1' class='br'>
+      <br>
+    <p *ngIf='galpoes.length > 1' style="text-align:center">Digite abaixo os dados (dados comuns a todos os galpões):</p>
       <ion-item>
         <ion-label floating>
           Largura*
@@ -40,9 +54,10 @@
       </ion-item>
     </ion-list>
     <pre></pre>
-    <ion-buttons class='botao'>
+    <ion-buttons class='acessos'>
       <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button> 
-      <button class='botao-acessa' ion-button (click)="addGalpao(galpao, unidade.key)">Cadastrar Galpão</button>
+      <button class='fica' *ngIf='keyU == null' ion-button (click)="addGalpao(nomesGalpao, galpao, novaKey)">Cadastrar</button>
+      <button class='fica' *ngIf='keyU != null' ion-button (click)="addGalpaoUni(nomesGalpao, galpao)">Cadastrar</button>
     </ion-buttons>
   </div>
 </ion-content>

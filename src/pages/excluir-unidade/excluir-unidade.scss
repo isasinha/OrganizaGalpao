@@ -8,7 +8,9 @@ page-excluir-unidade {
     text-align: center;    
 }
 
-
+.acessos{
+    text-align-last: center;
+}
 @media only screen and (min-width: 600px){
      
     .container{
@@ -24,7 +26,7 @@ page-excluir-unidade {
 
 @media only screen and (max-width: 600px){
  
-    .botao{
+    .botao-acessa{
         display: none
     }
 }

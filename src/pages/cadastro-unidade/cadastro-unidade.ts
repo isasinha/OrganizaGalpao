@@ -4,6 +4,7 @@ import { HomeAdmPage } from '../home-adm/home-adm';
 import { Unidade } from '../../app/Modelo/galpao';
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
 import { AngularFireDatabase } from '@angular/fire/database';
+import { CadastroGalpaoPage } from '../cadastro-galpao/cadastro-galpao';
 
 @IonicPage()
 @Component({
@@ -19,6 +20,8 @@ export class CadastroUnidadePage {
     telefone: null
   };
 
+  unidadeKey;
+
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
@@ -30,19 +33,40 @@ export class CadastroUnidadePage {
       
   }
 
-  ionViewDidLoad() {
+  ionViewDidLoad(unidade: Unidade) {
   }
 
   addUnidade(unidade: Unidade){
     const loading = this.loadingCtrl.create({
       content: 'Cadastrando...'
     });
-    this.dbService.cadastraUnidade(unidade);
+    this.unidadeKey = this.dbService.cadastraUnidade(unidade);
     loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
                       title: 'Cadastro de unidade',
-                      message: 'Unidade cadastrada com sucesso!',
-                      buttons: ['Ok']});
-                    alert.present().then(r => this.navCtrl.setRoot('HomeAdmPage'))})
+                      subTitle: 'Unidade cadastrada com sucesso!',
+                      message: 'Deseja cadastrar galpões nesta unidade?' ,
+                      buttons: [{
+                        text: 'Não',
+                        handler: () => {const alertThen = this.alertCtrl.create({
+                            title: 'Cadastro de unidade',
+                            message: 'Deseja cadastrar outra unidade?' ,
+                            buttons: [{
+                              text: 'Não',
+                              handler: () => {this.navCtrl.setRoot('HomeAdmPage')}
+                            },
+                            {
+                              text: 'Sim',
+                              handler: () => {unidade.endereco='', unidade.nomeUnidade='', unidade.telefone=''}
+                            }]
+                          });
+                        alertThen.present()}
+                      },
+                      {
+                        text: 'Sim',
+                        handler: () => {this.navCtrl.push(CadastroGalpaoPage, {unidadeKey: this.unidadeKey})}
+                      }]
+                    });
+                    alert.present()})
                   .catch((error) => {loading.dismiss(); const alert = this.alertCtrl.create({
                       title: 'Cadastro de unidade falhou',
                       message: error.message,

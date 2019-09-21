@@ -28,6 +28,7 @@ import { AlterarGalpaoPage } from '../pages/alterar-galpao/alterar-galpao';
 import { OpcaoAlterarAdmPage } from '../pages/opcao-alterar-adm/opcao-alterar-adm';
 import { OpcaoCadastroAdmPage } from '../pages/opcao-cadastro-adm/opcao-cadastro-adm';
 import { OpcaoExcluirAdmPage } from '../pages/opcao-excluir-adm/opcao-excluir-adm';
+import { LoginPage } from '../pages/login/login';
 
 const firebaseConfig = {
   apiKey: " AIzaSyAZgCNfWAcgwBjuoUfWeilZk-9Mv7CZLVk ",
@@ -42,7 +43,7 @@ const firebaseConfig = {
   declarations: [
     MyApp,
     HomePage,
-    
+    LoginPage,
     RedefinirSenhaPage,
     CadastroGalpaoPage,
     CadastroUnidadePage,
@@ -71,7 +72,8 @@ const firebaseConfig = {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,    
+    HomePage,   
+    LoginPage, 
     RedefinirSenhaPage,
     CadastroGalpaoPage,
     CadastroUnidadePage,

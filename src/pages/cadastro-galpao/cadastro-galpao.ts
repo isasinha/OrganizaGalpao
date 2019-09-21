@@ -29,7 +29,10 @@ export class CadastroGalpaoPage {
   unidades = [];
   ref = firebase.database().ref('/unidade');
   keyU;
-  
+  qtdeGalpoes = null;
+  galpoes = [];
+  nomeGalpao;
+  nomesGalpao = [];
 
   constructor(
     public navCtrl: NavController, 
@@ -39,7 +42,10 @@ export class CadastroGalpaoPage {
     public dbService: FirebaseServiceProvider,
     public db: AngularFireDatabase
     ) {
-      
+      if(navParams.get('unidadeKey') == '')
+        this.keyU = null;
+      else
+        this.keyU = navParams.get('unidadeKey');
   }
 
   ionViewDidLoad() {
@@ -48,11 +54,38 @@ export class CadastroGalpaoPage {
     })
   }
 
-  addGalpao(galpao: Galpao, keyU: any){
+  geraArrayGalpoes(qtdeGalpoes){
+    var cont= 0;
+    this.galpoes = [];
+    while(qtdeGalpoes > cont){
+      this.galpoes.push(this.galpao);
+      cont = cont + 1;
+    }
+  }
+
+
+  addGalpao(nomesGalpao: any, galpao: Galpao, novaKey: any){
     const loading = this.loadingCtrl.create({
       content: 'Cadastrando...'
     });
-    this.dbService.cadastraGalpao(keyU, galpao);
+    this.dbService.cadastraGalpao(novaKey, galpao, nomesGalpao);
+    loading.present().then((data) => { loading.dismiss(); const alert = this.alertCtrl.create({
+                      title: 'Cadastro de galpão',
+                      message: 'Galpão cadastrado com sucesso!',
+                      buttons: ['Ok']});
+                    alert.present().then(r => this.navCtrl.setRoot('HomeAdmPage'))})
+                  .catch((error) => {loading.dismiss(); const alert = this.alertCtrl.create({
+                      title: 'Cadastro de galpão falhou',
+                      message: error.message,
+                      buttons: ['Ok']});
+                    alert.present();})
+  }
+
+  addGalpaoUni(nomesGalpao:any, galpao: Galpao){
+    const loading = this.loadingCtrl.create({
+      content: 'Cadastrando...'
+    });
+    this.dbService.cadastraGalpao(this.keyU, galpao, nomesGalpao);
     loading.present().then((data) => { loading.dismiss(); const alert = this.alertCtrl.create({
                       title: 'Cadastro de galpão',
                       message: 'Galpão cadastrado com sucesso!',

@@ -16,11 +16,17 @@ export class FirebaseServiceProvider {
   }
 
   cadastraUnidade(unidade: Unidade){
-    this.db.list('unidade').push(unidade);
+    let unidadeKey = this.db.list('unidade').push(unidade).key;
+    return unidadeKey;
   }
 
-  cadastraGalpao(keyU: any, galpao:Galpao){
-    this.ref.child('/'+keyU+'/unidadesGalpao').push(galpao); 
+  cadastraGalpao(keyU: any, galpao:Galpao, nomesGalpao: any){
+    let i = 0;
+    while(i < nomesGalpao.length){
+      galpao.nomeGalpao = nomesGalpao[i];
+      this.ref.child('/'+keyU+'/unidadesGalpao').push(galpao); 
+      i = i + 1;
+    }
   }
 
   cadastraUsuario(usuario:Usuario){

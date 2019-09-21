@@ -62,7 +62,7 @@ export class CadastroUsuarioPage {
                       loading.dismiss();
                       const alert = this.alertCtrl.create({
                         title: 'Cadastro de usuário falhou',
-                        message: error.message,
+                        message: 'Verifique os dados de logine e senha e tente novamente',
                         buttons: ['Ok']});
                       alert.present();})
   }
