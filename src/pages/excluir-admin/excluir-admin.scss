@@ -1,11 +1,6 @@
-page-cadastro-usuario {
+page-excluir-admin {
     .acessos{
         text-align-last: center;
-    }
-
-    .texto1{
-        text-align: justify;   
-        font-weight: 600; 
     }
     @media only screen and (min-width: 600px){
      
@@ -14,12 +9,12 @@ page-cadastro-usuario {
             height: 100%;
             margin: auto;
         }
-
+    
         .back{
             display: none
         }
     }
-
+    
     @media only screen and (max-width: 600px){
      
         .botao-acessa{

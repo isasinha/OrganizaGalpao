@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { HomeAdmPage } from '../home-adm/home-adm';
-// import { Galpao, Unidade, snapshotToArrayUnidade, snapshotToArrayGalpao } from '../../app/Modelo/galpao';
+// import { Unidade, snapshotToArrayUnidade } from '../../app/Modelo/galpao';
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
 import { AngularFireDatabase } from '@angular/fire/database';
 import * as firebase from 'firebase';
@@ -10,10 +10,10 @@ import { snapshotToArrayUnidadeKey, snapshotToArrayGalpaoKey } from '../../app/M
 
 @IonicPage()
 @Component({
-  selector: 'page-excluir-usuario',
-  templateUrl: 'excluir-usuario.html',
+  selector: 'page-alterar-usuario',
+  templateUrl: 'alterar-usuario.html',
 })
-export class ExcluirUsuarioPage {
+export class AlterarUsuarioPage {
 
   usuario: Usuario = {
     nome: null,
@@ -42,7 +42,7 @@ export class ExcluirUsuarioPage {
     public dbService: FirebaseServiceProvider,
     public db: AngularFireDatabase
     ) {
-      
+
   }
 
   ionViewDidLoad() {
@@ -72,7 +72,7 @@ export class ExcluirUsuarioPage {
     })
   }
 
-  deletaUsuario(){
+  alteraUsuario(usuario: Usuario){
     var i = 0;
     var keyUni = '';
     while(i < this.unidadesKey.length){
@@ -83,9 +83,9 @@ export class ExcluirUsuarioPage {
       i++;
     }
     const loading = this.loadingCtrl.create({
-      content: 'Excluindo...'
+      content: 'Alterando...'
     });
-    setTimeout( () => { this.dbService.excluiUsuario(this.usuarioKey) }, 10000);
+    setTimeout( () => { this.dbService.editaUsuario(this.usuarioKey, usuario) }, 10000);
     var j = 0;
     while(j < this.unidadesKey.length){
       var k = 0;
@@ -97,8 +97,8 @@ export class ExcluirUsuarioPage {
           snapshot.forEach(element => {
             let usuarioBanco = element.val();
             usuarioBanco.key = element.key;
-            if(this.usuarioKey == usuarioBanco.key){ 
-              this.dbService.excluiGalpaoUsuario(uniSeleKey, galSeleKey, this.usuarioKey);
+            if(this.usuarioKey == usuarioBanco.key){
+              this.dbService.editaGalpaoUsuario(uniSeleKey, galSeleKey, this.usuarioKey, usuario);
             } 
           });
         }
@@ -109,12 +109,12 @@ export class ExcluirUsuarioPage {
       }
     }
     loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                      subTitle: 'Exclusão de Usuário',
-                      message: 'Usuário excluído com sucesso!',
+                      subTitle: 'Alteração de Usuário',
+                      message: 'Usuário alterado com sucesso!',
                       buttons: ['Ok']});
                     alert.present().then(r => this.navCtrl.setRoot('HomeAdmPage'))})
                   .catch((error) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                      subTitle: 'Exclusão de Usuário falhou',
+                      subTitle: 'Alteração de usuário falhou',
                       message: error.message,
                       buttons: ['Ok']});
                     alert.present();});

@@ -8,6 +8,7 @@ import * as firebase from 'firebase';
 export class FirebaseServiceProvider { 
 
   ref = firebase.database().ref('/unidade');
+  refUser = firebase.database().ref('/usuario');
 
 
   constructor(
@@ -29,8 +30,12 @@ export class FirebaseServiceProvider {
     }
   }
 
-  cadastraUsuario(usuario:Usuario){
-    this.db.list('usuario').push(usuario);
+  cadastraUsuario(usuario:Usuario, usuarioGalpao?:string){
+     let keyUsuario = this.db.list('usuario').push(usuario).key;
+     if(usuarioGalpao != null){
+      this.refUser.child('/'+keyUsuario+'/Galpao').push(usuarioGalpao)
+    }
+    return keyUsuario;
   }
 
   excluiGalpao(keyUnidade: any, keyGalpao: any){
@@ -39,6 +44,18 @@ export class FirebaseServiceProvider {
 
   excluiUnidade(keyUnidade: any){
     this.db.object('/unidade/'+keyUnidade).remove();
+  }
+
+  excluiAdmin(keyUsuario: any){
+    this.db.object('/usuario/'+keyUsuario).remove();
+  }
+
+  excluiUsuario(keyUsuario: any){
+    this.db.object('/usuario/'+keyUsuario).remove();
+  }
+
+  excluiGalpaoUsuario(keyUnidade: any, keyGalpao: any, keyUsuario: any){
+    this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/'+keyUsuario).remove();
   }
 
   listaUnidade(){
@@ -69,6 +86,31 @@ export class FirebaseServiceProvider {
     }
   }
 
+  editaGalpaoUsuario(keyUnidade: any, keyGalpao: any, keyUsuario: any, usuario: Usuario){
+
+    if(usuario.cpf != null){
+      this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/'+keyUsuario).update({
+        cpf: usuario.cpf
+      })
+    }
+    if(usuario.nome != null){
+      this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/'+keyUsuario).update({
+        nome: usuario.nome
+      })
+    }
+    if(usuario.sobrenome != null){
+      this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/'+keyUsuario).update({
+        sobrenome: usuario.sobrenome
+      })
+    }
+    if(usuario.email != null){
+      this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/'+keyUsuario).update({
+        email: usuario.email
+      })
+    }
+  }
+
+
   editaUnidade(keyUnidade: any, unidade: Unidade){
 
     if(unidade.nomeUnidade != null){
@@ -85,6 +127,33 @@ export class FirebaseServiceProvider {
       this.ref.child('/'+keyUnidade).update({
         telefone: unidade.telefone
       })
+    }
+  }
+
+  editaUsuario(keyUsuario: any, usuario: Usuario, usuarioGalpao?: string){
+
+    if(usuario.nome != null){
+      this.refUser.child('/'+keyUsuario).update({
+        nome: usuario.nome
+      })
+    }
+    if(usuario.sobrenome != null){
+      this.refUser.child('/'+keyUsuario).update({
+        sobrenome: usuario.sobrenome
+      })
+    }
+    if(usuario.email != null){
+      this.refUser.child('/'+keyUsuario).update({
+        email: usuario.email
+      })
+    }
+    if(usuario.cpf != null){
+      this.refUser.child('/'+keyUsuario).update({
+        cpf: usuario.cpf
+      })
+    }
+    if(usuarioGalpao != null){
+      this.refUser.child('/'+keyUsuario+'/Galpao').push(usuarioGalpao)
     }
   }
 

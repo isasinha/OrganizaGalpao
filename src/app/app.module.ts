@@ -14,21 +14,29 @@ import { RedefinirSenhaPage } from '../pages/redefinir-senha/redefinir-senha';
 import { CadastroGalpaoPage } from '../pages/cadastro-galpao/cadastro-galpao';
 import { CadastroUnidadePage } from '../pages/cadastro-unidade/cadastro-unidade';
 import { CadastroUsuarioPage } from '../pages/cadastro-usuario/cadastro-usuario';
+import { CadastroAdminPage } from '../pages/cadastro-admin/cadastro-admin';
 import { ExcluirGalpaoPage } from '../pages/excluir-galpao/excluir-galpao';
 import { ExcluirUnidadePage } from '../pages/excluir-unidade/excluir-unidade';
 import { ExcluirUsuarioPage } from '../pages/excluir-usuario/excluir-usuario';
+import { ExcluirAdminPage } from '../pages/excluir-admin/excluir-admin';
 import { LimparGalpaoPage } from '../pages/limpar-galpao/limpar-galpao';
-import { ContatoPage } from '../pages/contato/contato';
-import { UnidadesPage } from '../pages/unidades/unidades';
 import { FirebaseServiceProvider } from '../providers/firebase-service/firebase-service';
 import { HomeAdmPageModule } from '../pages/home-adm/home-adm.module';
+import { LoginPage } from '../pages/login/login';
+import { ContatoPage } from '../pages/contato/contato';
 import { GalpoesPage } from '../pages/galpoes/galpoes';
+import { UnidadesPage } from '../pages/unidades/unidades';
+import { OpcaoUnidadesPage } from '../pages/opcao-unidades/opcao-unidades';
+import { OpcaoGalpoesPage } from '../pages/opcao-galpoes/opcao-galpoes';
+import { OpcaoUsuariosPage } from '../pages/opcao-usuarios/opcao-usuarios';
+import { OpcaoGestaoAdminPage } from '../pages/opcao-gestao-admin/opcao-gestao-admin';
 import { AlterarUnidadePage } from '../pages/alterar-unidade/alterar-unidade';
 import { AlterarGalpaoPage } from '../pages/alterar-galpao/alterar-galpao';
-import { OpcaoAlterarAdmPage } from '../pages/opcao-alterar-adm/opcao-alterar-adm';
-import { OpcaoCadastroAdmPage } from '../pages/opcao-cadastro-adm/opcao-cadastro-adm';
-import { OpcaoExcluirAdmPage } from '../pages/opcao-excluir-adm/opcao-excluir-adm';
-import { LoginPage } from '../pages/login/login';
+import { AlterarUsuarioPage } from '../pages/alterar-usuario/alterar-usuario';
+import { AlterarAdminPage } from '../pages/alterar-admin/alterar-admin';
+//import undefined from 'firebase/empty-import';
+
+
 
 const firebaseConfig = {
   apiKey: " AIzaSyAZgCNfWAcgwBjuoUfWeilZk-9Mv7CZLVk ",
@@ -48,18 +56,23 @@ const firebaseConfig = {
     CadastroGalpaoPage,
     CadastroUnidadePage,
     CadastroUsuarioPage,
+    CadastroAdminPage,
     AlterarUnidadePage,
     AlterarGalpaoPage,
+    AlterarUsuarioPage,
+    AlterarAdminPage,
     ExcluirGalpaoPage,
     ExcluirUnidadePage,
     ExcluirUsuarioPage,
+    ExcluirAdminPage,
     LimparGalpaoPage,
     ContatoPage,
     UnidadesPage,
     GalpoesPage,
-    OpcaoAlterarAdmPage,
-    OpcaoCadastroAdmPage,
-    OpcaoExcluirAdmPage
+    OpcaoUnidadesPage,
+    OpcaoGalpoesPage,
+    OpcaoUsuariosPage,
+    OpcaoGestaoAdminPage
   ],
   imports: [
     BrowserModule,
@@ -78,18 +91,23 @@ const firebaseConfig = {
     CadastroGalpaoPage,
     CadastroUnidadePage,
     CadastroUsuarioPage,
+    CadastroAdminPage,
     AlterarUnidadePage,
     AlterarGalpaoPage,
+    AlterarUsuarioPage,
+    AlterarAdminPage,
     ExcluirGalpaoPage,
     ExcluirUnidadePage,
     ExcluirUsuarioPage,
+    ExcluirAdminPage,
     LimparGalpaoPage,
     ContatoPage,
     UnidadesPage,
     GalpoesPage,
-    OpcaoAlterarAdmPage,
-    OpcaoCadastroAdmPage,
-    OpcaoExcluirAdmPage
+    OpcaoUnidadesPage,
+    OpcaoGalpoesPage,
+    OpcaoUsuariosPage,
+    OpcaoGestaoAdminPage
   ],
   providers: [
     StatusBar,

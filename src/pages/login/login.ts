@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
-import { AuthService } from '../../app/auth.service';
+// import { AuthService } from '../../app/auth.service';
 import { HomePage } from '../home/home';
 import { HomeAdmPage } from '../home-adm/home-adm';
 import { RedefinirSenhaPage } from '../redefinir-senha/redefinir-senha';
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
 import { Usuario } from '../../app/Modelo/usuario';
+import * as firebase from 'firebase';
 
 @IonicPage()
 @Component({
@@ -22,11 +23,15 @@ export class LoginPage {
     tipo: '',
     email: ''
   }
+  usuarioSenha:string = '';
+  usuarioTipo:string='';
+  usuarioData=[];
+  ref = firebase.database().ref('/usuario/');
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    private authService: AuthService,
+    // private authService: AuthService,
     private loadingCtrl: LoadingController, 
     private alertCtrl: AlertController,
     public dbService: FirebaseServiceProvider
@@ -38,27 +43,60 @@ export class LoginPage {
   }
 
   login(usuario: Usuario){
+
+    const snapshotToArrayUsuarioCPF = snapshot => {
+      let returnArray = [];
+      snapshot.forEach(element => {
+        let usuarioBanco = element.val();
+        usuarioBanco.key = element.key;
+        if(usuario.cpf == usuarioBanco.cpf){
+          returnArray.push(usuarioBanco.senha);
+          returnArray.push(usuarioBanco.tipo);
+          
+        } 
+      });
+      return returnArray;
+    }
+    this.ref.on('value', resp => {
+      this.usuarioData = [];
+      this.usuarioSenha = '';
+      this.usuarioTipo = '';
+      this.usuarioData = snapshotToArrayUsuarioCPF(resp);
+      this.usuarioSenha = this.usuarioData[0];
+      this.usuarioTipo = this.usuarioData[1];
+    })
     const loading = this.loadingCtrl.create({
       content: 'Logando...'
     });
     loading.present();
-    this.authService.login(this.usuario.email, this.usuario.senha)
-                    .then((authState) => {console.log('Logou', authState);loading.dismiss();
-                    if(this.usuario.email == 'admin@organizagalpao.com.br')
-                      this.navCtrl.push(HomeAdmPage)
-                    else
-                      this.navCtrl.push(HomePage)
-                    })
-                    .catch((error) => {loading.dismiss(); const alert = this.alertCtrl
-                    .create({
-                      title:'Login falhou', 
-                      message: error.message, 
-                      buttons:['Ok']
-                    });
-                      console.log('Login falhou', error);
-                      alert.present()})
+    if(this.usuarioData.length <= 0){
+      loading.dismiss(); 
+      const alert = this.alertCtrl
+      .create({
+        subTitle:'Login falhou', 
+        message: "Verifique o CPF e tente novamente", 
+        buttons:['Ok']
+      });
+      alert.present()
+    }else{
+      if(usuario.senha == this.usuarioSenha){
+        loading.dismiss();
+        if(this.usuarioTipo == 'Administrador')
+          this.navCtrl.push(HomeAdmPage)
+        else
+          this.navCtrl.push(HomePage)
+      }else{
+        loading.dismiss(); 
+        const alert = this.alertCtrl
+        .create({
+          subTitle:'Login falhou', 
+          message: "Verifique a senha e tente novamente", 
+          buttons:['Ok']
+        });
+        alert.present()
+      }
+    }
   }
-
 
   redefineSenha(){
     this.navCtrl.setRoot(RedefinirSenhaPage);

@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavParams, NavController } from 'ionic-angular';
-import { CadastroUsuarioPage } from '../cadastro-usuario/cadastro-usuario';
-import { CadastroGalpaoPage } from '../cadastro-galpao/cadastro-galpao';
 import { CadastroUnidadePage } from '../cadastro-unidade/cadastro-unidade';
 import { HomeAdmPage } from '../home-adm/home-adm';
+import { ExcluirUnidadePage } from '../excluir-unidade/excluir-unidade';
+import { AlterarUnidadePage } from '../alterar-unidade/alterar-unidade';
 
 @IonicPage()
 @Component({
-  selector: 'page-opcao-cadastro-adm',
-  templateUrl: 'opcao-cadastro-adm.html',
+  selector: 'page-opcao-unidades',
+  templateUrl: 'opcao-unidades.html',
 })
-export class OpcaoCadastroAdmPage {
+export class OpcaoUnidadesPage {
   opcoes: Array<{item: string, endereco: any}>
   opcaoSelecionada: any;
 
@@ -21,9 +21,9 @@ export class OpcaoCadastroAdmPage {
   
     this.opcaoSelecionada = navParams.get('opcao');
     this.opcoes = [
-      {item: 'Novo usuário', endereco: CadastroUsuarioPage},
-      {item: 'Nova unidade', endereco: CadastroUnidadePage},
-      {item: 'Novo galpão', endereco: CadastroGalpaoPage}
+      {item: 'Cadastrar unidade', endereco: CadastroUnidadePage},
+      {item: 'Excluir unidade', endereco: ExcluirUnidadePage},
+      {item: 'Alterar unidade', endereco: AlterarUnidadePage}
     ];
   }
 

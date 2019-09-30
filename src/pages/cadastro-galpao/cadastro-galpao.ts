@@ -79,7 +79,6 @@ export class CadastroGalpaoPage {
       content: 'Cadastrando...'
     });
     loading.present().then((data) => { loading.dismiss(); const alert = this.alertCtrl.create({
-      title: 'Cadastro de galpão',
       subTitle: 'Galpão cadastrado com sucesso!',
       message: 'Deseja cadastrar outro galpão?',
       buttons: [{
@@ -93,7 +92,7 @@ export class CadastroGalpaoPage {
     alert.present()
   })
   .catch((error) => {loading.dismiss(); const alert = this.alertCtrl.create({
-      title: 'Cadastro de galpão falhou',
+      subTitle: 'Cadastro de galpão falhou',
       message: error.message,
       buttons: ['Ok']});
     alert.present();})

@@ -1,14 +1,9 @@
-page-cadastro-usuario {
+page-alterar-admin {
     .acessos{
         text-align-last: center;
     }
-
-    .texto1{
-        text-align: justify;   
-        font-weight: 600; 
-    }
     @media only screen and (min-width: 600px){
-     
+
         .container{
             width: 60%;
             height: 100%;
@@ -16,7 +11,7 @@ page-cadastro-usuario {
         }
 
         .back{
-            display: none
+            display: none 
         }
     }
 

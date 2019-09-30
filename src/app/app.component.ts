@@ -13,7 +13,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage:any = 'LoginPage';
+  rootPage:any = 'HomeAdmPage';
   paginaAtiva: any;
 
   paginas: Array<{titulo: string, pagina: any, icon: any}>;

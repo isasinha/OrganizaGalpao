@@ -42,13 +42,12 @@ export class CadastroUnidadePage {
     });
     this.unidadeKey = this.dbService.cadastraUnidade(unidade);
     loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                      title: 'Cadastro de unidade',
                       subTitle: 'Unidade cadastrada com sucesso!',
                       message: 'Deseja cadastrar galpões nesta unidade?' ,
                       buttons: [{
                         text: 'Não',
                         handler: () => {const alertThen = this.alertCtrl.create({
-                            title: 'Cadastro de unidade',
+                            subTitle: 'Cadastro de unidade',
                             message: 'Deseja cadastrar outra unidade?' ,
                             buttons: [{
                               text: 'Não',
@@ -68,7 +67,7 @@ export class CadastroUnidadePage {
                     });
                     alert.present()})
                   .catch((error) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                      title: 'Cadastro de unidade falhou',
+                      subTitle: 'Cadastro de unidade falhou',
                       message: error.message,
                       buttons: ['Ok']});
                     alert.present();});

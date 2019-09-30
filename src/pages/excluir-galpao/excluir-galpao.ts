@@ -61,12 +61,12 @@ export class ExcluirGalpaoPage {
     });
     setTimeout( () => { this.dbService.excluiGalpao(keyUnidade, keyGalpao) }, 10000);
     loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                      title: 'Exclusão de Galpão',
+                      subTitle: 'Exclusão de Galpão',
                       message: 'Galpão excluído com sucesso!',
                       buttons: ['Ok']});
                     alert.present().then(r => this.navCtrl.setRoot('HomeAdmPage'))})
                   .catch((error) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                      title: 'Exclusão de galpão falhou',
+                      subTitle: 'Exclusão de galpão falhou',
                       message: error.message,
                       buttons: ['Ok']});
                     alert.present();});

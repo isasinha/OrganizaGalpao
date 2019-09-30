@@ -23,12 +23,64 @@ export const snapshotToArrayUnidade = snapshot => {
     return returnArray;
 }
 
+export const snapshotToArrayUnidadeNome = snapshot => {
+    let returnArray = [];
+    snapshot.forEach(element => {
+       let unidade = element.val();
+       unidade.key = element.key;
+      returnArray.push(unidade.nomeUnidade); 
+    });
+    return returnArray;
+}
+
 export const snapshotToArrayGalpao = snapshot => {
     let returnArray = [];
     snapshot.forEach(element => {
        let galpao = element.val();
        galpao.key = element.key;
       returnArray.push(galpao); 
+    });
+    return returnArray;
+}
+
+export const snapshotToArrayGalpaoKey = snapshot => {
+    let returnArray = [];
+    snapshot.forEach(element => {
+       let galpao = element.val();
+       galpao.key = element.key;
+      returnArray.push(galpao.key); 
+    });
+    return returnArray;
+}
+
+export const snapshotToArrayUnidadeKey = snapshot => {
+    let returnArray = [];
+    snapshot.forEach(element => {
+       let unidade = element.val();
+       unidade.key = element.key;
+      returnArray.push(unidade.key); 
+    });
+    return returnArray;
+}
+
+export const snapshotToArrayGalpaoNome = snapshot => {
+    let returnArray = [];
+    snapshot.forEach(element => {
+       let galpao = element.val();
+       galpao.key = element.key;
+      returnArray.push(galpao.nomeGalpao); 
+    });
+    return returnArray;
+}
+
+
+
+export const snapshotToArrayUsuario = snapshot => {
+    let returnArray = [];
+    snapshot.forEach(element => {
+       let usuario = element.val();
+       usuario.key = element.key;
+      returnArray.push(usuario); 
     });
     return returnArray;
 }

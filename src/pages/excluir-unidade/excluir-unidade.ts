@@ -46,12 +46,12 @@ export class ExcluirUnidadePage {
     });
     setTimeout( () => { this.dbService.excluiUnidade(keyUnidade) }, 10000);
     loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                      title: 'Exclusão de Unidade',
+                      subTitle: 'Exclusão de Unidade',
                       message: 'Unidade excluída com sucesso!',
                       buttons: ['Ok']});
                     alert.present().then(r => this.navCtrl.setRoot('HomeAdmPage'))})
                   .catch((error) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                      title: 'Exclusão de unidade falhou',
+                      subTitle: 'Exclusão de unidade falhou',
                       message: error.message,
                       buttons: ['Ok']});
                     alert.present();});

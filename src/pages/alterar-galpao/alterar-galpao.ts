@@ -82,12 +82,12 @@ export class AlterarGalpaoPage {
     });
     setTimeout( () => { this.dbService.editaGalpao(keyUnidade, keyGalpao, galpao) }, 10000);
     loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                      title: 'Alteração de Galpão',
+                      subTitle: 'Alteração de Galpão',
                       message: 'Galpão alterado com sucesso!',
                       buttons: ['Ok']});
                     alert.present().then(r => this.navCtrl.setRoot('HomeAdmPage'))})
                   .catch((error) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                      title: 'Alteração de galpão falhou',
+                      subTitle: 'Alteração de galpão falhou',
                       message: error.message,
                       buttons: ['Ok']});
                     alert.present();});

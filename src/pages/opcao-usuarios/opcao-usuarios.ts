@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavParams, NavController } from 'ionic-angular';
 import { ExcluirUsuarioPage } from '../excluir-usuario/excluir-usuario';
-import { ExcluirGalpaoPage } from '../excluir-galpao/excluir-galpao';
-import { ExcluirUnidadePage } from '../excluir-unidade/excluir-unidade';
 import { HomeAdmPage } from '../home-adm/home-adm';
+import { CadastroUsuarioPage } from '../cadastro-usuario/cadastro-usuario';
+import { AlterarUsuarioPage } from '../alterar-usuario/alterar-usuario';
+import { OpcaoGestaoAdminPage } from '../opcao-gestao-admin/opcao-gestao-admin';
 
 @IonicPage()
 @Component({
-  selector: 'page-opcao-excluir-adm',
-  templateUrl: 'opcao-excluir-adm.html',
+  selector: 'page-opcao-usuarios',
+  templateUrl: 'opcao-usuarios.html',
 })
-export class OpcaoExcluirAdmPage {
+export class OpcaoUsuariosPage {
   opcoes: Array<{item: string, endereco: any}>
   opcaoSelecionada: any;
 
@@ -21,9 +22,10 @@ export class OpcaoExcluirAdmPage {
   
     this.opcaoSelecionada = navParams.get('opcao');
     this.opcoes = [
-      {item: 'Galpão', endereco: ExcluirGalpaoPage},
-      {item: 'Unidade', endereco: ExcluirUnidadePage},
-      {item: 'Usuário', endereco: ExcluirUsuarioPage}
+      {item: 'Cadastrar usuário', endereco: CadastroUsuarioPage},
+      {item: 'Excluir usuário', endereco: ExcluirUsuarioPage},
+      {item: 'Alterar usuário', endereco: AlterarUsuarioPage},
+      {item: 'Gestão de Administrador do Sistema', endereco: OpcaoGestaoAdminPage}
     ];
   }
 

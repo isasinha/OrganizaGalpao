@@ -14,20 +14,12 @@
             <ion-option class="option" *ngFor='let unidade of unidades' value={{unidade.key}}>{{unidade.nomeUnidade}}</ion-option>
         </ion-select>
       </ion-item>
-      <ion-list class="option" *ngFor='let galpao of galpoes'>
+      <ion-item class="option" *ngFor='let galpao of galpoes'>
         <p>Nome do Galpão: {{galpao.nomeGalpao}}</p>
         <p>Largura: {{galpao.largura}}</p>
         <p>Altura: {{galpao.altura}}</p>
         <p>Profundidade: {{galpao.profundidade}}</p>
-        <ion-item *ngFor='let usuario of usuarios'>
-            <ion-item *ngFor='let user of usuario'>
-              <p>Usuários:</p>
-              <p>-CPF: {{user.cpf}}</p>
-              <p>-Nome: {{user.nome}}</p>
-              <p>-Sobrenome: {{user.sobrenome}}</p>
-            </ion-item>
-        </ion-item>
-      </ion-list>
+      </ion-item>
     </ion-list>
     <pre></pre>
     <ion-buttons class='acessos'>

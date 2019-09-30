@@ -1,30 +1,32 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { HomeAdmPage } from '../home-adm/home-adm';
-import { Unidade, snapshotToArrayUnidade } from '../../app/Modelo/galpao';
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
 import { AngularFireDatabase } from '@angular/fire/database';
 import * as firebase from 'firebase';
+import { Usuario } from '../../app/Modelo/usuario';
 
 @IonicPage()
 @Component({
-  selector: 'page-alterar-unidade',
-  templateUrl: 'alterar-unidade.html',
+  selector: 'page-alterar-admin',
+  templateUrl: 'alterar-admin.html',
 })
-export class AlterarUnidadePage {
+export class AlterarAdminPage {
 
-
-  unidade: Unidade={
-    nomeUnidade: null,
-    unidadesGalpao: null,
-    endereco: null,
-    telefone: null
+  usuario: Usuario = {
+    nome: null,
+    sobrenome: null,
+    cpf: null,
+    email: null,
+    senha: null,
+    tipo: null
   };
 
-  unidades:Array<Unidade> = [];
-  unidadeSelecionada =[];
-  keyUnidade;
-  ref = firebase.database().ref('/unidade/');
+  usuarioSelecionado = [];
+  usuarioDados = [];
+  usuarioCpf;
+  usuarioKey;
+  ref = firebase.database().ref('/usuario/');
   
   constructor(
     public navCtrl: NavController, 
@@ -38,41 +40,41 @@ export class AlterarUnidadePage {
   }
 
   ionViewDidLoad() {
-    this.ref.on('value', resp => {
-      this.unidades = snapshotToArrayUnidade(resp);
-    })
   }
 
 
-  exibirUnidadeSelecionada(keyUnidade: any){
-    const snapshotToArrayGalpaoSelecionado = snapshot => {
+  selecionaUsuario(usuarioCpf: any){
+    const snapshotToArrayUsuarioCPF = snapshot => {
       let returnArray = [];
       snapshot.forEach(element => {
-         let unidade = element.val();
-         unidade.key = element.key;
-        if(unidade.key == keyUnidade){
-          returnArray.push(unidade); 
+        let usuarioBanco = element.val();
+        usuarioBanco.key = element.key;
+        if(usuarioBanco.tipo == 'Administrador'){
+          if(usuarioCpf == usuarioBanco.cpf){
+            returnArray.push(usuarioBanco);
+            this.usuarioKey = usuarioBanco.key;
+          } 
         }
       });
       return returnArray;
     }
     this.ref.on('value', resp => {
-      this.unidadeSelecionada = snapshotToArrayGalpaoSelecionado(resp);
+      this.usuarioSelecionado = snapshotToArrayUsuarioCPF(resp);
     })
   }
 
-  alteraUnidade(keyUnidade: any, unidade: Unidade,){
+  alteraUsuario(usuario: Usuario){
     const loading = this.loadingCtrl.create({
       content: 'Alterando...'
     });
-    setTimeout( () => { this.dbService.editaUnidade(keyUnidade, unidade) }, 10000);
+    setTimeout( () => { this.dbService.editaUsuario(this.usuarioKey, usuario) }, 10000);
     loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                      subTitle: 'Alteração de Unidade',
-                      message: 'Unidade alterada com sucesso!',
+                      subTitle: 'Alteração de Usuário',
+                      message: 'Usuário alterado com sucesso!',
                       buttons: ['Ok']});
                     alert.present().then(r => this.navCtrl.setRoot('HomeAdmPage'))})
                   .catch((error) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                      subTitle: 'Alteração de unidade falhou',
+                      subTitle: 'Alteração de usuário falhou',
                       message: error.message,
                       buttons: ['Ok']});
                     alert.present();});

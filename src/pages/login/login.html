@@ -13,10 +13,10 @@
     <ion-list class="list">
       <ion-item>
         <ion-label floating>
-          <ion-icon name='mail'></ion-icon>  
-          email
+          <ion-icon name='contact'></ion-icon>  
+          cpf
         </ion-label>
-        <ion-input type="text" [(ngModel)]="usuario.email"></ion-input>
+        <ion-input type="text" [(ngModel)]="usuario.cpf"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>
@@ -29,7 +29,7 @@
     <button clear (click)="redefineSenha()" class='botao-esqueci'>Esqueci minha senha</button>
     <pre></pre>
     <ion-buttons class='botao'>
-      <button class='botao-acessaLogin' ion-button (click)="login()">Acessar</button>
+      <button class='botao-acessaLogin' ion-button (click)="login(usuario)">Acessar</button>
     </ion-buttons>
   </div>
 </ion-content>
