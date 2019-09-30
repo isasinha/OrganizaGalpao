@@ -130,7 +130,7 @@ export class FirebaseServiceProvider {
     }
   }
 
-  editaUsuario(keyUsuario: any, usuario: Usuario, usuarioGalpao?: string){
+  editaUsuario(keyUsuario: any, usuario: any, usuarioGalpao?: string){
 
     if(usuario.nome != null){
       this.refUser.child('/'+keyUsuario).update({

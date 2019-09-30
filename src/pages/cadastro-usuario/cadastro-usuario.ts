@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
-import { AuthService } from '../../app/auth.service';
+// import { AuthService } from '../../app/auth.service';
 import { HomeAdmPage } from '../home-adm/home-adm';
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
 import { Usuario } from '../../app/Modelo/usuario';
@@ -46,16 +46,15 @@ export class CadastroUsuarioPage {
   keyUsuario;
   nomeUnidade = [];
   nomeGalpao = [];
-  usuarioSelecionado=null;
-  usuarioSelecionadoGalpao=null;
+  usuarioSelecionado = [];
+  usuarioSelecionadoGalpao = [];
   usuarioGalpao = '';
   show = false;
   showUG = false;
   temUsuario = false;
   temUsuarioUG = false;
-  user;
-  galpoesUser =[];
-  
+  galpoesUser = [];
+  user = [];
   usuarioKey;
   usuarioCpf;
   ref = firebase.database().ref('/unidade/');
@@ -64,7 +63,7 @@ export class CadastroUsuarioPage {
   constructor( 
     public navCtrl: NavController, 
     public navParams: NavParams,
-    private authService: AuthService,
+    // private authService: AuthService,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     public dbService: FirebaseServiceProvider,
@@ -79,9 +78,9 @@ export class CadastroUsuarioPage {
   }
 
   selecionaUsuario(usuarioCpf: any){
+    this.user = [];
     const snapshotToArrayUsuarioCPF = snapshot => {
-      this.user = [];
-      this.temUsuario = false; 
+      // this.temUsuario = false; 
       snapshot.forEach(element => {
         let usuarioBanco = element.val();
         usuarioBanco.key = element.key;
@@ -91,15 +90,16 @@ export class CadastroUsuarioPage {
             this.usuarioKey = usuarioBanco.key;
             this.temUsuario = true;
           }
-          if(this.user == undefined){
-            this.temUsuario = false; 
-          } 
+          // if(this.user == undefined){
+          //   this.temUsuario = false; 
+          // } 
         }
       });
       return this.user;
     }
     this.refUser.on('value', resp => {
       this.usuarioSelecionado = [];
+      this.temUsuario = false;
       this.usuarioSelecionado = snapshotToArrayUsuarioCPF(resp);
     })
     this.selecionaUsuarioGalpao(usuarioCpf);
@@ -147,6 +147,9 @@ export class CadastroUsuarioPage {
   }
 
   addUsuario(keyUnidade: any, keyGalpao: any, usuario: Usuario){
+    const loading = this.loadingCtrl.create({
+      content: 'Cadastrando...'
+    });
     this.ref.on('value', resp => {
       this.nomeUnidade = snapshotToArrayUnidadeNome(resp);
     })
@@ -167,6 +170,19 @@ export class CadastroUsuarioPage {
     this.usuarioGalpao = 'Unidade: ' + this.nomeUnidade[0] + '. Galpão: ' + this.nomeGalpao[0];
     this.keyUsuario = this.dbService.cadastraUsuario(this.usuario, this.usuarioGalpao);
     this.addUsuarioGalpao(this.keyUnidade, keyGalpao, this.keyUsuario, this.usuario);
+    loading.present().then((data) => {loading.dismiss(); 
+      const alert = this.alertCtrl.create({
+          subTitle: 'Cadastro de usuário', 
+          message: 'Usuário cadastrado com sucesso!',
+          buttons: ['Ok']});
+        alert.present().then(r => this.navCtrl.setRoot(HomeAdmPage))})
+      .catch((error) => {
+        loading.dismiss();
+        const alert = this.alertCtrl.create({
+          subTitle: 'Cadastro de usuário falhou',
+          message: 'Verifique os dados de login e senha e tente novamente',
+          buttons: ['Ok']});
+        alert.present();})
   }
 
   alteraUsuario(keyUnidade: any, keyGalpao: any){
@@ -177,7 +193,7 @@ export class CadastroUsuarioPage {
       let returnArray = [];
       snapshot.forEach(element => {
          let galpao = element.val();
-         galpao.key = element.key;
+         galpao.key = element.key; 
         if(galpao.key == keyGalpao){
           returnArray.push(galpao.nomeGalpao); 
         }
@@ -208,7 +224,7 @@ export class CadastroUsuarioPage {
     this.addUsuarioGalpao(this.keyUnidade, keyGalpao, this.usuarioKey, this.usuarioSelecionado);
   }
 
-  addUsuarioGalpao(keyUnidade: any, keyGalpao: any, keyUsuario: any, usuario: Usuario){
+  addUsuarioGalpao(keyUnidade: any, keyGalpao: any, keyUsuario: any, usuario: any){
     setTimeout( () => { this.dbService.editaGalpaoUsuario(keyUnidade, keyGalpao, keyUsuario, usuario) }, 10000);
   }
 

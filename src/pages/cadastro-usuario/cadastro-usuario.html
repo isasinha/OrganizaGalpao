@@ -94,8 +94,8 @@
     <pre></pre>
     <ion-buttons class='acessos'>
       <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
-      <button class='fica' *ngIf='usuarioSelecionado' ion-button (click)='alteraUsuario(unidade.key, galpao.key)'>Cadastrar</button>
-      <button class='fica' *ngIf='!usuarioSelecionado' ion-button (click)='addUsuario(unidade.key, galpao.key, usuario)'>Cadastrar</button>
+      <button class='fica' *ngIf='usuarioSelecionado != null' ion-button (click)='alteraUsuario(unidade.key, galpao.key)'>Cadastrar</button>
+      <button class='fica' *ngIf='usuarioSelecionado ==  null' ion-button (click)='addUsuario(unidade.key, galpao.key, usuario)'>Cadastrar</button>
     </ion-buttons>
   </div>
 </ion-content>
