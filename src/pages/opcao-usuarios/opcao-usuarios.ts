@@ -5,6 +5,7 @@ import { HomeAdmPage } from '../home-adm/home-adm';
 import { CadastroUsuarioPage } from '../cadastro-usuario/cadastro-usuario';
 import { AlterarUsuarioPage } from '../alterar-usuario/alterar-usuario';
 import { OpcaoGestaoAdminPage } from '../opcao-gestao-admin/opcao-gestao-admin';
+import { UsuariosPage } from '../usuarios/usuarios';
 
 @IonicPage()
 @Component({
@@ -25,6 +26,7 @@ export class OpcaoUsuariosPage {
       {item: 'Cadastrar usuário', endereco: CadastroUsuarioPage},
       {item: 'Excluir usuário', endereco: ExcluirUsuarioPage},
       {item: 'Alterar usuário', endereco: AlterarUsuarioPage},
+      {item: 'Listar usuários', endereco: UsuariosPage},
       {item: 'Gestão de Administrador do Sistema', endereco: OpcaoGestaoAdminPage}
     ];
   }

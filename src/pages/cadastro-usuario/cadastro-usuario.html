@@ -32,7 +32,7 @@
       </ion-item>
       <p class='texto1'>Este usuário já está administrando os seguintes galpões:</p>
       <p *ngFor='let galpaoUser of usuarioSelecionadoGalpao'>
-          {{galpaoUser}}
+          Unidade: {{galpaoUser.Unidade}} <br> Galpão: {{galpaoUser.Galpao}}
       </p>
       <p class='texto1'>Selecione abaixo a unidade e galpão ao qual deseja incluir este usuário:</p>
       <ion-item>
@@ -94,8 +94,8 @@
     <pre></pre>
     <ion-buttons class='acessos'>
       <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
-      <button class='fica' *ngIf='usuarioSelecionado != null' ion-button (click)='alteraUsuario(unidade.key, galpao.key)'>Cadastrar</button>
-      <button class='fica' *ngIf='usuarioSelecionado ==  null' ion-button (click)='addUsuario(unidade.key, galpao.key, usuario)'>Cadastrar</button>
+      <button class='fica' *ngIf='usuarioSelecionado == null || usuarioSelecionado.length == 0' ion-button (click)='addUsuario(unidade.key, galpao.key, usuario)'>Cadastrar</button>
+      <button class='fica' *ngIf='usuarioSelecionado != 0' ion-button (click)='alteraUsuario(unidade.key, galpao.key)'>Cadastrar</button>
     </ion-buttons>
   </div>
 </ion-content>

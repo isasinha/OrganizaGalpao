@@ -8,10 +8,10 @@ import { HomeAdmPage } from '../home-adm/home-adm';
 
 @IonicPage()
 @Component({
-  selector: 'page-usuarios',
-  templateUrl: 'usuarios.html',
+  selector: 'page-administradores',
+  templateUrl: 'administradores.html',
 })
-export class UsuariosPage {
+export class AdministradoresPage {
 
   usuarios:Array<Usuario> = [];
   ref = firebase.database().ref('/usuario/');
@@ -29,7 +29,7 @@ export class UsuariosPage {
       snapshot.forEach(element => {
          let usuario = element.val();
          usuario.key = element.key;
-        if(usuario.tipo == 'Usuario'){
+        if(usuario.tipo == 'Administrador'){
           returnArray.push(usuario); 
         }
       });

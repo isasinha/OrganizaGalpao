@@ -34,6 +34,8 @@ import { AlterarUnidadePage } from '../pages/alterar-unidade/alterar-unidade';
 import { AlterarGalpaoPage } from '../pages/alterar-galpao/alterar-galpao';
 import { AlterarUsuarioPage } from '../pages/alterar-usuario/alterar-usuario';
 import { AlterarAdminPage } from '../pages/alterar-admin/alterar-admin';
+import { UsuariosPage } from '../pages/usuarios/usuarios';
+import { AdministradoresPage } from '../pages/administradores/administradores';
 //import undefined from 'firebase/empty-import';
 
 
@@ -69,6 +71,8 @@ const firebaseConfig = {
     ContatoPage,
     UnidadesPage,
     GalpoesPage,
+    UsuariosPage,
+    AdministradoresPage,
     OpcaoUnidadesPage,
     OpcaoGalpoesPage,
     OpcaoUsuariosPage,
@@ -104,6 +108,8 @@ const firebaseConfig = {
     ContatoPage,
     UnidadesPage,
     GalpoesPage,
+    UsuariosPage,
+    AdministradoresPage,
     OpcaoUnidadesPage,
     OpcaoGalpoesPage,
     OpcaoUsuariosPage,

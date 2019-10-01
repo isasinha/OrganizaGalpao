@@ -4,6 +4,7 @@ import { HomeAdmPage } from '../home-adm/home-adm';
 import { CadastroAdminPage } from '../cadastro-admin/cadastro-admin';
 import { ExcluirAdminPage } from '../excluir-admin/excluir-admin';
 import { AlterarAdminPage } from '../alterar-admin/alterar-admin';
+import { AdministradoresPage } from '../administradores/administradores';
 
 @IonicPage()
 @Component({
@@ -23,7 +24,8 @@ export class OpcaoGestaoAdminPage {
     this.opcoes = [
       {item: 'Cadastrar Administrador', endereco: CadastroAdminPage},
       {item: 'Excluir Administrador', endereco: ExcluirAdminPage},
-      {item: 'Alterar Administrador', endereco: AlterarAdminPage}
+      {item: 'Alterar Administrador', endereco: AlterarAdminPage},
+      {item: 'Listar Administradores', endereco: AdministradoresPage}
     ];
   }
 

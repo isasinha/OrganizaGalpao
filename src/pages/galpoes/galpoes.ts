@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { HomeAdmPage } from '../home-adm/home-adm';
-import { Galpao, Unidade, snapshotToArrayUnidade, snapshotToArrayGalpao, snapshotToArrayGalpaoKey, snapshotToArrayUsuario } from '../../app/Modelo/galpao';
+import { Galpao, Unidade, snapshotToArrayUnidade, snapshotToArrayGalpao, snapshotToArrayGalpaoKey } from '../../app/Modelo/galpao';
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
 import * as firebase from 'firebase';
 
@@ -49,14 +49,6 @@ export class GalpoesPage {
     this.ref.child(keyUnidade+'/unidadesGalpao/').on('value', resp => {
       this.galpoes = snapshotToArrayGalpao(resp);
       this.keyGalpoes = snapshotToArrayGalpaoKey(resp);
-      var i = 0;
-      while(i < this.keyGalpoes.length){
-        var keyGalpao = this.galpoes[i].key;
-        this.ref.child(keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/').on('value', resp => {
-          this.usuarios[i] = snapshotToArrayUsuario(resp);
-        })
-        i++;
-      }
     })
   }
 

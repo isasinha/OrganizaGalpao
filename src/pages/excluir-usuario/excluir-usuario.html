@@ -24,14 +24,22 @@
           </ion-label>
         </ion-item>
       </ion-list>
+      <ion-list class="list" *ngIf='mensagem.length > 0'>
+        <ion-item *ngFor='let mens of mensagem'>
+          <ion-label class='listaRadio'>
+            Unidade: {{mens.unidade}} <br> Galpão: {{mens.galpao}}
+          </ion-label>
+          <ion-checkbox slot="mens.uniKey" [(ngModel)]="mens.isChecked"></ion-checkbox>
+        </ion-item>
+      </ion-list>
       <br>
-        <p class='texto1'>Atenção! A exclusão do Usuário exclui permanentemente o usuário do sistema.</p>
+        <p class='texto1'>Atenção! A exclusão do Usuário de todos os galpões, implica na exclusão permanente do usuário no sistema.</p>
         <p class='texto2'> ESSA AÇÃO NÃO PODERÁ SER DESFEITA!</p>
     </ion-list>
     <pre></pre>
     <ion-buttons class='acessos'>
       <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
-      <button class='fica' ion-button (click)="deletaUsuario()">Excluir</button>
+      <button class='fica' ion-button (click)="deletaUsuario(mensagem)">Excluir</button>
     </ion-buttons>
   </div>
 </ion-content>

@@ -48,7 +48,8 @@ export class CadastroUsuarioPage {
   nomeGalpao = [];
   usuarioSelecionado = [];
   usuarioSelecionadoGalpao = [];
-  usuarioGalpao = '';
+  // usuarioGalpao = '';
+  usuarioGalpao;
   show = false;
   showUG = false;
   temUsuario = false;
@@ -56,7 +57,7 @@ export class CadastroUsuarioPage {
   galpoesUser = [];
   user = [];
   usuarioKey;
-  usuarioCpf;
+  usuarioCpf; 
   ref = firebase.database().ref('/unidade/');
   refUser = firebase.database().ref('/usuario/');
 
@@ -167,8 +168,9 @@ export class CadastroUsuarioPage {
     this.ref.child(this.keyUnidade+'/unidadesGalpao/').on('value', resp => {
       this.nomeGalpao = snapshotToArrayGalpaoNome(resp);
     })
-    this.usuarioGalpao = 'Unidade: ' + this.nomeUnidade[0] + '. Galpão: ' + this.nomeGalpao[0];
-    this.keyUsuario = this.dbService.cadastraUsuario(this.usuario, this.usuarioGalpao);
+    // this.usuarioGalpao = 'Unidade: ' + this.nomeUnidade[0] + '. Galpão: ' + this.nomeGalpao[0];
+    this.usuarioGalpao = {Unidade: this.nomeUnidade[0], Galpao: this.nomeGalpao[0]}
+    this.keyUsuario = this.dbService.cadastraUsuario(this.usuario, this.usuarioGalpao, keyGalpao);
     this.addUsuarioGalpao(this.keyUnidade, keyGalpao, this.keyUsuario, this.usuario);
     loading.present().then((data) => {loading.dismiss(); 
       const alert = this.alertCtrl.create({
@@ -203,11 +205,12 @@ export class CadastroUsuarioPage {
     this.ref.child(keyUnidade+'/unidadesGalpao/').on('value', resp => {
       this.nomeGalpao = snapshotToArrayGalpaoNome(resp);
     })
-    this.usuarioGalpao = 'Unidade: ' + this.nomeUnidade[0] + '. Galpão: ' + this.nomeGalpao[0];
+    // this.usuarioGalpao = 'Unidade: ' + this.nomeUnidade[0] + '. Galpão: ' + this.nomeGalpao[0];
+    this.usuarioGalpao = {Unidade: this.nomeUnidade[0], Galpao: this.nomeGalpao[0]}
     const loading = this.loadingCtrl.create({
       content: 'Cadastrando...'
     });
-    setTimeout( () => { this.dbService.editaUsuario(this.usuarioKey, this.usuarioSelecionado, this.usuarioGalpao) }, 10000);
+    this.dbService.editaUsuario(this.usuarioKey, this.usuarioSelecionado, this.usuarioGalpao, keyGalpao);
     loading.present().then((data) => {loading.dismiss(); 
                     const alert = this.alertCtrl.create({
                         subTitle: 'Cadastro de usuário', 

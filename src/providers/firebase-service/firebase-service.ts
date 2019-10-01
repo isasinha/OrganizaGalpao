@@ -30,10 +30,10 @@ export class FirebaseServiceProvider {
     }
   }
 
-  cadastraUsuario(usuario:Usuario, usuarioGalpao?:string){
+  cadastraUsuario(usuario:Usuario, usuarioGalpao?:string, keyGalpao?: any){
      let keyUsuario = this.db.list('usuario').push(usuario).key;
      if(usuarioGalpao != null){
-      this.refUser.child('/'+keyUsuario+'/Galpao').push(usuarioGalpao)
+      this.refUser.child('/'+keyUsuario+'/Galpao/'+keyGalpao).update(usuarioGalpao);
     }
     return keyUsuario;
   }
@@ -130,7 +130,7 @@ export class FirebaseServiceProvider {
     }
   }
 
-  editaUsuario(keyUsuario: any, usuario: any, usuarioGalpao?: string){
+  editaUsuario(keyUsuario: any, usuario: any, usuarioGalpao?: string, keyGalpao?:any){
 
     if(usuario.nome != null){
       this.refUser.child('/'+keyUsuario).update({
@@ -153,8 +153,12 @@ export class FirebaseServiceProvider {
       })
     }
     if(usuarioGalpao != null){
-      this.refUser.child('/'+keyUsuario+'/Galpao').push(usuarioGalpao)
+      this.refUser.child('/'+keyUsuario+'/Galpao/'+keyGalpao).set(usuarioGalpao);
     }
+  }
+
+  excluiIdentificacaoGalpaoUsuario(keyUsuario: any, identiKey: any){
+    this.refUser.child('/'+keyUsuario+'/Galpao/'+identiKey).remove();
   }
 
 }

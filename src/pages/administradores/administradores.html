@@ -6,13 +6,12 @@
   <div class='container'>
     <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon>
     <h3 style="text-align:center">Administrador</h3>
-    <p style="text-align:center">Usuários cadastrados</p>
+    <p style="text-align:center">Administradores cadastrados</p>
     <ion-list>
       <ion-item *ngFor='let usuario of usuarios'>
         <p>CPF: {{usuario.cpf}}</p>
         <p>Nome: {{usuario.nome}} {{usuario.sobrenome}}</p>
         <p>Email: {{usuario.email}}</p>
-        <!-- <p>Galpões administrados: {{usuario.galpao}}</p> -->
       </ion-item>
     </ion-list>
     <pre></pre>
