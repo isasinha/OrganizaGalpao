@@ -22,7 +22,7 @@ import { ExcluirAdminPage } from '../pages/excluir-admin/excluir-admin';
 import { LimparGalpaoPage } from '../pages/limpar-galpao/limpar-galpao';
 import { FirebaseServiceProvider } from '../providers/firebase-service/firebase-service';
 import { HomeAdmPageModule } from '../pages/home-adm/home-adm.module';
-import { LoginPage } from '../pages/login/login';
+// import { LoginPage } from '../pages/login/login';
 import { ContatoPage } from '../pages/contato/contato';
 import { GalpoesPage } from '../pages/galpoes/galpoes';
 import { UnidadesPage } from '../pages/unidades/unidades';
@@ -53,7 +53,7 @@ const firebaseConfig = {
   declarations: [
     MyApp,
     HomePage,
-    LoginPage,
+    // LoginPage,
     RedefinirSenhaPage,
     CadastroGalpaoPage,
     CadastroUnidadePage,
@@ -90,7 +90,7 @@ const firebaseConfig = {
   entryComponents: [
     MyApp,
     HomePage,   
-    LoginPage, 
+    // LoginPage, 
     RedefinirSenhaPage,
     CadastroGalpaoPage,
     CadastroUnidadePage,

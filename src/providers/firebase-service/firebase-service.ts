@@ -152,6 +152,11 @@ export class FirebaseServiceProvider {
         cpf: usuario.cpf
       })
     }
+    if(usuario.senha != null){
+      this.refUser.child('/'+keyUsuario).update({
+        senha: usuario.senha
+      })
+    }
     if(usuarioGalpao != null){
       this.refUser.child('/'+keyUsuario+'/Galpao/'+keyGalpao).set(usuarioGalpao);
     }

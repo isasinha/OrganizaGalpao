@@ -48,7 +48,6 @@ export class CadastroUsuarioPage {
   nomeGalpao = [];
   usuarioSelecionado = [];
   usuarioSelecionadoGalpao = [];
-  // usuarioGalpao = '';
   usuarioGalpao;
   show = false;
   showUG = false;
@@ -81,7 +80,6 @@ export class CadastroUsuarioPage {
   selecionaUsuario(usuarioCpf: any){
     this.user = [];
     const snapshotToArrayUsuarioCPF = snapshot => {
-      // this.temUsuario = false; 
       snapshot.forEach(element => {
         let usuarioBanco = element.val();
         usuarioBanco.key = element.key;
@@ -91,9 +89,6 @@ export class CadastroUsuarioPage {
             this.usuarioKey = usuarioBanco.key;
             this.temUsuario = true;
           }
-          // if(this.user == undefined){
-          //   this.temUsuario = false; 
-          // } 
         }
       });
       return this.user;
@@ -111,7 +106,6 @@ export class CadastroUsuarioPage {
     const snapshotToArrayUsuarioCPFGalpao = snapshot => {
       snapshot.forEach(element => {
         let usuarioBanco = element.val();
-        // usuarioBanco.key = element.key;
         this.galpoesUser.push(usuarioBanco)
       });
       return this.galpoesUser;
@@ -168,7 +162,6 @@ export class CadastroUsuarioPage {
     this.ref.child(this.keyUnidade+'/unidadesGalpao/').on('value', resp => {
       this.nomeGalpao = snapshotToArrayGalpaoNome(resp);
     })
-    // this.usuarioGalpao = 'Unidade: ' + this.nomeUnidade[0] + '. Galpão: ' + this.nomeGalpao[0];
     this.usuarioGalpao = {Unidade: this.nomeUnidade[0], Galpao: this.nomeGalpao[0]}
     this.keyUsuario = this.dbService.cadastraUsuario(this.usuario, this.usuarioGalpao, keyGalpao);
     this.addUsuarioGalpao(this.keyUnidade, keyGalpao, this.keyUsuario, this.usuario);
@@ -205,7 +198,6 @@ export class CadastroUsuarioPage {
     this.ref.child(keyUnidade+'/unidadesGalpao/').on('value', resp => {
       this.nomeGalpao = snapshotToArrayGalpaoNome(resp);
     })
-    // this.usuarioGalpao = 'Unidade: ' + this.nomeUnidade[0] + '. Galpão: ' + this.nomeGalpao[0];
     this.usuarioGalpao = {Unidade: this.nomeUnidade[0], Galpao: this.nomeGalpao[0]}
     const loading = this.loadingCtrl.create({
       content: 'Cadastrando...'

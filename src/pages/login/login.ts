@@ -69,32 +69,48 @@ export class LoginPage {
       content: 'Logando...'
     });
     loading.present();
-    if(this.usuarioData.length <= 0){
+    if(usuario.cpf == '' || usuario.senha == ''){
       loading.dismiss(); 
       const alert = this.alertCtrl
       .create({
         subTitle:'Login falhou', 
-        message: "Verifique o CPF e tente novamente", 
+        message: "CPF e senha devem estar preenchidos", 
         buttons:['Ok']
       });
       alert.present()
     }else{
-      if(usuario.senha == this.usuarioSenha){
-        loading.dismiss();
-        if(this.usuarioTipo == 'Administrador')
-          this.navCtrl.push(HomeAdmPage)
-        else
-          this.navCtrl.push(HomePage)
-      }else{
+      if(this.usuarioData.length <= 0){
         loading.dismiss(); 
         const alert = this.alertCtrl
         .create({
           subTitle:'Login falhou', 
-          message: "Verifique a senha e tente novamente", 
+          message: "Verifique o CPF e tente novamente", 
           buttons:['Ok']
         });
         alert.present()
-      }
+      }else{
+        if(usuario.senha == this.usuarioSenha){
+          if (this.usuarioSenha == '12345678'){
+            loading.dismiss();
+            this.navCtrl.push(RedefinirSenhaPage);
+          }else{
+            loading.dismiss();
+            if(this.usuarioTipo == 'Administrador')
+              this.navCtrl.push(HomeAdmPage)
+            else
+              this.navCtrl.push(HomePage)
+          }  
+        }else{
+          loading.dismiss(); 
+          const alert = this.alertCtrl
+          .create({
+            subTitle:'Login falhou', 
+            message: "Verifique a senha e tente novamente", 
+            buttons:['Ok']
+          });
+          alert.present()
+        }
+      }  
     }
   }
 
