@@ -1,0 +1,51 @@
+<ion-header>
+  </ion-header> 
+  
+  <ion-content padding>
+    <br>
+    <div class='container'>
+      <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon>
+      <h3 style="text-align:center">Administrador</h3>
+      <ion-list class="list">
+        <p style="text-align:center">Usuários cadastrados por galpão</p>
+        <ion-item>
+          <ion-label>Unidade</ion-label>
+          <ion-select [(ngModel)]="unidade.key" class="select" (ionChange)="selecionaGalpao(unidade.key)">
+            <ion-option class="option" *ngFor='let unidade of unidades' value={{unidade.key}}>{{unidade.nomeUnidade}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Galpao</ion-label>
+          <ion-select *ngIf='galpoes.length > 0' [(ngModel)]="galpao.key" class="select" (ionChange)="buscaUsuariosGalpao(galpao.key)">
+            <ion-option class="option" *ngFor='let galpao of galpoes' value={{galpao.key}}>{{galpao.nomeGalpao}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <pre></pre>
+        <ion-list class="list" *ngIf='usuarios.length > 0'>
+          <ion-item *ngFor='let usuario of usuarios'>
+              <ion-label >
+                <ion-icon name='person'></ion-icon>  
+                Nome: {{usuario.nome}} {{usuario.sobrenome}}
+              </ion-label>
+            </ion-item>
+            <ion-item *ngFor='let usuario of usuarios'>
+              <ion-label >
+                <ion-icon name='mail'></ion-icon>  
+                E-mail: {{usuario.email}}
+              </ion-label>
+            </ion-item>
+            <ion-item *ngFor='let usuario of usuarios'>
+              <ion-label >
+                <ion-icon name='contact'></ion-icon>  
+                CPF: {{usuario.cpf}}
+              </ion-label>
+            </ion-item>
+        </ion-list>
+      </ion-list>
+      <pre></pre>
+      <ion-buttons class='acessos'>
+        <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button> 
+      </ion-buttons>
+    </div>
+  </ion-content>
+  

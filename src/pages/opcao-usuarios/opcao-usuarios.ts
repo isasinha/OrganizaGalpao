@@ -6,6 +6,7 @@ import { CadastroUsuarioPage } from '../cadastro-usuario/cadastro-usuario';
 import { AlterarUsuarioPage } from '../alterar-usuario/alterar-usuario';
 import { OpcaoGestaoAdminPage } from '../opcao-gestao-admin/opcao-gestao-admin';
 import { UsuariosPage } from '../usuarios/usuarios';
+import { GalpoesPorUsuarioPage } from '../galpoes-por-usuario/galpoes-por-usuario';
 
 @IonicPage()
 @Component({
@@ -27,6 +28,7 @@ export class OpcaoUsuariosPage {
       {item: 'Excluir usuário', endereco: ExcluirUsuarioPage},
       {item: 'Alterar usuário', endereco: AlterarUsuarioPage},
       {item: 'Listar usuários', endereco: UsuariosPage},
+      {item: 'Listar galpões por usuário', endereco: GalpoesPorUsuarioPage},
       {item: 'Gestão de Administrador do Sistema', endereco: OpcaoGestaoAdminPage}
     ];
   }

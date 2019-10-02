@@ -4,7 +4,7 @@ import { IonicPage, NavController, NavParams, LoadingController, AlertController
 import { HomeAdmPage } from '../home-adm/home-adm';
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
 import { Usuario } from '../../app/Modelo/usuario';
-import { Unidade, Galpao, snapshotToArrayUnidade, snapshotToArrayGalpao, snapshotToArrayUnidadeNome } from '../../app/Modelo/galpao';
+import { Unidade, Galpao, snapshotToArrayUnidade, snapshotToArrayGalpao } from '../../app/Modelo/galpao';
 import * as firebase from 'firebase';
 import { AngularFireDatabase } from '@angular/fire/database';
 
@@ -144,7 +144,18 @@ export class CadastroUsuarioPage {
   addUsuario(keyUnidade: any, keyGalpao: any, usuario: Usuario){
     const loading = this.loadingCtrl.create({
       content: 'Cadastrando...'
-    });
+    }); 
+    const snapshotToArrayUnidadeNome = snapshot => {
+      let returnArray = [];
+      snapshot.forEach(element => {
+        let unidade = element.val();
+        unidade.key = element.key;
+        if(unidade.key == keyUnidade){
+          returnArray.push(unidade.nomeUnidade); 
+        }
+      });
+      return returnArray;
+  }
     this.ref.on('value', resp => {
       this.nomeUnidade = snapshotToArrayUnidadeNome(resp);
     })
@@ -181,6 +192,17 @@ export class CadastroUsuarioPage {
   }
 
   alteraUsuario(keyUnidade: any, keyGalpao: any){
+    const snapshotToArrayUnidadeNome = snapshot => {
+      let returnArray = [];
+      snapshot.forEach(element => {
+        let unidade = element.val();
+        unidade.key = element.key;
+        if(unidade.key == keyUnidade){
+          returnArray.push(unidade.nomeUnidade); 
+        }
+      });
+      return returnArray;
+  }
     this.ref.on('value', resp => {
       this.nomeUnidade = snapshotToArrayUnidadeNome(resp);
     })

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { GalpoesPage } from '../galpoes/galpoes';
 import { OpcaoUnidadesPage } from '../opcao-unidades/opcao-unidades';
 import { OpcaoUsuariosPage } from '../opcao-usuarios/opcao-usuarios';
 import { OpcaoGalpoesPage } from '../opcao-galpoes/opcao-galpoes';
@@ -24,7 +23,6 @@ export class HomeAdmPage {
     this.opcoes = [
       {item: 'Gestão Unidades', endereco: OpcaoUnidadesPage},
       {item: 'Gestão Galpões', endereco: OpcaoGalpoesPage},      
-      {item: 'Listar galpões por unidade', endereco: GalpoesPage},
       {item: 'Gestão Usuários', endereco: OpcaoUsuariosPage}
     ];
 

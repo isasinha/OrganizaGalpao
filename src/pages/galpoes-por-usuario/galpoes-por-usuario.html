@@ -1,0 +1,40 @@
+<ion-header>
+  </ion-header> 
+  
+  <ion-content padding>
+    <br>
+    <div class='container'>
+      <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon>
+    <h3 style="text-align:center">Administrador</h3>
+    <ion-list class="list">
+      <p style="text-align:center">Gaspões por Usuário</p>
+      <ion-item>
+        <ion-label>CPF</ion-label>
+        <ion-input type="text" [(ngModel)]="usuarioCpf" (keyup)='selecionaUsuario(usuarioCpf)'></ion-input>
+      </ion-item>
+      <pre></pre>
+      <ion-list  class="list" *ngIf='usuario.cpf != "" && temUsuario'>
+        <ion-item>
+          <ion-label >
+            <ion-icon name='person'></ion-icon>  
+            Nome: {{usuarioSelecionado.nome}} {{usuarioSelecionado.sobrenome}}
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label >
+            <ion-icon name='mail'></ion-icon>  
+            E-mail: {{usuarioSelecionado.email}}
+          </ion-label>
+        </ion-item>
+        <p class='texto1'>Este usuário está administrando os seguintes galpões:</p>
+        <p *ngFor='let galpaoUser of usuarioSelecionadoGalpao'>
+            Unidade: {{galpaoUser.Unidade}} <br> Galpão: {{galpaoUser.Galpao}}
+        </p>
+      </ion-list>
+    </ion-list>
+    <pre></pre>
+    <ion-buttons class='acessos'>
+      <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button> 
+    </ion-buttons>
+    </div>
+  </ion-content>

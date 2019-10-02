@@ -73,40 +73,39 @@ export class AlterarUsuarioPage {
   }
 
   alteraUsuario(usuario: Usuario){
-    var i = 0;
+    setTimeout( () => { this.dbService.editaUsuario(this.usuarioKey, usuario) }, 10000);    var i = 0;
+    const loading = this.loadingCtrl.create({
+      content: 'Alterando...'
+    });
     var keyUni = '';
     while(i < this.unidadesKey.length){
       keyUni = this.unidadesKey[i];
       this.refUni.child(keyUni+'/unidadesGalpao/').on('value', resp => {
         this.galpoesKey = snapshotToArrayGalpaoKey(resp);
       })
-      i++;
-    }
-    const loading = this.loadingCtrl.create({
-      content: 'Alterando...'
-    });
-    setTimeout( () => { this.dbService.editaUsuario(this.usuarioKey, usuario) }, 10000);
-    var j = 0;
-    while(j < this.unidadesKey.length){
-      var k = 0;
-      var uniSeleKey = this.unidadesKey[j];
-      j++;
-      while(k < this.galpoesKey.length){
-        var galSeleKey = this.galpoesKey[k];
-        const snapshotToArrayUsuarioGalpao = snapshot => {
-          snapshot.forEach(element => {
-            let usuarioBanco = element.val();
-            usuarioBanco.key = element.key;
-            if(this.usuarioKey == usuarioBanco.key){
-              this.dbService.editaGalpaoUsuario(uniSeleKey, galSeleKey, this.usuarioKey, usuario);
-            } 
-          });
+      var j=0;
+      for(j=0; j < this.unidadesKey.length; j++){
+        var k=0;
+        var uniSeleKey = this.unidadesKey[j];
+        for(k=0; k < this.galpoesKey.length; k++){
+          var galSeleKey = this.galpoesKey[k];
+          const snapshotToArrayUsuarioGalpao = snapshot => {
+            snapshot.forEach(element => {
+              let usuarioBanco = element.val();
+              usuarioBanco.key = element.key;
+              if(this.usuarioKey == usuarioBanco.key){
+                this.dbService.editaGalpaoUsuario(uniSeleKey, galSeleKey, this.usuarioKey, usuario);
+              } 
+            });
+          }
+          this.refUni.child(uniSeleKey+'/unidadesGalpao/'+galSeleKey+'/usuarios/').on('value', resp => {
+            snapshotToArrayUsuarioGalpao(resp);
+          })
+          // k++;
+        // }
         }
-        this.refUni.child(uniSeleKey+'/unidadesGalpao/'+galSeleKey+'/usuarios/').on('value', resp => {
-          snapshotToArrayUsuarioGalpao(resp);
-        })
-        k++;
       }
+      i++;
     }
     loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
                       subTitle: 'Alteração de Usuário',

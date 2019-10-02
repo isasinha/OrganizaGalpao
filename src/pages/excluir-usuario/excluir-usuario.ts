@@ -88,27 +88,24 @@ export class ExcluirUsuarioPage {
     this.refUser.on('value', resp => {
       this.usuarioSelecionado = snapshotToArrayUsuarioCPF(resp);
     })
-    var i = 0;
-    var keyUni = '';
-    while(i < this.unidadesKey.length){
-      keyUni = this.unidadesKey[i];
-      this.refUni.child(keyUni+'/unidadesGalpao/').on('value', resp => {
-        this.galpoes = snapshotToArrayGalpao(resp);
-        this.galpoesKey = snapshotToArrayGalpaoKey(resp);
-      })
-      i++;
-    }
+    // var i = 0;
+    // var keyUni = '';
+
     // const loading = this.loadingCtrl.create({
     //   content: 'Excluindo...'
     // });
     var j = 0;
     var m = 0;
-    while(j < this.unidades.length){
+    for(j=0; j < this.unidadesKey.length; j++){
       var k = 0;
       var uniSeleKey = this.unidadesKey[j];
       var unis = this.unidades[j];
-      j++;
-      while(k < this.galpoesKey.length){
+      // keyUni = this.unidadesKey[i];
+      this.refUni.child(uniSeleKey+'/unidadesGalpao/').on('value', resp => {
+        this.galpoes = snapshotToArrayGalpao(resp);
+        this.galpoesKey = snapshotToArrayGalpaoKey(resp);
+      })
+      for(k=0; k < this.galpoesKey.length; k++){
         var galSeleKey = this.galpoesKey[k];
         var gals = this.galpoes[k];
         const snapshotToArrayUsuarioGalpao = snapshot => {
@@ -126,7 +123,6 @@ export class ExcluirUsuarioPage {
         this.refUni.child(uniSeleKey+'/unidadesGalpao/'+galSeleKey+'/usuarios/').on('value', resp => {
           snapshotToArrayUsuarioGalpao(resp);
         })
-        k++;
       }
     }
   }

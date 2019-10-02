@@ -22,7 +22,7 @@ import { ExcluirAdminPage } from '../pages/excluir-admin/excluir-admin';
 import { LimparGalpaoPage } from '../pages/limpar-galpao/limpar-galpao';
 import { FirebaseServiceProvider } from '../providers/firebase-service/firebase-service';
 import { HomeAdmPageModule } from '../pages/home-adm/home-adm.module';
-// import { LoginPage } from '../pages/login/login';
+import { LoginPage } from '../pages/login/login';
 import { ContatoPage } from '../pages/contato/contato';
 import { GalpoesPage } from '../pages/galpoes/galpoes';
 import { UnidadesPage } from '../pages/unidades/unidades';
@@ -36,8 +36,9 @@ import { AlterarUsuarioPage } from '../pages/alterar-usuario/alterar-usuario';
 import { AlterarAdminPage } from '../pages/alterar-admin/alterar-admin';
 import { UsuariosPage } from '../pages/usuarios/usuarios';
 import { AdministradoresPage } from '../pages/administradores/administradores';
-//import undefined from 'firebase/empty-import';
-
+import { GalpoesPorUsuarioPage } from '../pages/galpoes-por-usuario/galpoes-por-usuario';
+import { UsuariosPorGalpaoPage } from '../pages/usuarios-por-galpao/usuarios-por-galpao';
+import { LoginPageModule } from '../pages/login/login.module';
 
 
 const firebaseConfig = {
@@ -72,6 +73,8 @@ const firebaseConfig = {
     UnidadesPage,
     GalpoesPage,
     UsuariosPage,
+    GalpoesPorUsuarioPage,
+    UsuariosPorGalpaoPage,
     AdministradoresPage,
     OpcaoUnidadesPage,
     OpcaoGalpoesPage,
@@ -84,7 +87,8 @@ const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    HomeAdmPageModule
+    HomeAdmPageModule,
+    LoginPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -109,6 +113,8 @@ const firebaseConfig = {
     UnidadesPage,
     GalpoesPage,
     UsuariosPage,
+    GalpoesPorUsuarioPage,
+    UsuariosPorGalpaoPage,
     AdministradoresPage,
     OpcaoUnidadesPage,
     OpcaoGalpoesPage,

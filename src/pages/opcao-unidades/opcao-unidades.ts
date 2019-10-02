@@ -4,6 +4,7 @@ import { CadastroUnidadePage } from '../cadastro-unidade/cadastro-unidade';
 import { HomeAdmPage } from '../home-adm/home-adm';
 import { ExcluirUnidadePage } from '../excluir-unidade/excluir-unidade';
 import { AlterarUnidadePage } from '../alterar-unidade/alterar-unidade';
+import { GalpoesPage } from '../galpoes/galpoes';
 
 @IonicPage()
 @Component({
@@ -23,7 +24,8 @@ export class OpcaoUnidadesPage {
     this.opcoes = [
       {item: 'Cadastrar unidade', endereco: CadastroUnidadePage},
       {item: 'Excluir unidade', endereco: ExcluirUnidadePage},
-      {item: 'Alterar unidade', endereco: AlterarUnidadePage}
+      {item: 'Alterar unidade', endereco: AlterarUnidadePage},
+      {item: 'Listar galpões por unidade', endereco: GalpoesPage}
     ];
   }
 
