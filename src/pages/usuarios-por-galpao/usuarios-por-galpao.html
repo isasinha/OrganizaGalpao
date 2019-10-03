@@ -23,23 +23,15 @@
         <pre></pre>
         <ion-list class="list" *ngIf='usuarios.length > 0'>
           <ion-item *ngFor='let usuario of usuarios'>
-              <ion-label >
-                <ion-icon name='person'></ion-icon>  
-                Nome: {{usuario.nome}} {{usuario.sobrenome}}
-              </ion-label>
-            </ion-item>
-            <ion-item *ngFor='let usuario of usuarios'>
-              <ion-label >
-                <ion-icon name='mail'></ion-icon>  
-                E-mail: {{usuario.email}}
-              </ion-label>
-            </ion-item>
-            <ion-item *ngFor='let usuario of usuarios'>
-              <ion-label >
-                <ion-icon name='contact'></ion-icon>  
-                CPF: {{usuario.cpf}}
-              </ion-label>
-            </ion-item>
+            <ion-label >
+              <ion-icon name='person'></ion-icon>  
+              Nome: {{usuario.nome}} {{usuario.sobrenome}} <br>
+              <ion-icon name='mail'></ion-icon>  
+              E-mail: {{usuario.email}} <br>
+              <ion-icon name='contact'></ion-icon>  
+              CPF: {{usuario.cpf}}
+            </ion-label>
+          </ion-item>
         </ion-list>
       </ion-list>
       <pre></pre>

@@ -66,37 +66,15 @@ export class UsuariosPorGalpaoPage {
       snapshot.forEach(element => {
         let usuario = element.val();
         usuario.key = element.key;
-        returnArray.push(usuario.key); 
-      });
-      return returnArray;
-    }
-    this.usuariosKey = [];
-    this.ref.child(this.keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/').on('value', resp => {
-      this.usuariosKey = snapshotToArrayUsuariosGalpao(resp);
-    })
-    this.exibirUsuariosGalpaoSelecionado(keyGalpao)
-  }
-
-  exibirUsuariosGalpaoSelecionado(keyGalpao: any){
-    const snapshotToArrayUsuariosGalpao = snapshot => {
-      let returnArray = [];
-      snapshot.forEach(element => {
-        let usuario = element.val();
-        usuario.key = element.key;
         returnArray.push(usuario); 
       });
       return returnArray;
     }
-    var i = 0;
-    while(i < this.usuariosKey.length){
-      this.keyUsuario = this.usuariosKey[i];
-      this.ref.child(this.keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/'+this.keyUsuario).on('value', resp => {
-        this.usuarios.push(snapshotToArrayUsuariosGalpao(resp));
-      })
-      i++
-    }
+    this.usuarios = [];
+    this.ref.child(this.keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/').on('value', resp => {
+      this.usuarios = snapshotToArrayUsuariosGalpao(resp);
+    })
   }
-
 
   voltar(){
     this.navCtrl.setRoot(HomeAdmPage)

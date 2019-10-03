@@ -5,7 +5,7 @@ import { HomeAdmPage } from '../home-adm/home-adm';
 import { CadastroGalpaoPage } from '../cadastro-galpao/cadastro-galpao';
 import { AlterarGalpaoPage } from '../alterar-galpao/alterar-galpao';
 import { LimparGalpaoPage } from '../limpar-galpao/limpar-galpao';
-// import { UsuariosPorGalpaoPage } from '../usuarios-por-galpao/usuarios-por-galpao';
+import { UsuariosPorGalpaoPage } from '../usuarios-por-galpao/usuarios-por-galpao';
 
 @IonicPage()
 @Component({
@@ -25,9 +25,9 @@ export class OpcaoGalpoesPage {
     this.opcoes = [
       {item: 'Cadastrar galpão', endereco: CadastroGalpaoPage},
       {item: 'Excluir galpão', endereco: ExcluirGalpaoPage},
-      {item: 'Alterar galpão', endereco: AlterarGalpaoPage},
+      {item: 'Alterar galpão', endereco: AlterarGalpaoPage}, 
       {item: 'Liberar galpão', endereco: LimparGalpaoPage},
-      // {item: 'Listar usuários por galpão', endereco: UsuariosPorGalpaoPage}
+      {item: 'Listar usuários por galpão', endereco: UsuariosPorGalpaoPage}
     ];
   }
 

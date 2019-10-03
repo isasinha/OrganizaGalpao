@@ -27,7 +27,7 @@
           </ion-label>
         </ion-item>
         <p class='texto1'>Este usuário está administrando os seguintes galpões:</p>
-        <p *ngFor='let galpaoUser of usuarioSelecionadoGalpao'>
+        <p class='texto2' *ngFor='let galpaoUser of usuarioSelecionadoGalpao'>
             Unidade: {{galpaoUser.Unidade}} <br> Galpão: {{galpaoUser.Galpao}}
         </p>
       </ion-list>
