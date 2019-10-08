@@ -7,6 +7,7 @@ import { AuthService} from './auth.service';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { HttpModule } from '@angular/http';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -22,7 +23,7 @@ import { ExcluirAdminPage } from '../pages/excluir-admin/excluir-admin';
 import { LimparGalpaoPage } from '../pages/limpar-galpao/limpar-galpao';
 import { FirebaseServiceProvider } from '../providers/firebase-service/firebase-service';
 import { HomeAdmPageModule } from '../pages/home-adm/home-adm.module';
-import { LoginPage } from '../pages/login/login';
+// import { LoginPage } from '../pages/login/login';
 import { ContatoPage } from '../pages/contato/contato';
 import { GalpoesPage } from '../pages/galpoes/galpoes';
 import { UnidadesPage } from '../pages/unidades/unidades';
@@ -88,7 +89,8 @@ const firebaseConfig = {
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     HomeAdmPageModule,
-    LoginPageModule
+    LoginPageModule,
+    HttpModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
