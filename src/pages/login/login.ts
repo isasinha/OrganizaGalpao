@@ -24,7 +24,9 @@ export class LoginPage {
     email: ''
   }
   usuarioSenha:string = '';
-  usuarioTipo:string='';
+  usuarioTipo:string = '';
+  usuarioNome:string = '';
+  usuarioKey = '';
   usuarioData=[];
   ref = firebase.database().ref('/usuario/');
 
@@ -52,7 +54,8 @@ export class LoginPage {
         if(usuario.cpf == usuarioBanco.cpf){
           returnArray.push(usuarioBanco.senha);
           returnArray.push(usuarioBanco.tipo);
-          
+          returnArray.push(usuarioBanco.nome);
+          returnArray.push(usuarioBanco.key);
         } 
       });
       return returnArray;
@@ -64,6 +67,8 @@ export class LoginPage {
       this.usuarioData = snapshotToArrayUsuarioCPF(resp);
       this.usuarioSenha = this.usuarioData[0];
       this.usuarioTipo = this.usuarioData[1];
+      this.usuarioNome = this.usuarioData[2];
+      this.usuarioKey = this.usuarioData[3];
     })
     const loading = this.loadingCtrl.create({
       content: 'Logando...'
@@ -98,7 +103,11 @@ export class LoginPage {
             if(this.usuarioTipo == 'Administrador')
               this.navCtrl.push(HomeAdmPage)
             else
-              this.navCtrl.push(HomePage)
+              this.navCtrl.push(HomePage, {
+                key: this.usuarioKey,
+                nome: this.usuarioNome,
+                cpf: usuario.cpf
+              })
           }  
         }else{
           loading.dismiss(); 

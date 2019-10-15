@@ -40,6 +40,7 @@ import { AdministradoresPage } from '../pages/administradores/administradores';
 import { GalpoesPorUsuarioPage } from '../pages/galpoes-por-usuario/galpoes-por-usuario';
 import { UsuariosPorGalpaoPage } from '../pages/usuarios-por-galpao/usuarios-por-galpao';
 import { LoginPageModule } from '../pages/login/login.module';
+import { GalpaoSelecionadoPage } from '../pages/galpao-selecionado/galpao-selecionado';
 
 
 const firebaseConfig = {
@@ -80,7 +81,8 @@ const firebaseConfig = {
     OpcaoUnidadesPage,
     OpcaoGalpoesPage,
     OpcaoUsuariosPage,
-    OpcaoGestaoAdminPage
+    OpcaoGestaoAdminPage,
+    GalpaoSelecionadoPage
   ],
   imports: [
     BrowserModule,
@@ -121,7 +123,8 @@ const firebaseConfig = {
     OpcaoUnidadesPage,
     OpcaoGalpoesPage,
     OpcaoUsuariosPage,
-    OpcaoGestaoAdminPage
+    OpcaoGestaoAdminPage,
+    GalpaoSelecionadoPage
   ],
   providers: [
     StatusBar,

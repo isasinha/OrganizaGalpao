@@ -5,22 +5,13 @@
   <br>  
   <div class='container'>
     <ion-icon name='menu' large menuToggle class='menuToggle'></ion-icon>
-    <div *ngIf="user != null">
-      <h3>Bem vindo, {{ user.email }}!</h3>
-    </div>
-    <div *ngIf="user == null">
-      <h3>Bem vindo!</h3>
-    </div>
-    <p>Selecione um galpão para editar:</p>
-    <br>
+    <h3 style="text-align:center">Bem vindo, {{nomeUsuario}}!</h3>
+    <p style="text-align:center">Selecione um galpão para editar:</p>
     <ion-list>
-      Unidade A:
-      <ion-item>Galpão 315</ion-item>
-      <ion-item>Galpão 410</ion-item>
-    </ion-list>
-    <ion-list>
-        Unidade B:
-        <ion-item>Galpão 115</ion-item>
+      <button ion-item *ngFor='let opcao of opcoes' (click)='opcaoEscolhida($event,opcao)'>
+        Unidade: {{opcao.unidade}}
+        Galpão: {{opcao.galpao}}
+      </button>
     </ion-list>
   </div>
 </ion-content>

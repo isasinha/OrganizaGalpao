@@ -9,7 +9,16 @@ import { HomePage } from '../home/home';
 })
 export class GalpaoSelecionadoPage {
 
+  public keyGalpao = '';
+  public nomeUsuario: any = '';
+  public keyUsuario: any = '';
+  public cpfUsuario: any = '';
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.keyGalpao = navParams.get('keyGalpao');
+    this.nomeUsuario = navParams.get('nome');
+    this.keyUsuario = navParams.get('key'); 
+    this.cpfUsuario = navParams.get('cpf');     
   }
 
   ionViewDidLoad() {
@@ -17,7 +26,11 @@ export class GalpaoSelecionadoPage {
   }
 
   voltar(){
-    this.navCtrl.setRoot(HomePage)
+    this.navCtrl.setRoot(HomePage, {
+      key: this.keyUsuario,
+      nome: this.nomeUsuario,
+      cpf: this.cpfUsuario
+    })
   }
 
 }
