@@ -5,7 +5,12 @@
   <br>  
   <div class='container'>
     <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon>
-    <h3 style="text-align:center">Galpão Selecionado: {{keyGalpao}}!</h3>
+    <h3 style="text-align:center">Galpão Selecionado: {{nomeGalpao}}!</h3>
+    <ion-list>
+      <button ion-item *ngFor='let opcao of opcoes' (click)='opcaoEscolhida($event,opcao)'>
+        {{opcao.opcao}}
+      </button>
+    </ion-list>
     <ion-buttons class='acessos'>
       <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
     </ion-buttons>

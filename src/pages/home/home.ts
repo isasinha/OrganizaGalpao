@@ -58,8 +58,8 @@ export class HomePage {
     while (i < this.usuarioSelecionadoGalpao.length){
       var j = i+1;
       var k = j+1;
-      this.userGalpao = this.usuarioSelecionadoGalpao[i];
-      this.userUnidade = this.usuarioSelecionadoGalpao[j];
+      this.userUnidade = this.usuarioSelecionadoGalpao[i];
+      this.userGalpao = this.usuarioSelecionadoGalpao[j];
       this.userGalpaoKey = this.usuarioSelecionadoGalpao[k];
       this.opcoes.push({unidade: this.userUnidade, galpao: this.userGalpao, keyGalpao: this.userGalpaoKey})  
       i = k+1;
@@ -71,24 +71,8 @@ export class HomePage {
       keyGalpao: opcao.keyGalpao, 
       key: this.keyUsuario,
       nome: this.nomeUsuario,
-      cpf: this.cpfUsuario})); 
-  }
-
-  selecionaUsuarioGalpao(){
-    this.galpoesUser = [];
-    const snapshotToArrayUsuarioCPFGalpao = snapshot => {
-      snapshot.forEach(element => {
-        let usuarioBanco = element.val();
-        this.galpoesUser.push(usuarioBanco.unidade);
-        this.galpoesUser.push(usuarioBanco.galpao);
-        this.galpoesUser.push(usuarioBanco.key);
-      });
-      return this.galpoesUser;
-    }
-    this.refUser.child(this.keyUsuario+'/Galpao/').on('value', resp => {
-      this.usuarioSelecionadoGalpao = [];
-      this.usuarioSelecionadoGalpao = snapshotToArrayUsuarioCPFGalpao(resp);
-    })
+      cpf: this.cpfUsuario,
+      galpao: opcao.galpao})); 
   }
 
 }
