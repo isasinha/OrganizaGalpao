@@ -88,7 +88,8 @@ export class FirebaseServiceProvider {
           var posicaoAltura = posicao;
           for (var l = 0; l < largura; l++){
             posicao = posicaoAltura + (l+1).toString();
-            this.refArm.child('/'+keyGalpao+'/posicao/'+ posicao).set({pasta: "item"});
+            // this.refArm.child('/'+keyGalpao+'/posicao/'+ posicao).set({pasta: "item"});
+            this.refArm.child('/'+keyGalpao+'/posicao').push(posicao);
             posicao = '';
           }
         }

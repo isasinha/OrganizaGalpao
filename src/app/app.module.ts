@@ -41,6 +41,7 @@ import { GalpoesPorUsuarioPage } from '../pages/galpoes-por-usuario/galpoes-por-
 import { UsuariosPorGalpaoPage } from '../pages/usuarios-por-galpao/usuarios-por-galpao';
 import { LoginPageModule } from '../pages/login/login.module';
 import { GalpaoSelecionadoPage } from '../pages/galpao-selecionado/galpao-selecionado';
+import { ManterPosicaoPage } from '../pages/manter-posicao/manter-posicao';
 
 
 const firebaseConfig = {
@@ -82,7 +83,8 @@ const firebaseConfig = {
     OpcaoGalpoesPage,
     OpcaoUsuariosPage,
     OpcaoGestaoAdminPage,
-    GalpaoSelecionadoPage
+    GalpaoSelecionadoPage,
+    ManterPosicaoPage
   ],
   imports: [
     BrowserModule,
@@ -124,7 +126,8 @@ const firebaseConfig = {
     OpcaoGalpoesPage,
     OpcaoUsuariosPage,
     OpcaoGestaoAdminPage,
-    GalpaoSelecionadoPage
+    GalpaoSelecionadoPage,
+    ManterPosicaoPage
   ],
   providers: [
     StatusBar,

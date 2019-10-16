@@ -1,0 +1,23 @@
+<ion-header>
+</ion-header> 
+
+<ion-content padding>
+  <br>  
+  <div class='container' style='display: inline'>
+    <div  class="parent">
+      <h3 class="item item-self">Posição {{nomePosicao}}</h3>
+      <div class="item"> <ion-icon class="item" name='document'></ion-icon><ion-icon name='add'></ion-icon></div>
+    </div>
+     
+    <!-- <ion-list>
+      <button ion-item *ngFor='let opcao of opcoes' (click)='opcaoEscolhida($event,opcao)'>
+        {{opcao.posicao}}
+      </button>
+    </ion-list> -->
+    <pre></pre>
+    <ion-buttons class='acessos'>
+      <button class='fica' ion-button (click)="descartar()">Descartar</button>
+      <button class='fica' ion-button (click)="salvar()">Salvar</button>
+    </ion-buttons>
+  </div>
+</ion-content>

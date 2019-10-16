@@ -72,7 +72,8 @@ export class HomePage {
       key: this.keyUsuario,
       nome: this.nomeUsuario,
       cpf: this.cpfUsuario,
-      galpao: opcao.galpao})); 
+      galpao: opcao.galpao,
+      unidade: opcao.unidade})); 
   }
 
 }
