@@ -6,7 +6,10 @@
   <div class='container' style='display: inline'>
     <div  class="parent">
       <h3 class="item item-self">Posição {{nomePosicao}}</h3>
-      <div class="item"> <ion-icon class="item" name='document'></ion-icon><ion-icon name='add'></ion-icon></div>
+      <div class="item"> 
+        <ion-icon class="item" name='document' (click)='abreObs()'></ion-icon>
+        <ion-icon name='add' (click)='criaPasta()'></ion-icon>
+      </div>
     </div>
      
     <!-- <ion-list>

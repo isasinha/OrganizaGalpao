@@ -99,6 +99,10 @@ export class FirebaseServiceProvider {
    
   }
 
+  cadastraObservacao(keyGalpao: any, keyPosicao: any, observacao: string){
+     this.refArm.child('/'+keyGalpao+'/posicao/'+keyPosicao).update(observacao);
+  }
+
   cadastraUsuario(usuario:Usuario, usuarioGalpao?:string, keyGalpao?: any){
      let keyUsuario = this.db.list('usuario').push(usuario).key;
      if(usuarioGalpao != null){
