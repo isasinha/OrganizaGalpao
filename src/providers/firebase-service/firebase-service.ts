@@ -88,8 +88,8 @@ export class FirebaseServiceProvider {
           var posicaoAltura = posicao;
           for (var l = 0; l < largura; l++){
             posicao = posicaoAltura + (l+1).toString();
-            // this.refArm.child('/'+keyGalpao+'/posicao/'+ posicao).set({pasta: "item"});
-            this.refArm.child('/'+keyGalpao+'/posicao').push(posicao);
+            this.refArm.child('/'+keyGalpao+'/posicao/'+ posicao).set({observacao: ""});
+            // this.refArm.child('/'+keyGalpao+'/posicao').push(posicao);
             posicao = '';
           }
         }
@@ -99,9 +99,15 @@ export class FirebaseServiceProvider {
    
   }
 
-  cadastraObservacao(keyGalpao: any, keyPosicao: any, observacao: string){
-     this.refArm.child('/'+keyGalpao+'/posicao/'+keyPosicao).update(observacao);
+  cadastraObservacao(keyGalpao: any, posicao: any, observacao: string){
+     this.refArm.child('/'+keyGalpao+'/posicao/'+posicao).set({observacao: observacao});
   }
+
+  
+  cadastraPasta(keyGalpao: any, posicao: any, pasta: string, item: string){
+    this.refArm.child('/'+keyGalpao+'/posicao/'+posicao+'/'+pasta).set({item: item});
+ }
+
 
   cadastraUsuario(usuario:Usuario, usuarioGalpao?:string, keyGalpao?: any){
      let keyUsuario = this.db.list('usuario').push(usuario).key;
@@ -113,6 +119,7 @@ export class FirebaseServiceProvider {
 
   excluiGalpao(keyUnidade: any, keyGalpao: any){
     this.db.object('/unidade/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).remove();
+    this.db.object('/armazenamento/'+keyGalpao).remove();
   }
 
   excluiUnidade(keyUnidade: any){
@@ -237,6 +244,22 @@ export class FirebaseServiceProvider {
 
   excluiIdentificacaoGalpaoUsuario(keyUsuario: any, identiKey: any){
     this.refUser.child('/'+keyUsuario+'/Galpao/'+identiKey).remove();
+    const snapshotToArrayUsuarioKey = snapshot => {
+      let returnArray = [];
+      snapshot.forEach(element => {
+         let galpao = element.val();
+         galpao.key = element.key;
+        returnArray.push(galpao.key); 
+      });
+      return returnArray;
+    }
+    this.refUser.child('/'+keyUsuario+'/Galpao/').on('value', resp => { 
+      let galpoes = [];
+      galpoes = snapshotToArrayUsuarioKey(resp);
+      if (galpoes.length == 0){
+        this.excluiUsuario(keyUsuario);
+      }
+    })
   }
 
 }

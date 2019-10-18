@@ -1,15 +1,30 @@
-<!--
-  Generated template for the CriarPastaPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-  <ion-navbar>
-    <ion-title>criar-pasta</ion-title>
-  </ion-navbar>
-</ion-header>
+</ion-header> 
 
 <ion-content padding>
-
+  <br>  
+  <div class='container' style='display: inline'>
+    <div  class="parent">
+      <h3 class="item item-self">Posição {{posicao}}</h3>
+      <ion-list>
+        <ion-item>
+          <ion-label stacked style="font-size: 18px">
+            Nome da pasta
+          </ion-label>
+          <ion-input type="text" [(ngModel)]='pasta' placeholder="ex.: caixa"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label stacked style="font-size: 18px">
+            Nome do item
+          </ion-label>
+          <ion-input type="text" [(ngModel)]='item' placeholder="Ex.: caderno"></ion-input>
+        </ion-item>
+      </ion-list>
+    </div>
+    <pre></pre>
+    <ion-buttons class='acessos'>
+      <button class='fica' ion-button (click)="descartar()">Descartar</button>
+      <button class='fica' ion-button (click)="salvar(pasta, item)">Salvar</button>
+    </ion-buttons>
+  </div>
 </ion-content>

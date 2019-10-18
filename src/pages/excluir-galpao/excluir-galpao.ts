@@ -30,6 +30,7 @@ export class ExcluirGalpaoPage {
   galpoes = [];
   keyGalpao;
   keyUnidade;
+  usuarios = [];
   ref = firebase.database().ref('/unidade/');
   
   constructor(
@@ -59,6 +60,22 @@ export class ExcluirGalpaoPage {
     const loading = this.loadingCtrl.create({
       content: 'Excluindo...'
     });
+    const snapshotToArrayUsuarioKey = snapshot => {
+      let returnArray = [];
+      snapshot.forEach(element => {
+         let usuario = element.val();
+         usuario.key = element.key;
+        returnArray.push(usuario.key); 
+      });
+      return returnArray;
+    }
+    firebase.database().ref('/unidade/'+keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/').on('value', resp => { 
+      this.usuarios = snapshotToArrayUsuarioKey(resp);
+    })
+    for (var i = 0; i<this.usuarios.length; i++){
+      var keyUsuario = this.usuarios[i];
+      this.dbService.excluiIdentificacaoGalpaoUsuario(keyUsuario, keyGalpao);
+    }
     setTimeout( () => { this.dbService.excluiGalpao(keyUnidade, keyGalpao) }, 10000);
     loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
                       subTitle: 'Exclusão de Galpão',

@@ -12,8 +12,7 @@ import { CriarPastaPage } from '../criar-pasta/criar-pasta';
 export class ManterPosicaoPage {
 
 public keyGalpao = '';
-public nomePosicao = '';
-public keyPosicao = '';
+public posicao = '';
 
   constructor(
     public navCtrl: NavController, 
@@ -22,8 +21,7 @@ public keyPosicao = '';
     public modalCtrl: ModalController
     ) {
     this.keyGalpao = this.navParams.get('galpao');
-    this.keyPosicao = this.navParams.get('posicao');
-    this.nomePosicao = this.navParams.get('nomePosicao');
+    this.posicao = this.navParams.get('posicao');
   }
 
   ionViewDidLoad() {
@@ -33,7 +31,7 @@ public keyPosicao = '';
   criaPasta(){
     let posicaoModal = this.modalCtrl.create(CriarPastaPage, {
       keyGalpao: this.keyGalpao,
-      keyPosicao: this.keyPosicao
+      posicao: this.posicao
     });
     posicaoModal.present();
 
@@ -56,8 +54,7 @@ public keyPosicao = '';
   abreObs(){
     let posicaoModal = this.modalCtrl.create(ObservacaoPage, {
       keyGalpao: this.keyGalpao,
-      keyPosicao: this.keyPosicao,
-      nomePosicao: this.nomePosicao
+      posicao: this.posicao
     });
     posicaoModal.present();
 

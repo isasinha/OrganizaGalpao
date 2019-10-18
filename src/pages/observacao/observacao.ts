@@ -11,10 +11,11 @@ import * as firebase from 'firebase';
 export class ObservacaoPage {
 
 public keyGalpao = '';
-public keyPosicao = '';
+public posicao = '';
 public nomePosicao = '';
 public observacao = '';
 public observacaoBase = '';
+public observacaoBaseOutra = '';
 refArm = firebase.database().ref('/armazenamento');
 
   constructor(
@@ -24,19 +25,18 @@ refArm = firebase.database().ref('/armazenamento');
     public viewCtrl: ViewController
     ) {
     this.keyGalpao = this.navParams.get('keyGalpao');
-    this.keyPosicao = this.navParams.get('keyPosicao');
-    this.nomePosicao = this.navParams.get('nomeyPosicao');
+    this.posicao = this.navParams.get('posicao');
 
     this.observacaoBase = '';
     const snapshotToArrayUsuarioCPFGalpao = snapshot => {
       snapshot.forEach(element => {
         let obs = element.val();
-        // galpaoPosicao.key = element.key;
+        // obs.key = element.key;
         this.observacaoBase = obs;
       });
       return this.observacaoBase;
     }
-    this.refArm.child(this.keyGalpao+'/posicao/'+this.keyPosicao+'/observacao').on('value', resp => {
+    this.refArm.child(this.keyGalpao+'/posicao/'+this.posicao+'/').on('value', resp => {
       this.observacao = '';
       this.observacao = snapshotToArrayUsuarioCPFGalpao(resp);
     })
@@ -46,9 +46,8 @@ refArm = firebase.database().ref('/armazenamento');
     console.log('ionViewDidLoad ObservacaoPage');
   }
 
-  salvar(novaObservacao){
-    this.observacao = this.observacao + novaObservacao;
-    this.dbService.cadastraObservacao(this.keyGalpao, this.keyPosicao, this.observacao);
+  salvar(){
+    this.dbService.cadastraObservacao(this.keyGalpao, this.posicao, this.observacao);
     this.viewCtrl.dismiss();
   }
 

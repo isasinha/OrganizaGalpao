@@ -10,10 +10,10 @@
       <button ion-item *ngFor='let opcao of opcoes' (click)='opcaoEscolhida($event,opcao)'>
         {{opcao.posicao}}
       </button>
-    </ion-list>
+    </ion-list> 
     <ion-buttons class='acessos'>
       <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
-      <button class='fica' ion-button (click)="limparGalpao()">Excluir</button>
+      <button class='fica' ion-button (click)="limparGalpao()">Limpar Galpao</button>
     </ion-buttons>
   </div>
 </ion-content>

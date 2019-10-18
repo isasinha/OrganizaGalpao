@@ -18,7 +18,7 @@ export class GalpaoSelecionadoPage {
   public nomeGalpao: any = '';
   public nomeUnidade: any = '';
   opcaoSelecionada: any;
-  public opcoes: Array<{posicao: string, posicaoKey: any}>
+  public opcoes: Array<{posicao: string}>
   galpoesPosicoes = [];
   public posicoes: Array<any> = [];
   ref = firebase.database().ref('/armazenamento');
@@ -38,18 +38,17 @@ export class GalpaoSelecionadoPage {
       this.nomeUnidade = navParams.get('unidade');
   
       this.galpoesPosicoes = [];
-      const snapshotToArrayUsuarioCPFGalpao = snapshot => {
+      const snapshotToArrayPosicoes = snapshot => {
         snapshot.forEach(element => {
           let galpaoPosicao = element.val();
-          // galpaoPosicao.key = element.key;
-          this.galpoesPosicoes.push(galpaoPosicao);
-          this.galpoesPosicoes.push(element.key);
+          galpaoPosicao.key = element.key;
+          this.galpoesPosicoes.push(galpaoPosicao.key);
         });
         return this.galpoesPosicoes;
       }
       this.ref.child(this.keyGalpao+'/posicao/').on('value', resp => {
         this.posicoes = [];
-        this.posicoes = snapshotToArrayUsuarioCPFGalpao(resp);
+        this.posicoes = snapshotToArrayPosicoes(resp);
       })
   
   
@@ -57,19 +56,16 @@ export class GalpaoSelecionadoPage {
       var i = 0;
       this.opcoes = [];
       while (i < this.posicoes.length){
-        var j = i + 1;
         this.posicao = this.posicoes[i];
-        this.posicaoKey = this.posicoes[j];
-        this.opcoes.push({posicao: this.posicao, posicaoKey: this.posicaoKey})  
-        i = j+1;
+        this.opcoes.push({posicao: this.posicao})  
+        i = i+1;
       }
     }
   
   opcaoEscolhida(event, opcao){ 
     let posicaoModal = this.modalCtrl.create(ManterPosicaoPage, {
-      posicao: opcao.posicaoKey, 
       galpao: this.keyGalpao,
-      nomePosicao: opcao.posicao});
+      posicao: opcao.posicao});
     posicaoModal.present();
 
     posicaoModal.onDidDismiss(data => {  
