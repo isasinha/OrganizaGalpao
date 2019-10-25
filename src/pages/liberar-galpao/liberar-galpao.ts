@@ -4,10 +4,10 @@ import { HomeAdmPage } from '../home-adm/home-adm';
 
 @IonicPage()
 @Component({
-  selector: 'page-limpar-galpao',
-  templateUrl: 'limpar-galpao.html',
+  selector: 'page-liberar-galpao',
+  templateUrl: 'liberar-galpao.html',
 })
-export class LimparGalpaoPage {
+export class LiberarGalpaoPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }

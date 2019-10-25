@@ -26,7 +26,7 @@ export class FirebaseServiceProvider {
     profundidade = galpao.profundidade;
     altura = galpao.altura;
     largura = galpao.largura;
-
+    
     var profString = galpao.profundidade.toString();
     var profArray = profString.split('');
     var x = 0;
@@ -79,6 +79,7 @@ export class FirebaseServiceProvider {
     while(i < nomesGalpao.length){
       galpao.nomeGalpao = nomesGalpao[i];
       var keyGalpao = this.ref.child('/'+keyU+'/unidadesGalpao').push(galpao).key; 
+      this.refArm.child('/'+keyGalpao+'/').set({imagem: galpao.imagem});
       var posicao = '';
       for (var j = 0; j < profundidade; j++){
         posicao = (j+1).toString();
@@ -95,8 +96,7 @@ export class FirebaseServiceProvider {
         }
       }
       i = i + 1;
-    }
-   
+    }   
   }
 
   cadastraObservacao(keyGalpao: any, posicao: any, observacao: string){
@@ -105,9 +105,16 @@ export class FirebaseServiceProvider {
 
   
   cadastraPasta(keyGalpao: any, posicao: any, pasta: string, item: string){
-    this.refArm.child('/'+keyGalpao+'/posicao/'+posicao+'/'+pasta).set({item: item});
- }
+    this.refArm.child('/'+keyGalpao+'/posicao/'+posicao+'/'+pasta+'/itens').push({item: item});
+  }
 
+  cadastraItem(keyGalpao: any, posicao: any, pasta: string, item: string){
+    this.refArm.child('/'+keyGalpao+'/posicao/'+posicao+'/'+pasta+'/itens').push({item: item});
+  }
+
+  excluiItem(keyGalpao: any, posicao: any, pasta: string, itemKey: string){
+    this.refArm.child('/'+keyGalpao+'/posicao/'+posicao+'/'+pasta+'/itens/'+itemKey).remove();
+  }
 
   cadastraUsuario(usuario:Usuario, usuarioGalpao?:string, keyGalpao?: any){
      let keyUsuario = this.db.list('usuario').push(usuario).key;

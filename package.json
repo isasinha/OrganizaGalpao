@@ -22,16 +22,22 @@
     "@angular/http": "5.2.11",
     "@angular/platform-browser": "5.2.11",
     "@angular/platform-browser-dynamic": "5.2.11",
+    "@ionic-native/base64": "^4.20.0",
+    "@ionic-native/camera": "^4.20.0",
     "@ionic-native/core": "~4.20.0",
     "@ionic-native/firebase": "^5.12.0",
     "@ionic-native/firebase-authentication": "^5.12.0",
+    "@ionic-native/image-picker": "^4.20.0",
     "@ionic-native/splash-screen": "~4.20.0",
     "@ionic-native/status-bar": "~4.20.0",
     "@ionic/storage": "2.2.0",
     "@sendgrid/mail": "^6.4.0",
     "@types/axios": "^0.14.0",
     "axios": "^0.19.0",
-    "cordova-android": "8.0.0",
+    "com-badrit-base64": "0.2.0",
+    "cordova-android": "8.1.0",
+    "cordova-plugin-camera": "4.1.0",
+    "cordova-plugin-telerik-imagepicker": "2.3.3",
     "firebase": "^6.3.5",
     "ionic-angular": "3.9.5",
     "ionicons": "3.0.0",
@@ -59,7 +65,12 @@
       "cordova-plugin-ionic-webview": {
         "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
       },
-      "cordova-plugin-ionic-keyboard": {}
+      "cordova-plugin-ionic-keyboard": {},
+      "cordova-plugin-telerik-imagepicker": {
+        "PHOTO_LIBRARY_USAGE_DESCRIPTION": "your usage message"
+      },
+      "com-badrit-base64": {},
+      "cordova-plugin-camera": {}
     },
     "platforms": [
       "android"

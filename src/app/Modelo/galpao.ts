@@ -1,14 +1,17 @@
+import { Usuario } from "./usuario";
+
 export interface Galpao{
     nomeGalpao: string;
     largura: number;
     altura: number;
     profundidade: number;
     imagem?: any;
+    usuarios?: Usuario[]
 }
 
 export interface Unidade{
     nomeUnidade: string;
-    unidadesGalpao?: Galpao;
+    unidadesGalpao?: Galpao[];
     endereco?: string;
     telefone?: string;
 }
@@ -81,6 +84,16 @@ export const snapshotToArrayUsuario = snapshot => {
        let usuario = element.val();
        usuario.key = element.key;
       returnArray.push(usuario); 
+    });
+    return returnArray;
+}
+
+export const snapshotToArrayItens = snapshot => {
+    let returnArray = [];
+    snapshot.forEach(element => {
+        let item = element.val();
+        item.key = element.key;
+        returnArray.push(item); 
     });
     return returnArray;
 }

@@ -5,6 +5,9 @@ import { Galpao, Unidade, snapshotToArrayUnidade } from '../../app/Modelo/galpao
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
 import { AngularFireDatabase } from '@angular/fire/database';
 import * as firebase from 'firebase';
+// import { ImagePicker } from '@ionic-native/image-picker';
+import { Base64 } from '@ionic-native/base64';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 
 @IonicPage()
 @Component({
@@ -33,6 +36,7 @@ export class CadastroGalpaoPage {
   galpoes = [];
   nomeGalpao;
   nomesGalpao = [];
+  exemploImg =  'assets/imgs/exemploImg.jpg';
 
   constructor(
     public navCtrl: NavController, 
@@ -40,7 +44,10 @@ export class CadastroGalpaoPage {
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     public dbService: FirebaseServiceProvider,
-    public db: AngularFireDatabase
+    public db: AngularFireDatabase,
+    // private imagePicker: ImagePicker,
+    private base64: Base64,
+    private camera: Camera
     ) {
       if(navParams.get('unidadeKey') == '')
         this.keyU = null;
@@ -65,6 +72,17 @@ export class CadastroGalpaoPage {
 
 
   addGalpao(nomesGalpao: any, galpao: Galpao, novaKey: any){
+    if(this.galpao.imagem == null){
+      // this.galpao.imagem = 'data:image/jpeg;base64,' + this.exemploImg; 
+        
+      let filePath: string = 'file:assets/imgs/exemploImg.jpg';
+      this.base64.encodeFile(filePath).then((data: string) => {
+        this.galpao.imagem = data;
+        console.log(data);
+      }, (err) => {
+        console.log(err);
+      });
+    }
     this.dbService.cadastraGalpao(novaKey, galpao, nomesGalpao);
     this.exibeAlerta();
   }
@@ -97,6 +115,26 @@ export class CadastroGalpaoPage {
       buttons: ['Ok']});
     alert.present();})
   }
+
+  tirarFoto(){
+    const options: CameraOptions = {
+      quality: 70,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      saveToPhotoAlbum: false,
+      allowEdit: true,
+      targetWidth: 700,
+      targetHeight: 700
+    }
+
+    this.camera.getPicture(options).then((imageData) => {
+      this.galpao.imagem = 'data:image/jpeg;base64,' + imageData; 
+      this.exemploImg = this.galpao.imagem;
+    }, (err) => {
+      //erro aqui
+    });
+  }
+
 
   voltar(){
     this.navCtrl.setRoot(HomeAdmPage)

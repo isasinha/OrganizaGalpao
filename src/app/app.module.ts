@@ -8,6 +8,9 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { HttpModule } from '@angular/http';
+import { ImagePicker } from '@ionic-native/image-picker';
+import { Base64 } from '@ionic-native/base64';
+import { Camera } from '@ionic-native/camera'
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -20,7 +23,7 @@ import { ExcluirGalpaoPage } from '../pages/excluir-galpao/excluir-galpao';
 import { ExcluirUnidadePage } from '../pages/excluir-unidade/excluir-unidade';
 import { ExcluirUsuarioPage } from '../pages/excluir-usuario/excluir-usuario';
 import { ExcluirAdminPage } from '../pages/excluir-admin/excluir-admin';
-import { LimparGalpaoPage } from '../pages/limpar-galpao/limpar-galpao';
+import { LiberarGalpaoPage } from '../pages/liberar-galpao/liberar-galpao';
 import { FirebaseServiceProvider } from '../providers/firebase-service/firebase-service';
 import { HomeAdmPageModule } from '../pages/home-adm/home-adm.module';
 // import { LoginPage } from '../pages/login/login';
@@ -74,7 +77,7 @@ const firebaseConfig = {
     ExcluirUnidadePage,
     ExcluirUsuarioPage,
     ExcluirAdminPage,
-    LimparGalpaoPage,
+    LiberarGalpaoPage,
     ContatoPage,
     UnidadesPage,
     GalpoesPage,
@@ -120,7 +123,7 @@ const firebaseConfig = {
     ExcluirUnidadePage,
     ExcluirUsuarioPage,
     ExcluirAdminPage,
-    LimparGalpaoPage,
+    LiberarGalpaoPage,
     ContatoPage,
     UnidadesPage,
     GalpoesPage,
@@ -144,7 +147,10 @@ const firebaseConfig = {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthService,
     AngularFireDatabase,
-    FirebaseServiceProvider
+    FirebaseServiceProvider,
+    ImagePicker,
+    Base64,
+    Camera
   ]
 })
 export class AppModule {}
