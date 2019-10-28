@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, AlertController, LoadingController } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import * as firebase from 'firebase';
 import { ManterPosicaoPage } from '../manter-posicao/manter-posicao';
+import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
+import { AngularFireDatabase } from '@angular/fire/database';
 
 @IonicPage()
 @Component({
@@ -22,13 +24,18 @@ export class GalpaoSelecionadoPage {
   galpoesPosicoes = [];
   public posicoes: Array<any> = [];
   ref = firebase.database().ref('/armazenamento');
+  refUni = firebase.database().ref('/unidade');
   public posicao = '';
   public posicaoKey = '';
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    private loadingCtrl: LoadingController,
+    private alertCtrl: AlertController,
+    public dbService: FirebaseServiceProvider,
+    public db: AngularFireDatabase
     ) {
       this.keyGalpao = navParams.get('keyGalpao');
       this.nomeUsuario = navParams.get('nome');
@@ -77,7 +84,72 @@ export class GalpaoSelecionadoPage {
 
   }
 
-  voltar(){    //definir
+  liberarGalpao(){
+    const alert = this.alertCtrl.create({
+      subTitle: 'Deseja liberar este galpão?',
+      message: 'Atenção, todos os itens cadastrados serão excluidos. Essa ação não pode ser desfeita!',
+      buttons: [{
+      text: 'Não',
+      handler: () => {}
+      },
+      {
+      text: 'Sim',
+      handler: () => {this.liberarGalpaoUser();}
+      }]});
+    alert.present()
+  }
+  
+  liberarGalpaoUser(){
+    const loading = this.loadingCtrl.create({
+      content: 'Logando...'
+    });
+    loading.present();
+    this.db.object('/armazenamento/'+this.keyGalpao).remove();
+    const snapshotToArrayUnidadeKey = snapshot => {
+      let returnArray = [];
+      let unidadeKey = '';
+      snapshot.forEach(element => {
+        let unidade = element.val();
+        unidade.key = element.key;
+        unidadeKey = unidade.key;
+  
+        const snapshotToArrayGalpao = snapshot => {
+          let outroArray = [];
+          snapshot.forEach(element => {
+             let galpao = element.val();
+             galpao.key = element.key;
+             if(galpao.key == this.keyGalpao){
+              outroArray.push(galpao); 
+              this.dbService.cadastraGalpaoLiberar(galpao, this.keyGalpao);
+             }
+          });
+          return outroArray;
+        }
+        this.refUni.child(unidadeKey+'/unidadesGalpao/').on('value', resp => {
+          this.posicoes = [];
+          this.posicoes = snapshotToArrayGalpao(resp);
+        })
+  
+      });
+      return returnArray;
+    }
+  
+    this.refUni.on('value', resp => {
+      this.posicoes = [];
+      this.posicoes = snapshotToArrayUnidadeKey(resp);
+    })
+    loading.dismiss(); 
+    const alert = this.alertCtrl.create({
+      subTitle: 'Galpão liberado com sucesso!',
+      buttons: [{
+      text: 'Ok',
+      handler: () => {this.voltar();}
+      }]});
+    alert.present()
+  }
+  
+
+  voltar(){
     this.navCtrl.setRoot(HomePage, {
       key: this.keyUsuario,
       nome: this.nomeUsuario,

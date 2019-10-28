@@ -113,6 +113,22 @@ ref = firebase.database().ref('/armazenamento/');
       }]});
     alert.present()
   }
+
+  apagaPasta(pastaKey: any){
+    const alert = this.alertCtrl.create({
+      subTitle: 'Deseja excluir essa pasta?',
+      message: 'Todos os itens cadastrados nesta pasta também serão excluídos.',
+      buttons: [{
+        text: 'Não',
+        handler: () => {}
+      },
+      {
+        text: 'Sim',
+        handler: () => {this.dbService.excluiPasta(this.keyGalpao, this.posicao, pastaKey);}
+      }]});
+    alert.present()
+  }
+  
   
   voltar() {
     this.viewCtrl.dismiss();

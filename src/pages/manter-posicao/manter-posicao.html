@@ -13,7 +13,7 @@
       </div>
       <ion-list>
         <ion-item class="option" *ngFor='let pasta of pastas'>
-          <p class="texto3">{{pasta.key}}</p>
+          <p class="texto3" (click)='apagaPasta(pasta.key)'>{{pasta.key}}</p>
           <ion-list>
             <ion-icon name='add' (click)='addItem(pasta.key)'></ion-icon>
             <ion-item class="option" *ngFor='let item of pasta.itens'>

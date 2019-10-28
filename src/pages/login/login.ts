@@ -102,12 +102,13 @@ export class LoginPage {
             loading.dismiss();
             if(this.usuarioTipo == 'Administrador')
               this.navCtrl.push(HomeAdmPage)
-            else
+            else{
               this.navCtrl.push(HomePage, {
                 key: this.usuarioKey,
                 nome: this.usuarioNome,
                 cpf: usuario.cpf
               })
+            }  
           }  
         }else{
           loading.dismiss(); 

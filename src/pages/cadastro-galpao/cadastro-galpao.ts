@@ -83,12 +83,12 @@ export class CadastroGalpaoPage {
         console.log(err);
       });
     }
-    this.dbService.cadastraGalpao(novaKey, galpao, nomesGalpao);
+    this.dbService.cadastraGalpaoInicial(galpao, nomesGalpao, novaKey);
     this.exibeAlerta();
   }
 
   addGalpaoUni(nomesGalpao:any, galpao: Galpao){
-    this.dbService.cadastraGalpao(this.keyU, galpao, nomesGalpao);
+    this.dbService.cadastraGalpaoInicial(galpao, nomesGalpao, this.keyU);
     this.exibeAlerta();
   }
 
