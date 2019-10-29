@@ -70,7 +70,9 @@
         "PHOTO_LIBRARY_USAGE_DESCRIPTION": "your usage message"
       },
       "com-badrit-base64": {},
-      "cordova-plugin-camera": {}
+      "cordova-plugin-camera": {
+        "ANDROID_SUPPORT_V4_VERSION": "27.+"
+      }
     },
     "platforms": [
       "android"
