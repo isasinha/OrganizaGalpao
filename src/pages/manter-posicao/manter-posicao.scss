@@ -2,19 +2,96 @@ page-manter-posicao {
 
     .texto3{
         font-weight: 600;
-        font-size: 120%;
+        font-size: 120%;        
+
+        .item-left{
+            padding-left: 0;
+            display: inline-flex;
+            float: left;
+            padding-inline-start: 0px;
+        }
     }
 
-    .parent {
-      display: flex;
-      flex-direction: column;
+    .linha{
+        display: inline;
+    }
+
+    .esq{
+        margin-left: 0;
+        padding-left: 0;
+        border-left: 0;
+    }
+
+    .item-left{
+        padding-left: 0;
+        display: inline-flex;
+        float: left;
+        padding-inline-start: 0px;
     }
     
-    .item {
-        margin-right: 16px;
-        padding-right: 16px;
-        border-right: 16px;
+    
+    .item-top {
+        // margin-right: 10px;
+        padding-left: 10px;
+        // border-right: 10px;
+        // margin-inline-end: 16px;
+        padding-inline-end: 0px;
+        // border-inline-end: 16px;
+        
+        display: inline-flex;
+        float: right;
+        // align-content: flex-end;
+        // align-self: flex-end;
+        // align-items: flex-end;
+        // justify-content: flex-end;
+        // justify-items: flex-end;
+        // justify-self: flex-end;
+
+        // align-content: self-end;
+        // align-self: self-end;
+        // align-items: self-end;
+        // justify-content: self-end;
+        // justify-items: self-end;
+        // justify-self: self-end;
+        
+        // align-content: end;
+        // align-self: end;
+        // align-items: end;
+        // justify-content: end;
+        // justify-items: end;
+        // justify-self: end;
+        
+        // align-content: right;
+        // align-self: right;
+        // align-items: right;
+        // justify-content: right;
+        // justify-items: right;
+        // justify-self: right;
+
+        // .esq{
+        //     margin-left: 0;
+        //     padding-left: 0;
+        //     border-left: 0;
+        // }
+    }
+
+    
+    .item{
+        // margin-right: 10px;
+        // padding-right: 10px;
+        // border-right: 10px;
+        margin-left: 16px;
+        padding-left: 16px;
+        border-left: 16px;
         align-self: flex-end;
+        display: flex;
+        justify-content: flex-end;
+
+        .esq{
+            margin-left: 0;
+            padding-left: 0;
+            border-left: 0;
+        }
     }
 
     .item-self {

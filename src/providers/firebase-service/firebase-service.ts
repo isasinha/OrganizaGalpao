@@ -92,12 +92,12 @@ export class FirebaseServiceProvider {
       var posicao = '';
       for (var j = 0; j < this.profundidade; j++){
         posicao = (j+1).toString();
-        var posicaoProfundidade = posicao;
+        var posicaoProfundidade = 'P' + posicao + '-';
         for (var k = 0; k < this.altura; k++){
-          posicao = posicaoProfundidade + (k+1).toString();
+          posicao = posicaoProfundidade + 'A' + (k+1).toString() + '-';
           var posicaoAltura = posicao;
           for (var l = 0; l < this.largura; l++){
-            posicao = posicaoAltura + (l+1).toString();
+            posicao = posicaoAltura + 'L' + (l+1).toString();
             this.refArm.child('/'+keyGalpao+'/posicao/'+ posicao).set({observacao: ""});
             // this.refArm.child('/'+keyGalpao+'/posicao').push(posicao);
             posicao = '';
@@ -119,12 +119,12 @@ export class FirebaseServiceProvider {
       var posicao = '';
       for (var j = 0; j < this.profundidade; j++){
         posicao = (j+1).toString();
-        var posicaoProfundidade = posicao;
+        var posicaoProfundidade = 'P' + posicao + '-';
         for (var k = 0; k < this.altura; k++){
-          posicao = posicaoProfundidade + (k+1).toString();
+          posicao = posicaoProfundidade + 'A' + (k+1).toString() + '-';
           var posicaoAltura = posicao;
           for (var l = 0; l < this.largura; l++){
-            posicao = posicaoAltura + (l+1).toString();
+            posicao = posicaoAltura + 'L' + (l+1).toString();
             this.refArm.child('/'+keyGalpao+'/posicao/'+ posicao).set({observacao: ""});
             // this.refArm.child('/'+keyGalpao+'/posicao').push(posicao);
             posicao = '';

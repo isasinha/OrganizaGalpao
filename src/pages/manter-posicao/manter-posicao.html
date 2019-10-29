@@ -4,29 +4,29 @@
 <ion-content padding>
   <br>  
   <div class='container' style='display: inline'>
-    <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon>
-    <div  class="parent">
-      <h3 class="item item-self">Posição {{posicao}}</h3>
-      <div class="item"> 
-        <ion-icon class="item" name='document' (click)='abreObs()'></ion-icon>
-        <ion-icon name='add' (click)='criaPasta()'></ion-icon>
-      </div>
-      <ion-list>
-        <ion-item class="option" *ngFor='let pasta of pastas'>
-          <p class="texto3" (click)='apagaPasta(pasta.key)'>{{pasta.key}}</p>
-          <ion-list>
-            <ion-icon name='add' (click)='addItem(pasta.key)'></ion-icon>
-            <ion-item class="option" *ngFor='let item of pasta.itens'>
-              <p (click)='apagaItem(item.key, pasta.key)'>{{item.item}}</p>
-            </ion-item>
-          </ion-list>
-        </ion-item>
-      </ion-list>
-    </div>
-    <pre></pre>
-    <ion-buttons class='acessos'>
-      <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
-      <pre></pre>
-    </ion-buttons>
+   <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon>
+    <ion-list>
+      <h3 class='linha'>
+        <h3 class='item-left'>Posição {{posicao}}</h3>
+        <ion-icon end class="item-top" name='document' (click)='abreObs()'></ion-icon>
+        <ion-icon end class="item-top" name='add' (click)='criaPasta()'></ion-icon>
+      </h3>
+    </ion-list>
+    <ion-list class='esq'>
+      <ion-item class="option" *ngFor='let pasta of pastas'>
+        <p class="texto3 item-left" (click)='apagaPasta(pasta.key)'>{{pasta.key}}</p>
+        <ion-icon end class='item-top' name='add' (click)='addItem(pasta.key)'></ion-icon>
+        <ion-list>
+          <ion-item class="option esq" *ngFor='let item of pasta.itens'>
+            <p (click)='apagaItem(item.key, pasta.key)'>{{item.item}}</p>
+          </ion-item>
+        </ion-list>
+      </ion-item>
+    </ion-list>
   </div>
+  <pre></pre>
+  <ion-buttons class='acessos'>
+    <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
+    <pre></pre>
+  </ion-buttons>
 </ion-content>
