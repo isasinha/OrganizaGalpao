@@ -27,6 +27,10 @@ export class GalpaoSelecionadoPage {
   refUni = firebase.database().ref('/unidade');
   public posicao = '';
   public posicaoKey = '';
+  public busca = '';
+  jsonData: any = [];
+  searchTerm : any="";
+
 
   constructor(
     public navCtrl: NavController, 
@@ -67,8 +71,71 @@ export class GalpaoSelecionadoPage {
         this.opcoes.push({posicao: this.posicao})  
         i = i+1;
       }
+
+      this.ref.child(this.keyGalpao+'/posicao/').on('value', snapshot => {
+        let buscaPosicaoKey = '';
+        let buscaPastaKey = '';
+        let buscaItemKey = '';
+        let itemMesmo = '';
+        let dado = {};
+        let j = 0;
+        snapshot.forEach(element => {
+          let galpaoPosicao = element.val();
+          buscaPosicaoKey = element.key;
+
+          galpaoPosicao.key = element.key;   
+
+          this.ref.child(this.keyGalpao+'/posicao/'+buscaPosicaoKey).on('value', snapshot => {
+            snapshot.forEach(element => {
+              let galpaoPasta = element.val();
+              buscaPastaKey = element.key;
+              if(buscaPastaKey != 'observacao'){ 
+                galpaoPasta.key = element.key;
+
+                this.ref.child(this.keyGalpao+'/posicao/'+buscaPosicaoKey+'/'+buscaPastaKey+'/itens/').on('value', snapshot => {
+                  snapshot.forEach(element => {
+                    let galpaoItem = element.val();
+                    galpaoItem.key = element.key;
+                    buscaItemKey = element.key;
+
+                    this.ref.child(this.keyGalpao+'/posicao/'+buscaPosicaoKey+'/'+buscaPastaKey+'/itens/'+buscaItemKey).on('value', snapshot => {
+                      snapshot.forEach(element => {
+                        let galpaoItemItem = element.val();
+                        // galpaoItemItem.key = element.key;
+                        itemMesmo = galpaoItemItem;
+                        
+                        dado = {Posicao: buscaPosicaoKey, Pasta: buscaPastaKey, Item: itemMesmo}
+                        this.jsonData[j]=dado
+                        j++;
+                      });
+                    })
+        
+                  });
+                })
+              }
+            });
+          })
+        });
+      })
+
     }
   
+    filterItems(searchTerm){
+ 
+      return this.jsonData.filter((item) => {
+           return item.Item.toLowerCase().includes(searchTerm.toLowerCase());
+       });  
+
+   }
+
+   setFilteredItems() {
+ 
+    this.jsonData = this.filterItems(this.searchTerm);
+
+  }
+
+
+
   opcaoEscolhida(event, opcao){ 
     let posicaoModal = this.modalCtrl.create(ManterPosicaoPage, {
       galpao: this.keyGalpao,

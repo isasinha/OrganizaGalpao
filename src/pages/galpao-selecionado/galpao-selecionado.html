@@ -6,7 +6,20 @@
   <div class='container'>
     <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon>
     <h5 style="text-align:center">Galpão {{nomeGalpao}} - Unidade {{nomeUnidade}}</h5>
-    <ion-list>
+    <p class='texto4'>P = Profundidade &emsp; A = Altura &emsp; L = Largura</p>
+    <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="setFilteredItems()" placeholder='Busca item cadastrado'></ion-searchbar>
+   
+    <ion-list *ngIf='searchTerm'>
+      <ion-item *ngFor="let data of jsonData">
+        Item:{{data.Item}} (Pasta: {{data.Pasta}}, Posição: {{data.Posicao}})
+      </ion-item>
+    </ion-list>
+   
+   
+   
+   
+   
+    <ion-list *ngIf='!searchTerm'>
       <button ion-item *ngFor='let opcao of opcoes' (click)='opcaoEscolhida($event,opcao)'>
         {{opcao.posicao}}
       </button>
