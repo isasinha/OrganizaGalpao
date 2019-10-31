@@ -80,6 +80,34 @@ export class AlterarAdminPage {
                     alert.present();});
   }
 
+//*****************************Descomentar para alterar a função já existente ***********************************/
+//
+//||  alteraUsuario(usuario: Usuario){
+//||    const loading = this.loadingCtrl.create({
+//||      content: 'Alterando...'
+//||    });
+//||    loading.present();
+//||    this.dbService.editaUsuario(this.usuarioKey, usuario).subscribe(
+//||      () => {
+//||      loading.dismiss();
+//||      const alert = this.alertCtrl.create({
+//||        subTitle: 'Alteração de Usuário',
+//||        message: 'Usuário alterado com sucesso!',
+//||        buttons: ['Ok']});
+//||      alert.present().then(r => this.navCtrl.setRoot('HomeAdmPage'))
+//||      }, 
+//||      (error) =>{
+//||        loading.dismiss(); 
+//||        const alert = this.alertCtrl.create({
+//||          subTitle: 'Alteração de usuário falhou',
+//||          message: error.message,
+//||          buttons: ['Ok']});
+//||        alert.present();
+//||      }
+//||    );
+//||  }
+
+
   voltar(){
     this.navCtrl.setRoot(HomeAdmPage)
   }

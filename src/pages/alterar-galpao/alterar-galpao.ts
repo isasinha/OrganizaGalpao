@@ -5,6 +5,7 @@ import { Galpao, Unidade, snapshotToArrayUnidade, snapshotToArrayGalpao } from '
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
 import { AngularFireDatabase } from '@angular/fire/database';
 import * as firebase from 'firebase';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 
 @IonicPage()
 @Component({
@@ -32,7 +33,9 @@ export class AlterarGalpaoPage {
   galpaoSelecionado = [];
   keyGalpao;
   keyUnidade;
+  imagem;
   ref = firebase.database().ref('/unidade/');
+  exemploImg =  'assets/imgs/exemploImg.jpg';
   
   constructor(
     public navCtrl: NavController, 
@@ -40,7 +43,8 @@ export class AlterarGalpaoPage {
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     public dbService: FirebaseServiceProvider,
-    public db: AngularFireDatabase
+    public db: AngularFireDatabase,
+    private camera: Camera
     ) {
       
   }
@@ -80,6 +84,9 @@ export class AlterarGalpaoPage {
     const loading = this.loadingCtrl.create({
       content: 'Alterando...'
     });
+    if(this.imagem){
+      galpao.imagem = this.imagem;
+    }
     setTimeout( () => { this.dbService.editaGalpao(keyUnidade, keyGalpao, galpao) }, 10000);
     loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
                       subTitle: 'Alteração de Galpão',
@@ -91,6 +98,25 @@ export class AlterarGalpaoPage {
                       message: error.message,
                       buttons: ['Ok']});
                     alert.present();});
+  }
+
+  tirarFoto(){
+    const options: CameraOptions = {
+      quality: 70,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      saveToPhotoAlbum: false,
+      allowEdit: true,
+      targetWidth: 700,
+      targetHeight: 700
+    }
+
+    this.camera.getPicture(options).then((imageData) => {
+      this.galpao.imagem = 'data:image/jpeg;base64,' + imageData; 
+      this.imagem = this.galpao.imagem;
+    }, (err) => {
+      //erro aqui
+    });
   }
 
   voltar(){

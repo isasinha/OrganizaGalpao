@@ -48,6 +48,8 @@ import { ManterPosicaoPage } from '../pages/manter-posicao/manter-posicao';
 import { AddItemPage } from '../pages/add-item/add-item';
 import { CriarPastaPage } from '../pages/criar-pasta/criar-pasta';
 import { ObservacaoPage } from '../pages/observacao/observacao';
+import { PosicoesPage } from '../pages/posicoes/posicoes';
+import { ImageResizer } from '@ionic-native/image-resizer/ngx';
 
 
 const firebaseConfig = {
@@ -91,6 +93,7 @@ const firebaseConfig = {
     OpcaoGestaoAdminPage,
     GalpaoSelecionadoPage,
     ManterPosicaoPage,
+    PosicoesPage,
     AddItemPage,
     CriarPastaPage,
     ObservacaoPage
@@ -137,6 +140,7 @@ const firebaseConfig = {
     OpcaoGestaoAdminPage,
     GalpaoSelecionadoPage,
     ManterPosicaoPage,
+    PosicoesPage,
     AddItemPage,
     CriarPastaPage,
     ObservacaoPage
@@ -150,7 +154,8 @@ const firebaseConfig = {
     FirebaseServiceProvider,
     ImagePicker,
     Base64,
-    Camera
+    Camera,
+    ImageResizer
   ]
 })
 export class AppModule {}

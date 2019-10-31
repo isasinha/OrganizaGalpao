@@ -34,7 +34,7 @@ export class FirebaseServiceProvider {
     var profArray = profString.split('');
     var x = 0;
     while (x < profArray.length){
-      if (profArray[x] == ',')
+      if (profArray[x] == '.' || profArray[x] == ',' )
         var profEhDecimal = true;
       x++;
     }
@@ -50,7 +50,7 @@ export class FirebaseServiceProvider {
     var altArray = altString.split('')
     var w = 0;
     while (w < altArray.length){
-      if (altArray[w] == ',')
+      if (altArray[w] == '.' || altArray[w] == ',')
         var altEhDecimal = true;
       w++;
     }
@@ -66,7 +66,7 @@ export class FirebaseServiceProvider {
     var largArray = largString.split('')
     var z = 0;
     while (z < largArray.length){
-      if (largArray[z] == ',')
+      if (largArray[z] == '.' || largArray[z] == ',')
         var largEhDecimal = true;
       z++;
     }
@@ -77,6 +77,14 @@ export class FirebaseServiceProvider {
         this.largura = this.largura + 1;
       }
     }
+
+    var medidas = [];
+    medidas.push(this.profundidade);
+    medidas.push(this.altura);
+    medidas.push(this.largura);
+
+    return medidas;
+
   }
 
   cadastraGalpaoInicial(galpao:Galpao, nomesGalpao: any, keyU: any){
@@ -169,6 +177,27 @@ export class FirebaseServiceProvider {
   }
 
   excluiUnidade(keyUnidade: any){
+    this.ref.child('/'+keyUnidade+'/unidadesGalpao/').on('value', snapshot => {
+      var keyGalpao = '';
+      var usuarios = [];
+      snapshot.forEach(element => {
+        let galpao = element.val();
+        galpao.key = element.key;
+        keyGalpao = element.key;
+        firebase.database().ref('/unidade/'+keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/').on('value', snapshot => { 
+          snapshot.forEach(element => {
+            let usuario = element.val();
+            usuario.key = element.key;
+            usuarios.push(usuario.key); 
+          });
+        })
+        for (var i = 0; i<usuarios.length; i++){
+          var keyUsuario = usuarios[i];
+          this.excluiIdentificacaoGalpaoUsuario(keyUsuario, keyGalpao);
+        }
+        this.excluiGalpao(keyUnidade, keyGalpao);
+      })
+    });
     this.db.object('/unidade/'+keyUnidade).remove();
   }
 
@@ -182,6 +211,26 @@ export class FirebaseServiceProvider {
 
   excluiGalpaoUsuario(keyUnidade: any, keyGalpao: any, keyUsuario: any){
     this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/'+keyUsuario).remove();
+  }
+
+  excluiIdentificacaoGalpaoUsuario(keyUsuario: any, identiKey: any){
+    this.refUser.child('/'+keyUsuario+'/Galpao/'+identiKey).remove();
+    const snapshotToArrayUsuarioKey = snapshot => {
+      let returnArray = [];
+      snapshot.forEach(element => {
+         let galpao = element.val();
+         galpao.key = element.key;
+        returnArray.push(galpao.key); 
+      });
+      return returnArray;
+    }
+    this.refUser.child('/'+keyUsuario+'/Galpao/').on('value', resp => { 
+      let galpoes = [];
+      galpoes = snapshotToArrayUsuarioKey(resp);
+      if (galpoes.length == 0){
+        this.excluiUsuario(keyUsuario);
+      }
+    })
   }
 
   listaUnidade(){
@@ -208,6 +257,11 @@ export class FirebaseServiceProvider {
     if(galpao.profundidade != null){
       this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).update({
         profundidade: galpao.profundidade
+      })
+    }
+    if(galpao.imagem != null){
+      this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).update({
+        imagem: galpao.imagem
       })
     }
   }
@@ -288,24 +342,37 @@ export class FirebaseServiceProvider {
     }
   }
 
-  excluiIdentificacaoGalpaoUsuario(keyUsuario: any, identiKey: any){
-    this.refUser.child('/'+keyUsuario+'/Galpao/'+identiKey).remove();
-    const snapshotToArrayUsuarioKey = snapshot => {
-      let returnArray = [];
-      snapshot.forEach(element => {
-         let galpao = element.val();
-         galpao.key = element.key;
-        returnArray.push(galpao.key); 
-      });
-      return returnArray;
-    }
-    this.refUser.child('/'+keyUsuario+'/Galpao/').on('value', resp => { 
-      let galpoes = [];
-      galpoes = snapshotToArrayUsuarioKey(resp);
-      if (galpoes.length == 0){
-        this.excluiUsuario(keyUsuario);
-      }
-    })
-  }
+
+  //*****************************Descomentar para alterar a função já existente ***********************************/
+  //
+  //||editaUsuario(keyUsuario: any, usuario: any, usuarioGalpao?: string, keyGalpao?:any): Observable <any>{
+//||
+  //||  if(usuarioGalpao != null){
+  //||    this.insereUsuarioGalpao(usuarioGalpao, keyUsuario, keyGalpao).subscribe();
+  //||  }
+  //||
+  //||  // (this.refUser.child("/" + keyUsuario).on('value', resp => {
+  //||  //   (resp);
+  //||  // })as Observable<any>
+  //||  return Observable.of(this.refUser.child("/" + keyUsuario).on('value', resp => {
+  //||    (snapshot) => { 
+  //||    snapshot.forEach (element => {
+  //||      let usuarioExistente = element.val();
+  //||      usuarioExistente.key = element.key;
+  //||      this.refUser.child ('/' + keyUsuario).update ({
+  //||      nome : usuario.nome != null ? usuario.nome : usuarioExistente.nome,
+  //||      sobrenome : usuario.sobrenome != null ? usuario.sobrenome :usuarioExistente.sobrenome,
+  //||      cpf: usuario.cpf != null ? usuario.cpf : usuarioExistente.cpf,
+  //||      email: usuario.email != null ? usuario.email : usuarioExistente.email,
+  //||      senha : usuario.senha != null ? usuario.senha : usuarioExistente.senha
+  //||      });
+  //||    });
+  //||    }
+  //||  }))as Observable<any>
+  //||}
+  //||
+  //||insereUsuarioGalpao(usuarioGalpao: any, keyUsuario: any, keyGalpao: any): Observable<any>{
+  //||  return Observable.of(this.refUser.child('/'+keyUsuario+'/Galpao/'+keyGalpao).set(usuarioGalpao)) as Observable<any>;
+  //||}
 
 }

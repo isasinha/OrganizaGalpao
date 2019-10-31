@@ -5,8 +5,6 @@ import { Galpao, Unidade, snapshotToArrayUnidade } from '../../app/Modelo/galpao
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
 import { AngularFireDatabase } from '@angular/fire/database';
 import * as firebase from 'firebase';
-// import { ImagePicker } from '@ionic-native/image-picker';
-import { Base64 } from '@ionic-native/base64';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 
 @IonicPage()
@@ -45,8 +43,6 @@ export class CadastroGalpaoPage {
     private alertCtrl: AlertController,
     public dbService: FirebaseServiceProvider,
     public db: AngularFireDatabase,
-    // private imagePicker: ImagePicker,
-    private base64: Base64,
     private camera: Camera
     ) {
       if(navParams.get('unidadeKey') == '')
@@ -72,17 +68,6 @@ export class CadastroGalpaoPage {
 
 
   addGalpao(nomesGalpao: any, galpao: Galpao, novaKey: any){
-    if(this.galpao.imagem == null){
-      // this.galpao.imagem = 'data:image/jpeg;base64,' + this.exemploImg; 
-        
-      let filePath: string = 'file:assets/imgs/exemploImg.jpg';
-      this.base64.encodeFile(filePath).then((data: string) => {
-        this.galpao.imagem = data;
-        console.log(data);
-      }, (err) => {
-        console.log(err);
-      });
-    }
     this.dbService.cadastraGalpaoInicial(galpao, nomesGalpao, novaKey);
     this.exibeAlerta();
   }

@@ -1,0 +1,138 @@
+<ion-header>
+</ion-header> 
+
+<ion-content padding>
+  <br>  
+  <div class='container'>
+    <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon>
+    <h5 style="text-align:center">Galpão {{nomeGalpao}} - Unidade {{nomeUnidade}}</h5>
+    <p class='texto4'>P = Profundidade &emsp; A = Altura &emsp; L = Largura</p>
+    <ion-list>
+      <button ion-item *ngFor='let opcao of opcoes' (click)='opcaoEscolhida($event,opcao)'>
+        {{opcao.posicao}}
+      </button>
+    </ion-list> 
+    <ion-buttons class='acessos'>
+      <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
+      <button class='fica' ion-button (click)="liberarGalpao()">Liberar Galpao</button>
+    </ion-buttons>
+  </div>
+</ion-content>
+<!-- 
+<ion-header>
+  </ion-header> 
+  
+  <ion-content padding class="card-background-page">
+    <br>  
+    <div class='container'>
+      <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon>
+      <h5 style="text-align:center">Galpão {{nomeGalpao}} - Unidade {{nomeUnidade}}</h5>
+      <p class='texto4'>P = Profundidade &emsp; A = Altura &emsp; L = Largura</p>
+      <ion-card>
+        <img *ngIf='imagem' src="{{galpao.imagem}}">
+        <img *ngIf='!imagem' src="{{exemploImg}}">
+        <div class="card-subtitle"><ion-grid>
+            <ion-row>
+              <ion-col>
+                <div>
+                  P1-A1-L1
+                </div>
+              </ion-col>
+              <ion-col>
+                <div (click)='voltar()' class='linha'>
+                  P1-A1-L2
+                </div>
+              </ion-col>
+              <ion-col>
+                <div>
+                  P1-A1-L3
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row class='x'>
+              <ion-col>
+                <div>
+                  P1-A2-L1
+                </div>
+              </ion-col>
+              <ion-col>
+                <div>
+                  P1-A2-L2
+                </div>
+              </ion-col>
+              <ion-col>
+                <div>
+                  P1-A2-L3
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row class='x'>
+              <ion-col>
+                <div>
+                  P1-A3-L1
+                </div>
+              </ion-col>
+              <ion-col>
+                <div>
+                  P1-A3-L2
+                </div>
+              </ion-col>
+              <ion-col>
+                <div>
+                  P1-A3-L3
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </ion-card>
+      <ion-buttons class='acessos'>
+        <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
+        <button class='fica' ion-button (click)="liberarGalpao()">Liberar Galpao</button>
+      </ion-buttons>
+    </div>
+  </ion-content> -->
+
+<!-- 
+<ion-content class="card-background-page">
+  <ion-card>
+    <img src="{{exemploImg}}"/>
+    <div class="card-title">Amsterdam</div>
+    <div class="card-subtitle"><ion-grid>
+        <ion-row>
+          <ion-col>
+            <div>
+              1 of 3
+            </div>
+          </ion-col>
+          <ion-col>
+            <div>
+              2 of 3
+            </div>
+          </ion-col>
+          <ion-col>
+            <div>
+              3 of 3
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <div>
+              1 of 3
+            </div>
+          </ion-col>
+          <ion-col>
+            <div>
+              2 of 3
+            </div>
+          </ion-col>
+          <ion-col>
+            <div>
+              3 of 3
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid></div>
+  </ion-card>
+</ion-content> -->

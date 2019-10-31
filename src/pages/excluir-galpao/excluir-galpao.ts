@@ -63,8 +63,8 @@ export class ExcluirGalpaoPage {
     const snapshotToArrayUsuarioKey = snapshot => {
       let returnArray = [];
       snapshot.forEach(element => {
-         let usuario = element.val();
-         usuario.key = element.key;
+        let usuario = element.val();
+        usuario.key = element.key;
         returnArray.push(usuario.key); 
       });
       return returnArray;

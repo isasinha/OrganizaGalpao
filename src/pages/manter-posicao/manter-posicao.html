@@ -9,8 +9,8 @@
     <ion-list>
       <h3 class='linha'>
         <h3 class='item-left'>Posição {{posicao}}</h3>
-        <ion-icon end class="item-top" name='document' (click)='abreObs()'></ion-icon>
-        <ion-icon end class="item-top" name='add' (click)='criaPasta()'></ion-icon><br>
+        <ion-icon end class="item-top" name='create' (click)='abreObs()'></ion-icon>
+        <ion-icon end class="item-top" name='folder-open' (click)='criaPasta()'></ion-icon><br>
         <p class='texto4'>P = Profundidade &emsp; A = Altura &emsp; L = Largura</p>
       </h3>
     </ion-list>
@@ -19,7 +19,7 @@
     <ion-list class='esq'>
         
       <ion-item class="option" *ngFor='let pasta of pastas'>
-        <p class="texto3 item-left" (click)='apagaPasta(pasta.key)'>{{pasta.key}}</p>
+        <p class="texto3 item-left" (click)='apagaPasta(pasta.key)'>{{pasta.key}} com:</p>
         <ion-icon end class='item-top' name='add' (click)='addItem(pasta.key)'></ion-icon>
         <ion-list>
           <ion-item class="option esq" *ngFor='let item of pasta.itens'>

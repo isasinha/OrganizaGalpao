@@ -8,9 +8,17 @@ page-galpao-selecionado {
         text-align-last: center;
     }
 
+    .foto{
+        text-align-last: center;
+    }
+    
     .busca{
-        border: 10px;
-        text-align-last: right;
+        background-color: #B04B59;
+        // background-size: 50px;
+        // border: 2px;
+        // width: 20px;
+        // max-width: 20px;
+        // width: 60%;
     }
 
     @media only screen and (min-width: 600px){
