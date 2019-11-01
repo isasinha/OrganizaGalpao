@@ -12,6 +12,7 @@ export class ContatoPage {
 
   corpo: string = '';
   emailRemetente: string = '';
+  telefone: string = '';
   nome: string = '';
   url:string = '';
 
@@ -24,11 +25,11 @@ export class ContatoPage {
     ) {
   }
 
-  enviarContato(corpo: string, emailRemetente: string, nome: string){
+  enviarContato(corpo: string, emailRemetente: string, nome: string, telefone: string){
     const loading = this.loadingCtrl.create({
       content: 'Cadastrando...'
     }); 
-    this.url = "https://us-central1-organizagalpao.cloudfunctions.net/sendMail?corpo=" + corpo + "&remMail=" + emailRemetente + "&nome=" + nome;
+    this.url = "https://us-central1-organizagalpao.cloudfunctions.net/sendMail?corpo=" + corpo + "&remMail=" + emailRemetente + "&nome=" + nome + "&telefone=" + telefone;
     this.http.post(this.url, JSON.stringify(corpo)).subscribe(response => {
       return console.log(JSON.stringify(response));
     });
@@ -38,7 +39,7 @@ export class ContatoPage {
           message: 'Mensagem enviada com sucesso!',
           buttons: [{
             text: 'Ok',
-            handler: () => {this.corpo = '', this.emailRemetente = '', this.nome = ''}
+            handler: () => {this.corpo = '', this.emailRemetente = '', this.nome = '', this.telefone = ''}
           }]});
         alert.present()})
       .catch((error) => {

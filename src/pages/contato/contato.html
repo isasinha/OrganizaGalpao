@@ -21,6 +21,12 @@
       </ion-item>
       <ion-item>
         <ion-label floating>
+          Telefone:
+        </ion-label>
+        <ion-input type="text" [(ngModel)]="telefone" name="telefone"></ion-input> -->
+      </ion-item>
+      <ion-item>
+        <ion-label floating>
           Mensagem:
         </ion-label>
         <ion-textarea class='textarea' type="text" [(ngModel)]="corpo" name="corpo" rows="5"></ion-textarea>
@@ -28,7 +34,7 @@
       <pre></pre>
       <ion-buttons class='acessos'>
         <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
-        <button class='fica' type="submit" ion-button (click)="enviarContato(corpo, emailRemetente, nome)">Enviar</button>
+        <button class='fica' type="submit" ion-button (click)="enviarContato(corpo, emailRemetente, nome, telefone)">Enviar</button>
       </ion-buttons>
     </form>
   </div>

@@ -26,6 +26,7 @@ export class GalpaoSelecionadoPage {
   ref = firebase.database().ref('/armazenamento');
   refUni = firebase.database().ref('/unidade');
   jsonData: any = [];
+  filtro: any = [];
   searchTerm : any="";
   exemploImg =  'assets/imgs/exemploImg.jpg';
 
@@ -111,13 +112,14 @@ export class GalpaoSelecionadoPage {
   }
 
   filterItems(searchTerm){
-    return this.jsonData.filter((item) => {
+    return this.filtro.filter((item) => {
       return item.Item.toLowerCase().includes(searchTerm.toLowerCase());
     });  
   }
 
-  setFilteredItems() {
-    this.jsonData = this.filterItems(this.searchTerm);
+  setFilteredItems(searchTerm) {
+    this.filtro = this.jsonData;
+    this.filtro = this.filterItems(searchTerm);
   }
 
   posicoes(){

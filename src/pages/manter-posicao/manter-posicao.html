@@ -12,6 +12,7 @@
         <ion-icon end class="item-top" name='create' (click)='abreObs()'></ion-icon>
         <ion-icon end class="item-top" name='folder-open' (click)='criaPasta()'></ion-icon><br>
         <p class='texto4'>P = Profundidade &emsp; A = Altura &emsp; L = Largura</p>
+        <p class='texto5'>Selecione o item ou pasta para excluir</p>
       </h3>
     </ion-list>
     </div>
@@ -23,7 +24,7 @@
         <ion-icon end class='item-top' name='add' (click)='addItem(pasta.key)'></ion-icon>
         <ion-list>
           <ion-item class="option esq" *ngFor='let item of pasta.itens'>
-            <p (click)='apagaItem(item.key, pasta.key)'>{{item.item}}</p>
+            <p class='line' (click)='apagaItem(item.key, pasta.key)'>{{item.item}}</p>
           </ion-item>
         </ion-list>
       </ion-item>

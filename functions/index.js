@@ -45,6 +45,7 @@ exports.sendMail = functions.https.onRequest((req, res) => {
     cors(req, res, () => {
         const corpo = req.query.corpo;
         const remMail = req.query.remMail;
+        const telefone = req.query.telefone;
         const nome = req.query.nome;
         let remetente = '"Organiza Galpão" <organizagalpao@gmail.com>';
         let assunto = "Contato OrganizaGalpão";
@@ -53,6 +54,8 @@ exports.sendMail = functions.https.onRequest((req, res) => {
         let corpoHtml = `<p style = "font-size: 18px;">Nome: </p>` + nome + 
                         `<br/>--------------------------------------------------------------------
                         <p style = "font-size: 18px;">E-mail: </p>` + remMail + 
+                        `<br/>--------------------------------------------------------------------
+                        <p style = "font-size: 18px;">Telefone: </p>` + telefone + 
                         `<br/>--------------------------------------------------------------------
                         <p style="font-size: 18px;">Mensagem: </p>`+ corpo;
 

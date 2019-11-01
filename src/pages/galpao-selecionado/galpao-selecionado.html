@@ -7,15 +7,15 @@
     <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon>
     <h5 style="text-align:center">Galpão {{nomeGalpao}} - Unidade {{nomeUnidade}}</h5>
     <p class='texto4'>P = Profundidade &emsp; A = Altura &emsp; L = Largura</p>
-    <ion-searchbar class='busca' [(ngModel)]="searchTerm" (ionInput)="setFilteredItems()" placeholder='Busca item cadastrado'></ion-searchbar>
+    <ion-searchbar class='busca' [(ngModel)]="searchTerm" (ionInput)="setFilteredItems(searchTerm)" placeholder='Busca item cadastrado'></ion-searchbar>
     <ion-list *ngIf='searchTerm'>
-      <ion-item *ngFor="let data of jsonData">
-        Item:{{data.Item}} (Pasta: {{data.Pasta}}, Posição: {{data.Posicao}})
+      <ion-item *ngFor="let data of filtro">
+        Item:{{data.Item}} <br> Pasta: {{data.Pasta}} <br> Posição: {{data.Posicao}}
       </ion-item>
     </ion-list>   
     <ion-list>
       <ion-item class='foto'>
-        <p>Clique na imagem para acessar o seu galpão</p>
+        <p class='texto5'>Selecione a imagem para acessar o seu galpão</p>
         <img *ngIf='imagem' src="{{galpao.imagem}}" (click)="posicoes()">
         <img *ngIf='!imagem' src="{{exemploImg}}" (click)="posicoes()">
       </ion-item>
