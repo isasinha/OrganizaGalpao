@@ -9,7 +9,7 @@ page-posicoes {
     }
 
     .linha{
-      line-height: 200px;
+      line-height: 50px;
     }
 
     @media only screen and (min-width: 600px){
@@ -75,9 +75,6 @@ page-posicoes {
               height: 100%;
               background-image: 'assets/imgs/exemploImg.jpg';
     
-              .x{
-                  height: 200%;
-              }
             }
     
             // .card-title {

@@ -1,4 +1,26 @@
-<ion-header>
+<!-- <ion-header>
+  <ion-navbar>
+    <ion-title>
+      Testando three JS
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-buttons>
+    <button ion-button (click)="x()">X</button>
+    <button ion-button (click)="y()">Y</button>
+    <button ion-button (click)="z()">Z</button>
+    <button ion-button (click)="zoom()">Zoom</button>
+  </ion-buttons>
+  
+  <div #domObj></div>
+</ion-content> -->
+
+<!-- /************************** daqui para baixo é o que vai ser usado se nada der certo **********************************/ -->
+
+
+<!-- <ion-header>
 </ion-header> 
 
 <ion-content padding>
@@ -17,22 +39,32 @@
       <button class='fica' ion-button (click)="liberarGalpao()">Liberar Galpao</button>
     </ion-buttons>
   </div>
-</ion-content>
-<!-- 
+</ion-content> -->
+
+<!-- /************************** daqui para baixo é teste com card **********************************/ -->
+
+
 <ion-header>
   </ion-header> 
   
   <ion-content padding class="card-background-page">
+
+      <ion-buttons>
+          <button ion-button (click)="x()">X</button>
+          <button ion-button (click)="y()">Y</button>
+          <button ion-button (click)="z()">Z</button>
+          <button ion-button (click)="zoom()">Zoom</button>
+        </ion-buttons>
     <br>  
     <div class='container'>
       <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon>
       <h5 style="text-align:center">Galpão {{nomeGalpao}} - Unidade {{nomeUnidade}}</h5>
       <p class='texto4'>P = Profundidade &emsp; A = Altura &emsp; L = Largura</p>
-      <ion-card>
-        <img *ngIf='imagem' src="{{galpao.imagem}}">
-        <img *ngIf='!imagem' src="{{exemploImg}}">
+      <ion-card #domObj>
+        <!-- <img *ngIf='imagem' src="{{galpao.imagem}}">
+        <img *ngIf='!imagem' src="{{exemploImg}}"> -->
         <div class="card-subtitle"><ion-grid>
-            <ion-row>
+            <ion-row class='linha'>
               <ion-col>
                 <div>
                   P1-A1-L1
@@ -48,8 +80,8 @@
                   P1-A1-L3
                 </div>
               </ion-col>
-            </ion-row>
-            <ion-row class='x'>
+            </ion-row >
+            <ion-row class='linha'>
               <ion-col>
                 <div>
                   P1-A2-L1
@@ -66,7 +98,7 @@
                 </div>
               </ion-col>
             </ion-row>
-            <ion-row class='x'>
+            <ion-row class='linha'>
               <ion-col>
                 <div>
                   P1-A3-L1
@@ -91,7 +123,7 @@
         <button class='fica' ion-button (click)="liberarGalpao()">Liberar Galpao</button>
       </ion-buttons>
     </div>
-  </ion-content> -->
+  </ion-content>
 
 <!-- 
 <ion-content class="card-background-page">
