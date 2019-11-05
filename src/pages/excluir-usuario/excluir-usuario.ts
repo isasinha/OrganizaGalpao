@@ -139,6 +139,7 @@ export class ExcluirUsuarioPage {
         var galKey = mensagem[m].galKey;
         this.dbService.excluiGalpaoUsuario(uniKey, galKey, this.usuarioKey);
         this.dbService.excluiIdentificacaoGalpaoUsuario(this.usuarioKey, galKey);
+        this.dbService.renovaPosicao(uniKey, galKey);
         s++;
       }
       m++;

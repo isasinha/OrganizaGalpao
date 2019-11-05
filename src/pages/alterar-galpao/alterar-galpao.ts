@@ -34,6 +34,7 @@ export class AlterarGalpaoPage {
   keyGalpao;
   keyUnidade;
   imagem;
+  temUsuario = false;
   ref = firebase.database().ref('/unidade/');
   exemploImg =  'assets/imgs/exemploImg.jpg';
   
@@ -87,17 +88,25 @@ export class AlterarGalpaoPage {
     if(this.imagem){
       galpao.imagem = this.imagem;
     }
-    setTimeout( () => { this.dbService.editaGalpao(keyUnidade, keyGalpao, galpao) }, 10000);
-    loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                      subTitle: 'Alteração de Galpão',
-                      message: 'Galpão alterado com sucesso!',
-                      buttons: ['Ok']});
-                    alert.present().then(r => this.navCtrl.setRoot('HomeAdmPage'))})
-                  .catch((error) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                      subTitle: 'Alteração de galpão falhou',
-                      message: error.message,
-                      buttons: ['Ok']});
-                    alert.present();});
+    this.temUsuario = this.dbService.editaGalpao(keyUnidade, keyGalpao, galpao, this.galpaoSelecionado);
+    if(this.temUsuario){
+      const alert = this.alertCtrl.create({
+        subTitle: 'Alteração de Galpão',
+        message: 'As medidas não podem ser alteradas, pois existe usuário administrando o galpão!',
+        buttons: ['Ok']});
+      alert.present()
+    }else{
+      loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
+                        subTitle: 'Alteração de Galpão',
+                        message: 'Galpão alterado com sucesso!',
+                        buttons: ['Ok']});
+                      alert.present().then(r => this.navCtrl.setRoot('HomeAdmPage'))})
+                    .catch((error) => {loading.dismiss(); const alert = this.alertCtrl.create({
+                        subTitle: 'Alteração de galpão falhou',
+                        message: error.message,
+                        buttons: ['Ok']}); 
+                      alert.present();});
+    }
   }
 
   tirarFoto(){

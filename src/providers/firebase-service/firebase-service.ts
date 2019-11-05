@@ -211,6 +211,28 @@ export class FirebaseServiceProvider {
 
   excluiGalpaoUsuario(keyUnidade: any, keyGalpao: any, keyUsuario: any){
     this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/'+keyUsuario).remove();
+      
+  }
+
+  renovaPosicao(keyUnidade: any, keyGalpao: any){
+    var usuarioGalpao = ''
+    var arrayUsuarios = [];
+    this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios').on('value', snapshot => {
+      snapshot.forEach(element => {
+        usuarioGalpao = element.val();
+        arrayUsuarios.push(usuarioGalpao);
+      });
+    })
+    if(arrayUsuarios.length<=0){ 
+      this.ref.child('/'+keyUnidade+'/unidadesGalpao/').on('value', outroSnapshot => {
+        outroSnapshot.forEach(element => {
+          var galpao = element.val();
+          galpao.key = element.key;
+          if(galpao.key == keyGalpao)
+          this.cadastraGalpaoLiberar(galpao, keyGalpao);
+        })
+      })
+    }
   }
 
   excluiIdentificacaoGalpaoUsuario(keyUsuario: any, identiKey: any){
@@ -237,33 +259,67 @@ export class FirebaseServiceProvider {
     return this.db.list('unidade/');
   }
 
-  editaGalpao(keyUnidade: any, keyGalpao: any, galpao: Galpao){
+  editaGalpao(keyUnidade: any, keyGalpao: any, galpao: Galpao, galpaoOriginal: any){
+    var galpaoAlterado: Galpao = {
+      nomeGalpao: null,
+      largura: null,
+      altura: null,
+      profundidade: null,
+      imagem: null
+    };;
+    var temUsuario:boolean = false;
+    if(galpao.altura || galpao.profundidade || galpao.largura){
 
-    if(galpao.nomeGalpao != null){
-      this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).update({
-        nomeGalpao: galpao.nomeGalpao
+      this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao+"/usuarios").on('value', snapshot => {
+        
+        snapshot.forEach(element => {
+          if(element.val()){ 
+            temUsuario = true;
+          }
+        });
       })
     }
-    if(galpao.largura != null){
-      this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).update({
-        largura: galpao.largura
-      })
+
+    if(!temUsuario){
+      if(galpao.nomeGalpao != null){
+        this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).update({
+          nomeGalpao: galpao.nomeGalpao
+        })
+      }
+      if(galpao.largura != null){
+        this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).update({
+          largura: galpao.largura
+        })
+        galpaoAlterado.largura = galpao.largura;
+      }else{
+        galpaoAlterado.largura = galpaoOriginal[0].largura;
+      }
+      if(galpao.altura != null){
+        this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).update({
+          altura: galpao.altura
+        })
+        galpaoAlterado.altura = galpao.altura;
+      }else{
+        galpaoAlterado.altura = galpaoOriginal[0].altura;
+      }
+      if(galpao.profundidade != null){
+        this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).update({
+          profundidade: galpao.profundidade
+        })
+        galpaoAlterado.profundidade = galpao.profundidade;
+      }else{
+        galpaoAlterado.profundidade = galpaoOriginal[0].profundidade;
+      }
+      if(galpao.imagem != null){
+        this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).update({
+          imagem: galpao.imagem
+        })
+      }
+      if(galpao.altura || galpao.profundidade || galpao.largura){
+        this.db.object('/armazenamento/'+keyGalpao).remove().then(() => this.cadastraGalpaoLiberar(galpaoAlterado, keyGalpao));
+      }
     }
-    if(galpao.altura != null){
-      this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).update({
-        altura: galpao.altura
-      })
-    }
-    if(galpao.profundidade != null){
-      this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).update({
-        profundidade: galpao.profundidade
-      })
-    }
-    if(galpao.imagem != null){
-      this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).update({
-        imagem: galpao.imagem
-      })
-    }
+    return temUsuario;
   }
 
   editaGalpaoUsuario(keyUnidade: any, keyGalpao: any, keyUsuario: any, usuario: Usuario){

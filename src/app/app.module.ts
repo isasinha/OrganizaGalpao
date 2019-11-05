@@ -11,6 +11,7 @@ import { HttpModule } from '@angular/http';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Base64 } from '@ionic-native/base64';
 import { Camera } from '@ionic-native/camera'
+import { NgxMaskModule } from 'ngx-mask'
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -51,6 +52,7 @@ import { ObservacaoPage } from '../pages/observacao/observacao';
 import { PosicoesPage } from '../pages/posicoes/posicoes';
 import { ImageResizer } from '@ionic-native/image-resizer/ngx';
 
+// export const options: Partial<IConfig> | (() => Partial<IConfig>);
 
 const firebaseConfig = {
   apiKey: " AIzaSyAZgCNfWAcgwBjuoUfWeilZk-9Mv7CZLVk ",
@@ -60,6 +62,8 @@ const firebaseConfig = {
   storageBucket: "organizagalpao.appspot.com",
   messagingSenderId: "project-866109900277",
 };
+
+
 
 @NgModule({
   declarations: [
@@ -106,7 +110,8 @@ const firebaseConfig = {
     AngularFireAuthModule,
     HomeAdmPageModule,
     LoginPageModule,
-    HttpModule
+    HttpModule,
+    NgxMaskModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
