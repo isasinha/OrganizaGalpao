@@ -16,8 +16,8 @@
     <ion-list>
       <ion-item class='foto'>
         <p class='texto5'>Selecione a imagem para acessar o seu galpão</p>
-        <img *ngIf='imagem' src="{{galpao.imagem}}" (click)="posicoes()">
-        <img *ngIf='!imagem' src="{{exemploImg}}" (click)="posicoes()">
+        <img class='imgGalpao' *ngIf='imagem' src="{{galpao.imagem}}" (click)="posicoes()">
+        <img class='imgGalpao' *ngIf='!imagem' src="{{exemploImg}}" (click)="posicoes()">
       </ion-item>
     </ion-list>
     <ion-buttons class='acessos'>

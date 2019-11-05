@@ -38,12 +38,26 @@ page-galpao-selecionado {
         .back{
             display: none
         }
+
+        .imgGalpao {
+            max-width:750px;
+            max-height:625px;
+            width: auto;
+            height: auto;
+        }
     }
     
     @media only screen and (max-width: 600px){
      
         .botao-acessa{
             display: none
+        }
+
+        .imgGalpao {
+            max-width:240px;
+            max-height:190px;
+            width: auto;
+            height: auto;
         }
     }
     

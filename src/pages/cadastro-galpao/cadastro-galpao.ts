@@ -103,13 +103,13 @@ export class CadastroGalpaoPage {
 
   tirarFoto(){
     const options: CameraOptions = {
-      quality: 70,
+      quality: 100,
       destinationType: this.camera.DestinationType.DATA_URL,
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
       saveToPhotoAlbum: false,
       allowEdit: true,
-      targetWidth: 700,
-      targetHeight: 700
+      targetWidth: 750,
+      targetHeight: 625
     }
 
     this.camera.getPicture(options).then((imageData) => {

@@ -10,7 +10,6 @@ import { FirebaseServiceProvider } from '../../providers/firebase-service/fireba
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Galpao } from '../../app/Modelo/galpao';
 
-
 @Component({
   selector: 'page-posicoes',
   templateUrl: 'posicoes.html',
@@ -37,13 +36,30 @@ export class PosicoesPage {
   public posicaoKey = '';
   public busca = '';
   public imagem;
+  public windowWidth = window.innerWidth;
 
   public profundidade:number = 0;
   public altura:number = 0;
   public largura:number = 0;
 
+  public profZoom = 1;
+  public positions = [];
+  public jsonPositions: Array<{}>=[]
+  public pos = ''
 
-
+  criaView(altura: number, largura: number){
+    var arrayPositions = [];
+    for(var x=0; x<altura; x++ ){
+      arrayPositions = [];
+      for(var y=0; y<largura; y++){
+        this.pos = "A"+(x+1)+"-L"+(y+1)
+        arrayPositions.push(this.pos)
+        
+      }
+      this.jsonPositions[x]=arrayPositions
+    }
+    return this.jsonPositions;
+  }
 
   constructor(public navCtrl: NavController,
     //     public navCtrl: NavController, 
@@ -95,6 +111,8 @@ export class PosicoesPage {
         i = i+1;
       }
 
+      this.positions = this.criaView(this.altura, this.largura);
+
   }
 
   @ViewChild ('domObj') canvasEl: ElementRef;
@@ -120,7 +138,11 @@ export class PosicoesPage {
     this._CAMERA = new THREE.PerspectiveCamera(75, 9/8, 0.1, 1000);
     this.renderer = new THREE.WebGLRenderer();
     // this.renderer.setSize (window.innerWidth, window.innerHeight);
-    this.renderer.setSize (240, 190);
+    if (this.windowWidth > 600){
+      this.renderer.setSize (750, 625);
+    }else{
+      this.renderer.setSize (240, 190);
+    }
     this._ELEMENT.appendChild(this.renderer.domElement);
     /*this._GEOMETRY = new THREE.BoxGeometry(3, 3, 3);
     this._MATERIAL = new THREE.MeshBasicMaterial({
@@ -139,7 +161,10 @@ export class PosicoesPage {
     this._CAMERA.position.z = 20;*/
     this._CAMERA.position.z = 5;
     let textureLoader = new THREE.TextureLoader();
-    let texture1  = textureLoader.load("assets/imgs/exemploImg.jpg")
+    if(!this.imagem)
+    this.imagem = this.exemploImg;
+    // let texture1  = textureLoader.load(this.exemploImg)
+    let texture1  = textureLoader.load(this.imagem)
     let materials = [
       new THREE.MeshBasicMaterial (null),
       new THREE.MeshBasicMaterial (null),
@@ -194,10 +219,12 @@ export class PosicoesPage {
   zoom (): void{
     var zoomPosition = 5 - (this.profundidade*0.1)
     this._CAMERA.position.z -= 0.1
+    this.profZoom = this.profZoom + 1;
     if (this._CAMERA.position.z.toFixed(1) == zoomPosition){
       this._CAMERA.position.z = 5;
+      this.profZoom = 1;
     }
-
+    this.positions = this.criaView(this.altura, this.largura);
   }
 
   rotacionar (): void {
@@ -211,89 +238,102 @@ export class PosicoesPage {
     
   }
 
-  opcaoEscolhida(event, opcao){ 
-        let posicaoModal = this.modalCtrl.create(ManterPosicaoPage, {
-          galpao: this.keyGalpao,
-          posicao: opcao.posicao});
-        posicaoModal.present();
-    
-        posicaoModal.onDidDismiss(data => {  
-          console.log(data);
-        });
-      }
-    
-      liberarGalpao(){
-        const alert = this.alertCtrl.create({
-          subTitle: 'Deseja liberar este galpão?',
-          message: 'Atenção, todos os itens cadastrados serão excluidos. Essa ação não pode ser desfeita!',
-          buttons: [{
-          text: 'Não',
-          handler: () => {}
-          },
-          {
-          text: 'Sim',
-          handler: () => {this.liberarGalpaoUser();}
-          }]});
-        alert.present()
-      }
-      
-      liberarGalpaoUser(){
-        const loading = this.loadingCtrl.create({
-          content: 'Logando...'
-        });
-        loading.present();
-        this.db.object('/armazenamento/'+this.keyGalpao).remove();
-        const snapshotToArrayUnidadeKey = snapshot => {
-          let returnArray = [];
-          let unidadeKey = '';
+  tamanhoLinha(){     
+    let fonte;
+    if (this.windowWidth > 600){
+      fonte = 625 - (this.altura * 14)
+    }else{
+      fonte = 190 - (this.altura * 12)
+    }
+    // let novaAltura:number = (Number(this.altura)) + 1; 
+    let tamanho = fonte / this.altura;
+    let tamanhoLinha = tamanho + 'px';
+    return {'line-height': tamanhoLinha}
+  }
+
+  opcaoEscolhida(posicao){ 
+    let posicaoModal = this.modalCtrl.create(ManterPosicaoPage, {
+      galpao: this.keyGalpao,
+      posicao: "P"+this.profZoom+"-"+ posicao});
+    posicaoModal.present();
+
+    posicaoModal.onDidDismiss(data => {  
+      console.log(data);
+    });
+  }
+
+  liberarGalpao(){
+    const alert = this.alertCtrl.create({
+      subTitle: 'Deseja liberar este galpão?',
+      message: 'Atenção, todos os itens cadastrados serão excluidos. Essa ação não pode ser desfeita!',
+      buttons: [{
+      text: 'Não',
+      handler: () => {}
+      },
+      {
+      text: 'Sim',
+      handler: () => {this.liberarGalpaoUser();}
+      }]});
+    alert.present()
+  }
+  
+  liberarGalpaoUser(){
+    const loading = this.loadingCtrl.create({
+      content: 'Logando...'
+    });
+    loading.present();
+    this.db.object('/armazenamento/'+this.keyGalpao).remove();
+    const snapshotToArrayUnidadeKey = snapshot => {
+      let returnArray = [];
+      let unidadeKey = '';
+      snapshot.forEach(element => {
+        let unidade = element.val();
+        unidade.key = element.key;
+        unidadeKey = unidade.key;
+  
+        const snapshotToArrayGalpao = snapshot => {
+          let outroArray = [];
           snapshot.forEach(element => {
-            let unidade = element.val();
-            unidade.key = element.key;
-            unidadeKey = unidade.key;
-      
-            const snapshotToArrayGalpao = snapshot => {
-              let outroArray = [];
-              snapshot.forEach(element => {
-                 let galpao = element.val();
-                 galpao.key = element.key;
-                 if(galpao.key == this.keyGalpao){
-                  outroArray.push(galpao); 
-                  this.dbService.cadastraGalpaoLiberar(galpao, this.keyGalpao);
-                 }
-              });
-              return outroArray;
-            }
-            this.refUni.child(unidadeKey+'/unidadesGalpao/').on('value', resp => {
-              this.posicoes = [];
-              this.posicoes = snapshotToArrayGalpao(resp);
-            })
-      
+              let galpao = element.val();
+              galpao.key = element.key;
+              if(galpao.key == this.keyGalpao){
+              outroArray.push(galpao); 
+              this.dbService.cadastraGalpaoLiberar(galpao, this.keyGalpao);
+              }
           });
-          return returnArray;
+          return outroArray;
         }
-      
-        this.refUni.on('value', resp => {
+        this.refUni.child(unidadeKey+'/unidadesGalpao/').on('value', resp => {
           this.posicoes = [];
-          this.posicoes = snapshotToArrayUnidadeKey(resp);
+          this.posicoes = snapshotToArrayGalpao(resp);
         })
-        loading.dismiss(); 
-        const alert = this.alertCtrl.create({
-          subTitle: 'Galpão liberado com sucesso!',
-          buttons: [{
-          text: 'Ok',
-          handler: () => {this.voltar();}
-          }]});
-        alert.present()
-      }
+  
+      });
+      return returnArray;
+    }
+  
+    this.refUni.on('value', resp => {
+      this.posicoes = [];
+      this.posicoes = snapshotToArrayUnidadeKey(resp);
+    })
+    loading.dismiss(); 
+    const alert = this.alertCtrl.create({
+      subTitle: 'Galpão liberado com sucesso!',
+      buttons: [{
+      text: 'Ok',
+      handler: () => {this.voltar();}
+      }]});
+    alert.present()
+  }
       
     
-      voltar(){
-        this.navCtrl.setRoot(HomePage, {
-          key: this.keyUsuario,
-          nome: this.nomeUsuario,
-          cpf: this.cpfUsuario
-        })
-      }
+  voltar(){
+    this.navCtrl.setRoot(HomePage, {
+      key: this.keyUsuario,
+      nome: this.nomeUsuario,
+      cpf: this.cpfUsuario
+    })
+  }
     
 
 
