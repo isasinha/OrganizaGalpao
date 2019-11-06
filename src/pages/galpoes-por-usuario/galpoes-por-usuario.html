@@ -10,7 +10,7 @@
       <p style="text-align:center">Gaspões por Usuário</p>
       <ion-item>
         <ion-label>CPF</ion-label>
-        <ion-input type="text" [(ngModel)]="usuarioCpf" (keyup)='selecionaUsuario(usuarioCpf)'></ion-input>
+        <ion-input type="text" [(ngModel)]="usuarioCpf" (keyup)='selecionaUsuario(usuarioCpf)' [brmasker]="{mask:'999.999.999-99', len:14, type:'num'}"></ion-input>
       </ion-item>
       <pre></pre>
       <ion-list  class="list" *ngIf='usuario.cpf != "" && temUsuario'>

@@ -5,6 +5,7 @@ import { Unidade, snapshotToArrayUnidade } from '../../app/Modelo/galpao';
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
 import { AngularFireDatabase } from '@angular/fire/database';
 import * as firebase from 'firebase';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @IonicPage()
 @Component({
@@ -21,7 +22,10 @@ export class ExcluirUnidadePage {
   };
   unidades:Array<Unidade> = [];
   keyUnidade;
-  ref = firebase.database().ref('/unidade/');
+  ref = firebase.database().ref('/unidade/'); 
+  public unidadeForm: any;
+  messageUnidade = '';
+  erroUnidade = false;
   
   constructor(
     public navCtrl: NavController, 
@@ -29,10 +33,14 @@ export class ExcluirUnidadePage {
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     public dbService: FirebaseServiceProvider,
-    public db: AngularFireDatabase
+    public db: AngularFireDatabase,
+    public fb: FormBuilder
     ) {
       this.ref.on('value', resp => {
         this.unidades = snapshotToArrayUnidade(resp);
+      })
+      this.unidadeForm = fb.group({
+        uni: ['', Validators.required]
       })
   }
 
@@ -44,17 +52,31 @@ export class ExcluirUnidadePage {
     const loading = this.loadingCtrl.create({
       content: 'Excluindo...'
     });
-    setTimeout( () => { this.dbService.excluiUnidade(keyUnidade) }, 10000);
-    loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                      subTitle: 'Exclusão de Unidade',
-                      message: 'Unidade excluída com sucesso!',
-                      buttons: ['Ok']});
-                    alert.present().then(r => this.navCtrl.setRoot('HomeAdmPage'))})
-                  .catch((error) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                      subTitle: 'Exclusão de unidade falhou',
-                      message: error.message,
-                      buttons: ['Ok']});
-                    alert.present();});
+    let {uni} = this.unidadeForm.controls;
+    if(!this.unidadeForm.valid){
+      if(!uni.valid){
+        this.erroUnidade = true;
+        this.messageUnidade = 'UNIDADE DEVE SER SELECIONADA';
+      }else{
+        this.messageUnidade = '';
+      }
+    }else{
+      setTimeout( () => { this.dbService.excluiUnidade(keyUnidade) }, 10000);
+      loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
+                        subTitle: 'Exclusão de Unidade',
+                        message: 'Unidade excluída com sucesso!',
+                        buttons: ['Ok']});
+                      alert.present().then(r => this.navCtrl.setRoot('HomeAdmPage'))})
+                    .catch((error) => {loading.dismiss(); const alert = this.alertCtrl.create({
+                        subTitle: 'Exclusão de unidade falhou',
+                        message: error.message,
+                        buttons: ['Ok']});
+                      alert.present();});
+      }
+  }
+
+  zeraErro(){
+    this.erroUnidade = false;
   }
 
   voltar(){

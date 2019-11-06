@@ -16,7 +16,7 @@
           <ion-icon name='contact'></ion-icon>  
           cpf
         </ion-label>
-        <ion-input type="text"  [(ngModel)]="usuario.cpf"></ion-input>
+        <ion-input type="text"  [(ngModel)]="usuario.cpf" [brmasker]="{mask:'999.999.999-99', len:14, type:'num'}"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>

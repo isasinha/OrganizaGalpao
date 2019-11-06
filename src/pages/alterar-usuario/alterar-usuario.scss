@@ -2,6 +2,13 @@ page-alterar-usuario {
     .acessos{
         text-align-last: center;
     }
+
+    .error{
+        color: #B04B59;
+        font-size: 12px;
+        text-align: center;
+    }
+    
     @media only screen and (min-width: 600px){
 
         .container{

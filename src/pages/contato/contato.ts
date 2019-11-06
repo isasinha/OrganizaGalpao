@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { Http } from '@angular/http';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @IonicPage()
 @Component({
@@ -15,20 +16,59 @@ export class ContatoPage {
   telefone: string = '';
   nome: string = '';
   url:string = '';
+  public contatoForm: any;
+  messageNome = '';
+  erroNome = false;
+  messageEmail = '';
+  erroEmail = false;
+  messageTel = '';
+  erroTel = false;
+  messageMensagem = '';
+  erroMensagem = false;
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
     public http: Http,
     private loadingCtrl: LoadingController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    public fb: FormBuilder
     ) {
+      this.contatoForm = fb.group({
+        nomeF: ['', Validators.required],
+        emailF: ['', [Validators.required, Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$')]],
+        mensagemF: ['', Validators.required],
+        telF: null
+      })
+
   }
 
   enviarContato(corpo: string, emailRemetente: string, nome: string, telefone: string){
     const loading = this.loadingCtrl.create({
       content: 'Cadastrando...'
-    }); 
+    });
+    let {nomeF, emailF, mensagemF, telF} = this.contatoForm.controls;
+    telF;
+    if(!this.contatoForm.valid){
+      if(!nomeF.valid){
+        this.erroNome = true;
+        this.messageNome = 'NOME DEVE SER PREENCHIDO';
+      }else{
+        this.messageNome = '';
+      }
+      if(!emailF.valid){
+        this.erroEmail = true;
+        this.messageEmail = 'E-MAIL DEVE SER PREENCHIDO NO FORMATO: nome@email.com';
+      }else{
+        this.messageEmail = '';
+      }
+      if(!mensagemF.valid){
+        this.erroMensagem = true;
+        this.messageMensagem = 'MENSAGEM DEVE SER PREENCHIDA';
+      }else{
+        this.messageMensagem = '';
+      }
+    }else{ 
     this.url = "https://us-central1-organizagalpao.cloudfunctions.net/sendMail?corpo=" + corpo + "&remMail=" + emailRemetente + "&nome=" + nome + "&telefone=" + telefone;
     this.http.post(this.url, JSON.stringify(corpo)).subscribe(response => {
       return console.log(JSON.stringify(response));
@@ -49,6 +89,7 @@ export class ContatoPage {
           message: 'Envio de mensagem falhou, tente novamente',
           buttons: ['Ok']});
         alert.present();})
+    }
   }
 
   ionViewDidLoad() {

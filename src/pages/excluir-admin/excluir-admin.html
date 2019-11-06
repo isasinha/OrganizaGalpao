@@ -7,13 +7,16 @@
       <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon>
       <h3 style="text-align:center">Administrador</h3>
       <p style="text-align:center">Excluir Administrador</p>
-      <ion-list class="list">
+      <form padding [formGroup]='usuarioForm' novalidate class="list">
+      <!-- <ion-list class="list"> -->
         <ion-item>
-          <ion-label>CPF</ion-label>
-          <ion-input type="text" [(ngModel)]="usuarioCpf" (keyup)='selecionaUsuario(usuarioCpf)'></ion-input>
+          <ion-label>CPF</ion-label> 
+          <ion-input type="text" [(ngModel)]="usuarioCpf" (keyup)='selecionaUsuario(usuarioCpf)' formControlName="user" [brmasker]="{mask:'999.999.999-99', len:14, type:'num'}"></ion-input>
         </ion-item>
+        <h6 *ngIf='erroUsuario' class='error'>{{messageUsuario}}</h6>
+        <h6 *ngIf='semUsuario' class='error'>{{messageSemUsuario}}</h6>
         <ion-list class="list" *ngIf='usuarioSelecionado'>
-          <ion-item *ngFor='let usuarioSel of usuarioSelecionado'>
+          <ion-item *ngFor='let usuarioSel of usuarioSelecionado'> 
             <ion-label>
               Nome: {{usuarioSel.nome}} {{usuarioSel.sobrenome}}
             </ion-label>
@@ -24,12 +27,12 @@
             </ion-label>
           </ion-item>
         </ion-list>
-      </ion-list>
-      <pre></pre>
-      <ion-buttons class='acessos'>
-        <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
-        <button class='fica' ion-button (click)="deletaAdmin()">Excluir</button>
-      </ion-buttons>
+        <pre></pre>
+        <ion-buttons class='acessos'>
+          <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
+          <button class='fica' ion-button (click)="deletaAdmin()">Excluir</button>
+        </ion-buttons>
+      </form>
     </div>
   </ion-content>
   

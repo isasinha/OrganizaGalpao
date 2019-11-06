@@ -5,6 +5,7 @@ import { FirebaseServiceProvider } from '../../providers/firebase-service/fireba
 import { AngularFireDatabase } from '@angular/fire/database';
 import * as firebase from 'firebase';
 import { Usuario } from '../../app/Modelo/usuario';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @IonicPage()
 @Component({
@@ -27,6 +28,16 @@ export class AlterarAdminPage {
   usuarioCpf;
   usuarioKey;
   ref = firebase.database().ref('/usuario/');
+  public usuarioForm: any;
+  messageUsuario = '';
+  erroUsuario = false;
+  messageEmail = '';
+  erroEmail = false;
+  public usuarioCpfForm: any;
+  messageUsuarioCpf = '';
+  erroUsuarioCpf = false;
+  semUsuario = false;
+  messageSemUsuario = '';
   
   constructor(
     public navCtrl: NavController, 
@@ -34,8 +45,18 @@ export class AlterarAdminPage {
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     public dbService: FirebaseServiceProvider,
-    public db: AngularFireDatabase
+    public db: AngularFireDatabase,
+    public fb: FormBuilder
     ) {
+      this.usuarioForm = fb.group({
+        nome: null,
+        sobrenome: null,
+        email: ['', Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$')],
+        cpf: null
+      })
+      this.usuarioCpfForm = fb.group({
+        cpf: ['', Validators.required]
+      })
       
   }
 
@@ -44,6 +65,8 @@ export class AlterarAdminPage {
 
 
   selecionaUsuario(usuarioCpf: any){
+    this.semUsuario = false;
+    this.erroUsuarioCpf = false;
     const snapshotToArrayUsuarioCPF = snapshot => {
       let returnArray = [];
       snapshot.forEach(element => {
@@ -52,7 +75,7 @@ export class AlterarAdminPage {
         if(usuarioBanco.tipo == 'Administrador'){
           if(usuarioCpf == usuarioBanco.cpf){
             returnArray.push(usuarioBanco);
-            this.usuarioKey = usuarioBanco.key;
+            this.usuarioKey = usuarioBanco.key; 
           } 
         }
       });
@@ -67,6 +90,40 @@ export class AlterarAdminPage {
     const loading = this.loadingCtrl.create({
       content: 'Alterando...'
     });
+    this.semUsuario = false;
+    let {cpf} = this.usuarioCpfForm.controls;
+    if(!this.usuarioCpfForm.valid){
+      if(!cpf.valid){
+        this.erroUsuarioCpf = true;
+        this.messageUsuarioCpf = 'CPF DEVE SER PREENCHIDO';
+      }else{
+        this.messageUsuarioCpf = '';
+      }
+    }else if(this.usuarioSelecionado.length <= 0){
+      this.messageUsuarioCpf = '';
+      this.semUsuario = true;
+      this.messageSemUsuario = 'NENHUM ADMINISTRADOR ENCONTRADO COM ESSE CPF';
+    }else{
+      this.messageUsuarioCpf = '';
+      let {nome, sobrenome, email, cpf} = this.usuarioForm.controls;
+      if(!this.usuarioForm.valid){
+        if(!email.valid){
+          this.erroEmail = true;
+          this.messageEmail = 'E-MAIL DEVE SER PREENCHIDO NO FORMATO: nome@email.com';
+        }else{
+          this.messageEmail = '';
+        }
+      }else{
+        this.messageUsuarioCpf = '';
+        if(!nome.value && !sobrenome.value && !email.value && !cpf.value){
+          this.usuarioForm.status = 'INVALID';
+          if(!this.usuarioForm.valid){
+            this.erroUsuario = true;
+            this.messageUsuario = 'AO MENOS 1 ITEM DEVE SER ALTERADO';
+          }else{
+            this.messageUsuario = '';
+          }
+        }else{
     setTimeout( () => { this.dbService.editaUsuario(this.usuarioKey, usuario) }, 10000);
     loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
                       subTitle: 'Alteração de Usuário',
@@ -78,6 +135,9 @@ export class AlterarAdminPage {
                       message: error.message,
                       buttons: ['Ok']});
                     alert.present();});
+        }
+      }
+    }
   }
 
 //*****************************Descomentar para alterar a função já existente ***********************************/

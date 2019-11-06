@@ -7,6 +7,13 @@ page-cadastro-usuario {
         text-align: justify;   
         font-weight: 600; 
     }
+
+    .error{
+        color: #B04B59;
+        font-size: 12px;
+        text-align: center;
+      }
+      
     @media only screen and (min-width: 600px){
      
         .container{

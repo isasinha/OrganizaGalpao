@@ -7,11 +7,13 @@
     <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon>
     <h3 style="text-align:center">Administrador</h3>
     <p style="text-align:center">Excluir usuário</p>
-    <ion-list class="list">
+    <form padding [formGroup]='usuarioForm' novalidate class="list">
+    <!-- <ion-list class="list"> -->
       <ion-item>
         <ion-label>CPF</ion-label>
-        <ion-input type="text" [(ngModel)]="usuarioCpf" (keyup)='selecionaUsuario(usuarioCpf)'></ion-input>
+        <ion-input type="text" [(ngModel)]="usuarioCpf" (keyup)='selecionaUsuario(usuarioCpf)' formControlName="user" [brmasker]="{mask:'999.999.999-99', len:14, type:'num'}"></ion-input>
       </ion-item>
+      <h6 *ngIf='erroUsuario' class='error'>{{messageUsuario}}</h6>
       <ion-list class="list" *ngIf='usuarioSelecionado'>
         <ion-item *ngFor='let usuarioSel of usuarioSelecionado'>
           <ion-label>
@@ -29,7 +31,7 @@
           <ion-label class='listaRadio'>
             Unidade: {{mens.unidade}} <br> Galpão: {{mens.galpao}}
           </ion-label>
-          <ion-checkbox slot="mens.uniKey" [(ngModel)]="mens.isChecked"></ion-checkbox>
+          <ion-checkbox slot="mens.uniKey" [(ngModel)]="mens.isChecked" formControlName="selecao"></ion-checkbox>
         </ion-item>
       </ion-list>
       <br>
@@ -38,10 +40,12 @@
         Atenção! A exclusão do Usuário de todos os galpões, implica na exclusão permanente do usuário no sistema.
       </p>
       <p class='texto2'> ESSA AÇÃO NÃO PODERÁ SER DESFEITA!</p>
-    </ion-list>
+    </form>
     <pre></pre>
+    <h6 *ngIf='erroSelecao' class='error'>{{messageSelecao}}</h6>
     <ion-buttons class='acessos'>
       <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
+      <!-- <button class='fica' ion-button (click)="deletaUsuario(mensagem)">Excluir</button> -->
       <button class='fica' ion-button (click)="deletaUsuario(mensagem)">Excluir</button>
     </ion-buttons>
   </div>

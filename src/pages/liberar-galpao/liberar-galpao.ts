@@ -79,7 +79,7 @@ export class LiberarGalpaoPage {
   liberaGalpao(keyUnidade: any, keyGalpao: any){
     const alert = this.alertCtrl.create({
       subTitle: 'Deseja liberar este galpão?',
-      message: 'Atenção, todos os itens cadastrados serão excluidos. Essa ação não pode ser desfeita!',
+      message: 'Atenção, todos os usuários e itens cadastrados serão excluidos. Essa ação não pode ser desfeita!',
       buttons: [{
       text: 'Não',
       handler: () => {}

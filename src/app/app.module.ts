@@ -51,8 +51,7 @@ import { CriarPastaPage } from '../pages/criar-pasta/criar-pasta';
 import { ObservacaoPage } from '../pages/observacao/observacao';
 import { PosicoesPage } from '../pages/posicoes/posicoes';
 import { ImageResizer } from '@ionic-native/image-resizer/ngx';
-
-// export const options: Partial<IConfig> | (() => Partial<IConfig>);
+import { BrMaskerModule } from 'brmasker-ionic-3';
 
 const firebaseConfig = {
   apiKey: " AIzaSyAZgCNfWAcgwBjuoUfWeilZk-9Mv7CZLVk ",
@@ -111,7 +110,8 @@ const firebaseConfig = {
     HomeAdmPageModule,
     LoginPageModule,
     HttpModule,
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    BrMaskerModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

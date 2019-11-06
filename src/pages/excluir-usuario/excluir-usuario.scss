@@ -6,6 +6,13 @@ page-excluir-usuario {
     .listaRadio{
         font-size: 100%;
     }
+    
+    .error{
+        color: #B04B59;
+        font-size: 12px;
+        text-align: center;
+    }
+
     @media only screen and (min-width: 600px){
      
         .container{

@@ -7,6 +7,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import * as firebase from 'firebase';
 import { Usuario } from '../../app/Modelo/usuario';
 import { snapshotToArrayUnidadeKey, snapshotToArrayGalpaoKey, snapshotToArrayUnidade, snapshotToArrayGalpao } from '../../app/Modelo/galpao';
+import { FormBuilder, Validators } from '@angular/forms';
 // import { UnidadesPage } from '../unidades/unidades';
 
 @IonicPage()
@@ -39,7 +40,12 @@ export class ExcluirUsuarioPage {
   galpoesNome = [];
   unidadeGalpao = [];
   galpaoUnidade = [];
-  mensagem:Array<any> = [];
+  mensagem:Array<any> = []; 
+  public usuarioForm: any;
+  messageUsuario = '';
+  erroUsuario = false;
+  messageSelecao = '';
+  erroSelecao = false;
 
 
   refUser = firebase.database().ref('/usuario/');
@@ -51,9 +57,13 @@ export class ExcluirUsuarioPage {
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     public dbService: FirebaseServiceProvider,
-    public db: AngularFireDatabase
+    public db: AngularFireDatabase,
+    public fb: FormBuilder
     ) {
-      
+      this.usuarioForm = fb.group({
+        user: ['', Validators.required],
+        selecao: [false, this.validaSelecao]
+      })
   }
 
   ionViewDidLoad() {
@@ -128,35 +138,60 @@ export class ExcluirUsuarioPage {
   }
 
   deletaUsuario(mensagem: any){
-    const loading = this.loadingCtrl.create({
-      content: 'Excluindo...'
-    });
-    var m = 0;
-    var s = 0;
-    while(m < mensagem.length){
-      if(mensagem[m].isChecked == true){
-        var uniKey = mensagem[m].uniKey;
-        var galKey = mensagem[m].galKey;
-        this.dbService.excluiGalpaoUsuario(uniKey, galKey, this.usuarioKey);
-        this.dbService.excluiIdentificacaoGalpaoUsuario(this.usuarioKey, galKey);
-        this.dbService.renovaPosicao(uniKey, galKey);
-        s++;
+    let {user, selecao} = this.usuarioForm.controls;
+    if(!this.usuarioForm.valid){
+      if(!user.valid){
+        this.erroUsuario = true;
+        this.messageUsuario = 'CPF DEVE SER PREENCHIDO';
+      }else{
+        this.messageUsuario = '';
+        if(!selecao.valid){
+          this.erroSelecao = true;
+          this.messageSelecao = 'AO MENOS 1 GALPÃO DEVE SER SELECIONADO';
+        }else{
+          this.messageSelecao = '';
+        }
       }
-      m++;
+    }else{
+        const loading = this.loadingCtrl.create({
+          content: 'Excluindo...'
+        });
+        var m = 0;
+        var s = 0;
+        while(m < mensagem.length){
+          if(mensagem[m].isChecked == true){
+            var uniKey = mensagem[m].uniKey;
+            var galKey = mensagem[m].galKey;
+            this.dbService.excluiGalpaoUsuario(uniKey, galKey, this.usuarioKey);
+            this.dbService.excluiIdentificacaoGalpaoUsuario(this.usuarioKey, galKey);
+            this.dbService.renovaPosicao(uniKey, galKey);
+            s++;
+          }
+          m++;
+        }
+        if(s == mensagem.length){
+          setTimeout( () => { this.dbService.excluiUsuario(this.usuarioKey) }, 10000);
+        }  
+        loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
+                          subTitle: 'Exclusão de Usuário',
+                          message: 'Usuário excluído com sucesso!',
+                          buttons: ['Ok']});
+                        alert.present().then(r => this.navCtrl.setRoot('HomeAdmPage'))})
+                      .catch((error) => {loading.dismiss(); const alert = this.alertCtrl.create({
+                          subTitle: 'Exclusão de Usuário falhou',
+                          message: error.message,
+                          buttons: ['Ok']});
+                        alert.present();});
+      
     }
-    if(s == mensagem.length){
-      setTimeout( () => { this.dbService.excluiUsuario(this.usuarioKey) }, 10000);
-    }  
-    loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                      subTitle: 'Exclusão de Usuário',
-                      message: 'Usuário excluído com sucesso!',
-                      buttons: ['Ok']});
-                    alert.present().then(r => this.navCtrl.setRoot('HomeAdmPage'))})
-                  .catch((error) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                      subTitle: 'Exclusão de Usuário falhou',
-                      message: error.message,
-                      buttons: ['Ok']});
-                    alert.present();});
+  }
+
+  validaSelecao(c: any): { [key: string]: boolean } {
+    let rv: { [key: string]: boolean } = {};
+    if (!c.value) {
+      rv['notChecked'] = true;
+    }
+    return rv;
   }
 
   voltar(){

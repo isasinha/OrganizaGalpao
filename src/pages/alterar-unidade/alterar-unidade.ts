@@ -5,6 +5,7 @@ import { Unidade, snapshotToArrayUnidade } from '../../app/Modelo/galpao';
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
 import { AngularFireDatabase } from '@angular/fire/database';
 import * as firebase from 'firebase';
+import { FormBuilder } from '@angular/forms';
 
 @IonicPage()
 @Component({
@@ -24,17 +25,25 @@ export class AlterarUnidadePage {
   unidades:Array<Unidade> = [];
   unidadeSelecionada =[];
   keyUnidade;
-  ref = firebase.database().ref('/unidade/');
-  
+  ref = firebase.database().ref('/unidade/'); 
+  public unidadeForm: any;
+  messageUnidade = '';
+  erroUnidade = false;
+
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     public dbService: FirebaseServiceProvider,
-    public db: AngularFireDatabase
+    public db: AngularFireDatabase,
+    public fb: FormBuilder
     ) {
-      
+      this.unidadeForm = fb.group({
+        nomeUnidade: null,
+        endereco: null,
+        telefone: null
+      })
   }
 
   ionViewDidLoad() {
@@ -65,17 +74,28 @@ export class AlterarUnidadePage {
     const loading = this.loadingCtrl.create({
       content: 'Alterando...'
     });
-    setTimeout( () => { this.dbService.editaUnidade(keyUnidade, unidade) }, 10000);
-    loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                      subTitle: 'Alteração de Unidade',
-                      message: 'Unidade alterada com sucesso!',
-                      buttons: ['Ok']});
-                    alert.present().then(r => this.navCtrl.setRoot('HomeAdmPage'))})
-                  .catch((error) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                      subTitle: 'Alteração de unidade falhou',
-                      message: error.message,
-                      buttons: ['Ok']});
-                    alert.present();});
+    let {nomeUnidade, endereco, telefone} = this.unidadeForm.controls;
+    if(!nomeUnidade.value && !endereco.value && !telefone.value){
+      this.unidadeForm.status = 'INVALID';
+      if(!this.unidadeForm.valid){
+        this.erroUnidade = true;
+        this.messageUnidade = 'AO MENOS 1 ITEM DEVE SER ALTERADO';
+      }else{
+        this.messageUnidade = '';
+      }
+    }else{
+      setTimeout( () => { this.dbService.editaUnidade(keyUnidade, unidade) }, 10000);
+      loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
+                        subTitle: 'Alteração de Unidade',
+                        message: 'Unidade alterada com sucesso!',
+                        buttons: ['Ok']});
+                      alert.present().then(r => this.navCtrl.setRoot('HomeAdmPage'))})
+                    .catch((error) => {loading.dismiss(); const alert = this.alertCtrl.create({
+                        subTitle: 'Alteração de unidade falhou',
+                        message: error.message,
+                        buttons: ['Ok']});
+                      alert.present();});
+    }
   }
 
   voltar(){
