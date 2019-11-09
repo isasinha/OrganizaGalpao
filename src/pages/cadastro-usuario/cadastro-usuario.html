@@ -99,7 +99,7 @@
       </ion-item>
       <h6 *ngIf='erroUnidade' class='error'>{{messageUnidade}}</h6>
       <ion-item>
-        <ion-label>Galpao*</ion-label>
+        <ion-label>Galpão*</ion-label>
         <ion-select *ngIf='galpoes.length > 0' [(ngModel)]="galpao.key" formControlName="galpao" class="select" (ionChange)="exibirGalpaoSelecionado(galpao.key)">
             <ion-option class="option" *ngFor='let galpao of galpoes' value={{galpao.key}}>{{galpao.nomeGalpao}}</ion-option>
         </ion-select>

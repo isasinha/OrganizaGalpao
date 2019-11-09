@@ -5,6 +5,7 @@ import { Galpao, Unidade, snapshotToArrayUnidade, snapshotToArrayGalpao } from '
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
 import { AngularFireDatabase } from '@angular/fire/database';
 import * as firebase from 'firebase';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @IonicPage()
 @Component({
@@ -32,7 +33,12 @@ export class LiberarGalpaoPage {
   galpaoSelecionado: Galpao;
   keyGalpao;
   keyUnidade;
-  ref = firebase.database().ref('/unidade/');
+  ref = firebase.database().ref('/unidade/'); 
+  public galpaoForm: any;
+  messageUnidade = '';
+  erroUnidade = false;
+  messageGalpao = '';
+  erroGalpao = false;
   
   constructor(
     public navCtrl: NavController, 
@@ -40,8 +46,13 @@ export class LiberarGalpaoPage {
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     public dbService: FirebaseServiceProvider,
-    public db: AngularFireDatabase
+    public db: AngularFireDatabase,
+    public fb: FormBuilder
     ) {
+      this.galpaoForm = fb.group({
+        uni: ['', Validators.required],
+        galp: ['', Validators.required]
+      })
       
   }
 
@@ -77,44 +88,76 @@ export class LiberarGalpaoPage {
   }
   
   liberaGalpao(keyUnidade: any, keyGalpao: any){
-    const alert = this.alertCtrl.create({
-      subTitle: 'Deseja liberar este galpão?',
-      message: 'Atenção, todos os usuários e itens cadastrados serão excluidos. Essa ação não pode ser desfeita!',
-      buttons: [{
-      text: 'Não',
-      handler: () => {}
-      },
-      {
-      text: 'Sim',
-      handler: () => {this.liberaGalpaoAdm(keyUnidade, keyGalpao);}
-      }]});
-    alert.present()
+    let {uni, galp} = this.galpaoForm.controls;
+    if(!this.galpaoForm.valid){
+      if(!uni.valid){
+        this.erroUnidade = true;
+        this.messageUnidade = 'UNIDADE DEVE SER SELECIONADA';
+      }else{
+        this.messageUnidade = '';
+      }
+      if(!galp.valid){
+        this.erroGalpao = true;
+        this.messageGalpao = 'GALPÃO DEVE SER SELECIONADO';
+      }else{
+        this.messageGalpao = '';
+      }
+    }else{
+      const alert = this.alertCtrl.create({
+        subTitle: 'Deseja liberar este galpão?',
+        message: 'Atenção, todos os usuários e itens cadastrados serão excluidos. Essa ação não pode ser desfeita!',
+        buttons: [{
+        text: 'Não',
+        handler: () => {}
+        },
+        {
+        text: 'Sim',
+        handler: () => {this.liberaGalpaoAdm(keyUnidade, keyGalpao);}
+        }]});
+      alert.present()
+    }
   }
  
   liberaGalpaoAdm(keyUnidade: any, keyGalpao: any){
     const loading = this.loadingCtrl.create({
       content: 'Logando...'
     });
-    loading.present();
-    this.db.object('/armazenamento/'+keyGalpao).remove();
-    this.dbService.cadastraGalpaoLiberar(this.galpaoSelecionado, keyGalpao);
-    this.ref.child(keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/').on('value', snapshot => {
-      snapshot.forEach(element => {
-         let usuario = element.val();
-         usuario.key = element.key;
-         let keyUsuario = usuario.key;
-         this.dbService.excluiIdentificacaoGalpaoUsuario(keyUsuario, keyGalpao);
-      });
-    })
-    this.ref.child(keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/').remove();
-    loading.dismiss();
-    const alert = this.alertCtrl.create({
-      subTitle: 'Galpão liberado com sucesso!',
-      buttons: [{
-      text: 'Ok',
-      handler: () => {this.navCtrl.setRoot(HomeAdmPage);}
-      }]});
-    alert.present()
+    let {uni, galp} = this.galpaoForm.controls;
+    if(!this.galpaoForm.valid){
+      if(!uni.valid){
+        this.erroUnidade = true;
+        this.messageUnidade = 'UNIDADE DEVE SER SELECIONADA';
+      }else{
+        this.messageUnidade = '';
+      }
+      if(!galp.valid){
+        this.erroGalpao = true;
+        this.messageGalpao = 'GALPÃO DEVE SER SELECIONADO';
+      }else{
+        this.messageGalpao = '';
+      }
+    }else{
+      loading.present();
+      this.db.object('/armazenamento/'+keyGalpao).remove();
+      this.dbService.cadastraGalpaoLiberar(this.galpaoSelecionado, keyGalpao);
+      this.ref.child(keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/').on('value', snapshot => {
+        snapshot.forEach(element => {
+          let usuario = element.val();
+          usuario.key = element.key;
+          let keyUsuario = usuario.key;
+          this.dbService.excluiIdentificacaoGalpaoUsuario(keyUsuario, keyGalpao);
+        });
+      })
+      this.ref.child(keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/').remove();
+      loading.dismiss();
+      const alert = this.alertCtrl.create({
+        subTitle: 'Galpão liberado com sucesso!',
+        buttons: [{
+        text: 'Ok',
+        handler: () => {this.navCtrl.setRoot(HomeAdmPage);}
+        }]});
+      alert.present()
+    }
   }
 
   voltar(){

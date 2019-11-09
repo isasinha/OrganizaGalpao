@@ -5,6 +5,7 @@ import { Galpao, Unidade, snapshotToArrayUnidade, snapshotToArrayGalpao } from '
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
 import { AngularFireDatabase } from '@angular/fire/database';
 import * as firebase from 'firebase';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @IonicPage()
 @Component({
@@ -30,8 +31,13 @@ export class ExcluirGalpaoPage {
   galpoes = [];
   keyGalpao;
   keyUnidade;
-  usuarios = [];
+  usuarios = []; 
   ref = firebase.database().ref('/unidade/');
+  public galpaoForm: any;
+  messageUnidade = '';
+  erroUnidade = false;
+  messageGalpao = '';
+  erroGalpao = false;
   
   constructor(
     public navCtrl: NavController, 
@@ -39,10 +45,15 @@ export class ExcluirGalpaoPage {
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     public dbService: FirebaseServiceProvider,
-    public db: AngularFireDatabase
+    public db: AngularFireDatabase,
+    public fb: FormBuilder
     ) {
       this.ref.on('value', resp => { 
         this.unidades = snapshotToArrayUnidade(resp);
+      })
+      this.galpaoForm = fb.group({
+        uni: ['', Validators.required],
+        galp: ['', Validators.required]
       })
   }
 
@@ -60,6 +71,21 @@ export class ExcluirGalpaoPage {
     const loading = this.loadingCtrl.create({
       content: 'Excluindo...'
     });
+    let {uni, galp} = this.galpaoForm.controls;
+    if(!this.galpaoForm.valid){
+      if(!uni.valid){
+        this.erroUnidade = true;
+        this.messageUnidade = 'UNIDADE DEVE SER SELECIONADA';
+      }else{
+        this.messageUnidade = '';
+      }
+      if(!galp.valid){
+        this.erroGalpao = true;
+        this.messageGalpao = 'GALPÃO DEVE SER SELECIONADO';
+      }else{
+        this.messageGalpao = '';
+      }
+    }else{
     const snapshotToArrayUsuarioKey = snapshot => {
       let returnArray = [];
       snapshot.forEach(element => {
@@ -87,6 +113,7 @@ export class ExcluirGalpaoPage {
                       message: error.message,
                       buttons: ['Ok']});
                     alert.present();});
+    }
   }
 
   voltar(){

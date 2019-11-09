@@ -18,6 +18,25 @@ ion-navbar[hidebackbutton] button[menutoggle] {
     font-size: 150%; 
 }
 
+@media only screen and (max-width: 600px){
+    ion-label{
+        font-size: 14px;
+    }
+
+    ion-input{
+        font-size: 12px;
+    }
+
+    ion-option{
+        font-size: 12px;
+    }
+
+    ion-button{
+        font-size: 12px;
+        text-align-last: center;
+    }
+}
+
 .backMenu{
     background-color: #FEFBE4;
     color: #B04B59;

@@ -41,7 +41,7 @@ export class FirebaseServiceProvider {
     if (profEhDecimal){
       var decimalProfundidade = parseInt(/^[0-9]*?(?:[\.,])([0-9]*?)$/g.exec(galpao.profundidade.toString())[1]);
       this.profundidade = Math.trunc(parseInt(galpao.profundidade.toString()));
-      if (decimalProfundidade > 5){
+      if ((decimalProfundidade > 50 && decimalProfundidade < 100) || decimalProfundidade > 499){
         this.profundidade = this.profundidade + 1;
       }
     }
@@ -57,7 +57,7 @@ export class FirebaseServiceProvider {
     if (altEhDecimal){
       var decimalAltura = parseInt(/^[0-9]*?(?:[\.,])([0-9]*?)$/g.exec(galpao.altura.toString())[1]);
       this.altura = Math.trunc(parseInt(galpao.altura.toString()))
-      if (decimalAltura > 5){
+      if ((decimalAltura > 50 && decimalAltura < 100) || decimalAltura > 499){
         this.altura = this.altura + 1;
       }
     }
@@ -73,7 +73,7 @@ export class FirebaseServiceProvider {
     if (largEhDecimal){
       var decimalLargura = parseInt(/^[0-9]*?(?:[\.,])([0-9]*?)$/g.exec(galpao.largura.toString())[1]);
       this.largura = Math.trunc(parseInt(galpao.largura.toString()));
-      if (decimalLargura > 5){
+      if ((decimalLargura > 50 && decimalLargura < 100) || decimalLargura > 499){
         this.largura = this.largura + 1;
       }
     }

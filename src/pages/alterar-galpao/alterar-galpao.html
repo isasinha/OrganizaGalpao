@@ -6,46 +6,54 @@
   <div class='container'>
     <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon>
     <h3 style="text-align:center">Administrador</h3>
-    <ion-list class="list">
-      <p style="text-align:center">Alterar galpão</p>
+    <p style="text-align:center">Alterar galpão</p>
+    <form padding [formGroup]='unidadeForm' novalidate class="list"> 
+      <!-- <ion-list class="list"> -->
       <ion-item>
         <ion-label>Unidade</ion-label>
-        <ion-select [(ngModel)]="unidade.key" class="select" (ionChange)="selecionaGalpao(unidade.key)">
+        <ion-select [(ngModel)]="unidade.key" class="select" formControlName="uni" (ionChange)="selecionaGalpao(unidade.key)">
           <ion-option class="option" *ngFor='let unidade of unidades' value={{unidade.key}}>{{unidade.nomeUnidade}}</ion-option>
         </ion-select>
       </ion-item>
+      <h6 *ngIf='erroUnidade' class='error'>{{messageUnidade}}</h6>
       <ion-item>
-        <ion-label>Galpao</ion-label>
-        <ion-select *ngIf='galpoes.length > 0' [(ngModel)]="galpao.key" class="select" (ionChange)="exibirGalpaoSelecionado(galpao.key)">
+        <ion-label>Galpão</ion-label>
+        <ion-select *ngIf='galpoes.length > 0' [(ngModel)]="galpao.key" class="select" formControlName="galp" (ionChange)="exibirGalpaoSelecionado(galpao.key)">
             <ion-option class="option" *ngFor='let galpao of galpoes' value={{galpao.key}}>{{galpao.nomeGalpao}}</ion-option>
         </ion-select>
       </ion-item>
+      <h6 *ngIf='erroGalpaoSel' class='error'>{{messageGalpaoSel}}</h6>
+    </form>
       <pre></pre>
-      <ion-list class="list" *ngIf='galpaoSelecionado.length > 0'>
+    <form padding [formGroup]='galpaoForm' novalidate class="list" *ngIf='galpaoSelecionado.length > 0'> 
+      <!-- <ion-list class="list" *ngIf='galpaoSelecionado.length > 0'> -->
         <ion-item *ngFor='let galpaoSel of galpaoSelecionado'>
           <ion-label>
             Nome do galpão
           </ion-label>
-          <ion-input type="text" [(ngModel)]="galpao.nomeGalpao" placeholder="{{galpaoSel.nomeGalpao}}"></ion-input>
+          <ion-input type="text" [(ngModel)]="galpao.nomeGalpao" placeholder="{{galpaoSel.nomeGalpao}}" formControlName="nomeGalpao"></ion-input>
         </ion-item>
         <ion-item *ngFor='let galpaoSel of galpaoSelecionado'>
           <ion-label>
             Largura
           </ion-label>
-          <ion-input type="number" [(ngModel)]="galpao.largura" placeholder="{{galpaoSel.largura}}"></ion-input>
+          <ion-input type="text" [(ngModel)]="galpao.largura" placeholder="{{galpaoSel.largura}}" maxlength="5" formControlName="largura"></ion-input>
         </ion-item>
+        <h6 *ngIf='erroLargura' class='error'>{{messageLargura}}</h6>
         <ion-item *ngFor='let galpaoSel of galpaoSelecionado'>
           <ion-label>
             Altura
           </ion-label>
-          <ion-input type="number" [(ngModel)]="galpao.altura" placeholder="{{galpaoSel.altura}}"></ion-input>
+          <ion-input type="text" [(ngModel)]="galpao.altura" placeholder="{{galpaoSel.altura}}" maxlength="5" formControlName="altura"></ion-input>
         </ion-item>
+        <h6 *ngIf='erroAltura' class='error'>{{messageAltura}}</h6>
         <ion-item *ngFor='let galpaoSel of galpaoSelecionado'>
           <ion-label>
             Profundidade
           </ion-label>
-          <ion-input type="number" [(ngModel)]="galpao.profundidade" placeholder="{{galpaoSel.profundidade}}"></ion-input>
+          <ion-input type="text" [(ngModel)]="galpao.profundidade" placeholder="{{galpaoSel.profundidade}}" maxlength="5" formControlName="profundidade"></ion-input>
         </ion-item>
+        <h6 *ngIf='erroProfundidade' class='error'>{{messageProfundidade}}</h6>
         <pre></pre>
         <ion-item class='foto' *ngFor='let galpaoSel of galpaoSelecionado'>
           <p class='texto1'>Clique na imagem abaixo se desejar alterar a foto do seu galpao</p>
@@ -53,12 +61,12 @@
           <img class='foto' *ngIf='imagem' src="{{imagem}}" (click)="tirarFoto()">
           <img class='foto' *ngIf='!galpaoSel.imagem && !imagem' src="{{exemploImg}}" (click)="tirarFoto()">
         </ion-item>
-      </ion-list>
-    </ion-list>
-    <pre></pre>
-    <ion-buttons class='acessos'>
-      <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button> 
-      <button class='fica' ion-button (click)="alteraGalpao(unidade.key, galpao.key, galpao)">Alterar Galpão</button>
-    </ion-buttons>
+        <h6 *ngIf='erroGalpao' class='error'>{{messageGalpao}}</h6>
+      <pre></pre>
+      <ion-buttons class='acessos'>
+        <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button> 
+        <button class='fica' ion-button (click)="alteraGalpao(unidade.key, galpao.key, galpao)">Alterar Galpão</button>
+      </ion-buttons>
+    </form>
   </div>
 </ion-content>

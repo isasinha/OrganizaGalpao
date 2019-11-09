@@ -2,6 +2,23 @@ page-redefinir-senha {
     .acessos{
         text-align-last: center;
     }
+
+    .error{
+        color: #B04B59;
+        font-size: 12px;
+        text-align: center;
+        font-weight: 1000;
+    }
+
+    .texto2{
+        // font-size: 18px;
+        text-align-last: center;
+    }
+
+    .texto3{
+        font-size: 14px;
+    }
+
     @media only screen and (min-width: 600px){
      
         .container{

@@ -39,7 +39,7 @@ export class AlterarUnidadePage {
     public db: AngularFireDatabase,
     public fb: FormBuilder
     ) {
-      this.unidadeForm = fb.group({
+      this.unidadeForm = this.fb.group({
         nomeUnidade: null,
         endereco: null,
         telefone: null

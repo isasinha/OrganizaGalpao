@@ -3,9 +3,19 @@ page-alterar-galpao {
         text-align-last: center;
     }
 
+    .texto1{
+        white-space: normal;
+    }
     
     .foto{
         text-align-last: center;
+    }
+
+    .error{
+        color: #B04B59;
+        font-size: 12px;
+        text-align: center;
+        font-weight: 1000;
     }
 
     @media only screen and (min-width: 600px){

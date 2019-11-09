@@ -6,6 +6,7 @@ import { FirebaseServiceProvider } from '../../providers/firebase-service/fireba
 import { AngularFireDatabase } from '@angular/fire/database';
 import { CadastroGalpaoPage } from '../cadastro-galpao/cadastro-galpao';
 import { FormBuilder, Validators } from '@angular/forms';
+import * as firebase from 'firebase';
 
 @IonicPage()
 @Component({
@@ -15,12 +16,17 @@ import { FormBuilder, Validators } from '@angular/forms';
 export class CadastroUnidadePage {
 
   unidade: Unidade={
-    nomeUnidade: null,
+    nomeUnidade: '',
     unidadesGalpao: null, 
-    endereco: null,
-    telefone: null
+    endereco: '',
+    telefone: ''
   };
 
+  ref = firebase.database().ref('/unidade/');
+  uni = [];
+  uniKey = '';
+  unidadeSelecionada = [];
+  temUnidade = false;
   unidadeKey;
   public unidadeForm: any;
   messageNomeUnidade = '';
@@ -36,24 +42,42 @@ export class CadastroUnidadePage {
     public fb: FormBuilder
     ) {
       this.unidadeForm = fb.group({
-        nomeUnidade: ['', Validators.required],
-        endereco: null,
-        telefone: null
+        nomeUnidadeF: ['', Validators.required],
       })
   }
 
   ionViewDidLoad(unidade: Unidade) {
   }
 
+
+  selecionaUnidade(unidadeNome: any){
+    this.uni = [];
+    const snapshotToArrayUnidadeNome = snapshot => {
+      snapshot.forEach(element => {
+        let unidadeBanco = element.val();
+        unidadeBanco.key = element.key;
+        if(unidadeNome == unidadeBanco.nomeUnidade){
+          this.uni = unidadeBanco;
+          this.uniKey = unidadeBanco.key;
+          this.temUnidade = true;
+        }
+      });
+      return this.uni;
+    }
+    this.ref.on('value', resp => {
+      this.unidadeSelecionada = [];
+      this.temUnidade = false;
+      this.unidadeSelecionada = snapshotToArrayUnidadeNome(resp);
+    })
+  }
+  
   addUnidade(unidade: Unidade){
     const loading = this.loadingCtrl.create({
       content: 'Cadastrando...'
     });
-    let {nomeUnidade, endereco, telefone} = this.unidadeForm.controls;
-    endereco;
-    telefone;
+    let {nomeUnidadeF} = this.unidadeForm.controls;
     if(!this.unidadeForm.valid){
-      if(!nomeUnidade.valid){
+      if(!nomeUnidadeF.valid){
         this.erroNomeUnidade = true;
         this.messageNomeUnidade = 'NOME DA UNIDADE DEVE SER PREENCHIDO';
       }else{

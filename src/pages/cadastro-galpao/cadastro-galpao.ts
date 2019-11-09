@@ -6,6 +6,7 @@ import { FirebaseServiceProvider } from '../../providers/firebase-service/fireba
 import { AngularFireDatabase } from '@angular/fire/database';
 import * as firebase from 'firebase';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @IonicPage()
 @Component({
@@ -36,6 +37,22 @@ export class CadastroGalpaoPage {
   nomesGalpao = [];
   exemploImg =  'assets/imgs/exemploImg.jpg';
 
+  public qtdeForm: any;
+  messageQtde = '';
+  erroQtde = false;
+  public galpaoUniForm: any;
+  public galpaoForm: any;
+  messageUnidade = '';
+  erroUnidade = false;
+  messageNomeGalpao = '';
+  erroNomeGalpao = false;
+  messageProfundidade = '';
+  erroProfundidade = false;
+  messageLargura = '';
+  erroLargura = false;
+  messageAltura = '';
+  erroAltura = false;
+
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
@@ -43,13 +60,28 @@ export class CadastroGalpaoPage {
     private alertCtrl: AlertController,
     public dbService: FirebaseServiceProvider,
     public db: AngularFireDatabase,
-    private camera: Camera
+    private camera: Camera,
+    public fb: FormBuilder
     ) {
       if(navParams.get('unidadeKey') == '')
         this.keyU = null;
       else
         this.keyU = navParams.get('unidadeKey');
-  }
+
+      this.qtdeForm = fb.group({
+        qtde: ['', Validators.required]
+      })
+      this.galpaoUniForm = fb.group({
+        unidadeG: ['', Validators.required]
+      })
+      this.galpaoForm = fb.group({
+        nomeGalpaoG: ['', Validators.required],
+        profundidadeG: ['', [Validators.required, Validators.pattern(/^[0-9]*?(?:[\.,])([0-9]*?)$/g)]],
+        alturaG: ['', [Validators.required, Validators.pattern(/^[0-9]*?(?:[\.,])([0-9]*?)$/g)]],
+        larguraG: ['', [Validators.required, Validators.pattern(/^[0-9]*?(?:[\.,])([0-9]*?)$/g)]]
+      })
+
+    }
 
   ionViewDidLoad() {
     this.ref.on('value', resp => {
@@ -58,6 +90,16 @@ export class CadastroGalpaoPage {
   }
 
   geraArrayGalpoes(qtdeGalpoes){
+    this.nomesGalpao = [];
+    this.galpao = {
+      nomeGalpao: null,
+      largura: null,
+      altura: null,
+      profundidade: null,
+      imagem: null
+    }
+    this.messageQtde = '';
+    this.erroQtde = false;
     var cont= 0;
     this.galpoes = [];
     while(qtdeGalpoes > cont){
@@ -68,13 +110,110 @@ export class CadastroGalpaoPage {
 
 
   addGalpao(nomesGalpao: any, galpao: Galpao, novaKey: any){
-    this.dbService.cadastraGalpaoInicial(galpao, nomesGalpao, novaKey);
-    this.exibeAlerta();
+    let {qtde} = this.qtdeForm.controls;
+    if(!this.qtdeForm.valid){
+      if(!qtde.valid){
+        this.erroQtde = true;
+        this.messageQtde = 'QUANTIDADE DE GALPÕES DEVE SER PREENCHIDA';
+      }else{
+        this.messageQtde = '';
+      }
+    }else{
+        let {unidadeG} = this.galpaoUniForm.controls;
+        let {nomeGalpaoG, profundidadeG, alturaG, larguraG} = this.galpaoForm.controls;
+        nomeGalpaoG;
+        for(var i = 0; i<nomesGalpao.length; i++){
+          if(nomesGalpao[i]==undefined || nomesGalpao[i]=='')
+            var nomeVazio = true;
+        }
+        if(nomeVazio){
+          this.galpaoForm.status='INVALID'
+          this.erroNomeGalpao = true;
+          this.messageNomeGalpao = 'NOMES DE TODOS OS GALPÕES DEVEM SER PREENCHIDOS';
+        }else{
+          this.messageNomeGalpao = '';
+        }
+        if(!this.galpaoForm.valid || !this.galpaoUniForm.valid){
+          if(!unidadeG.valid){
+            this.erroUnidade = true;
+            this.messageUnidade = 'UNIDADE DEVE SER SELECIONADA';
+          }else{
+            this.messageUnidade = '';
+          }
+          // if(!nomeGalpaoG.valid){
+          //   this.erroNomeGalpao = true;
+          //   this.messageNomeGalpao = 'NOME DO GALPÃO DEVE SER PREENCHIDO';
+          // }else{
+          //   this.messageNomeGalpao = '';
+          // }
+          if(!profundidadeG.valid){
+            this.erroProfundidade = true;
+            this.messageProfundidade = 'PROFUNDIDADE DEVE SER PREENCHIDA NO FORMATO 99,99';
+          }else{
+            this.messageProfundidade = '';
+          }
+          if(!alturaG.valid){
+            this.erroAltura = true;
+            this.messageAltura = 'ALTURA DEVE SER PREENCHIDA NO FORMATO 99,99';
+          }else{
+            this.messageAltura = '';
+          }
+          if(!larguraG.valid){
+            this.erroLargura = true;
+            this.messageLargura = 'LARGURA DEVE SER PREENCHIDA NO FORMATO 99,99';
+          }else{
+            this.messageLargura = '';
+          }
+        }else{
+          this.dbService.cadastraGalpaoInicial(galpao, nomesGalpao, novaKey);
+          this.exibeAlerta();
+        }
+      
+    }
   }
 
   addGalpaoUni(nomesGalpao:any, galpao: Galpao){
-    this.dbService.cadastraGalpaoInicial(galpao, nomesGalpao, this.keyU);
-    this.exibeAlerta();
+    let {qtde} = this.qtdeForm.controls;
+    if(!this.qtdeForm.valid){
+      if(!qtde.valid){
+        this.erroQtde = true;
+        this.messageQtde = 'QUANTIDADE DE GALPÕES DEVE SER PREENCHIDA';
+      }else{
+        this.messageQtde = '';
+      }
+    }else{
+      let {nomeGalpaoG, profundidadeG, alturaG, larguraG, imagemG} = this.galpaoForm.controls;
+      imagemG;
+      if(!this.galpaoForm.valid){
+        if(!nomeGalpaoG.valid){
+          this.erroNomeGalpao = true;
+          this.messageNomeGalpao = 'NOME DO GALPÃO DEVE SER PREENCHIDO';
+        }else{
+          this.messageNomeGalpao = '';
+        }
+        if(!profundidadeG.valid){
+          this.erroProfundidade = true;
+          this.messageProfundidade = 'PROFUNDIDADE DEVE SER PREENCHIDA';
+        }else{
+          this.messageProfundidade = '';
+        }
+        if(!alturaG.valid){
+          this.erroAltura = true;
+          this.messageAltura = 'ALTURA DEVE SER PREENCHIDA';
+        }else{
+          this.messageAltura = '';
+        }
+        if(!larguraG.valid){
+          this.erroLargura = true;
+          this.messageLargura = 'LARGURA DEVE SER PREENCHIDA';
+        }else{
+          this.messageLargura = '';
+        }
+      }else{
+        this.dbService.cadastraGalpaoInicial(galpao, nomesGalpao, this.keyU);
+        this.exibeAlerta();
+      }
+    }
   }
 
   exibeAlerta(){
@@ -109,7 +248,7 @@ export class CadastroGalpaoPage {
       saveToPhotoAlbum: false,
       allowEdit: true,
       targetWidth: 750,
-      targetHeight: 625
+      targetHeight: 625 
     }
 
     this.camera.getPicture(options).then((imageData) => {

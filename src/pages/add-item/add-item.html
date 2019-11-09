@@ -8,20 +8,22 @@
         <h3 class="item item-self">Posição {{posicao}}</h3>
         <p class='texto4'>P = Profundidade &emsp; A = Altura &emsp; L = Largura</p>
         <h4 class="item item-self">Pasta {{keyPasta}}</h4>
-        <ion-list>
+        <form padding [formGroup]='itemForm' novalidate class="list">
+        <!-- <ion-list> -->
           <ion-item>
             <ion-label stacked style="font-size: 18px">
               Nome do item
             </ion-label>
-            <ion-input type="text" [(ngModel)]='item' placeholder="Ex.: caderno"></ion-input>
+            <ion-input type="text" [(ngModel)]='item' formControlName="itemF" placeholder="Ex.: caderno"></ion-input>
           </ion-item>
-        </ion-list>
-      </div>
-      <pre></pre>
-      <ion-buttons class='acessos'>
-        <button class='fica' ion-button (click)="descartar()">Descartar</button>
-        <button class='fica' ion-button (click)="salvar()">Salvar</button>
-      </ion-buttons>
+          <h6 *ngIf='erroItem' class='error'>{{messageItem}}</h6>
+        <pre></pre>
+        <ion-buttons class='acessos'>
+          <button class='fica' ion-button (click)="descartar()">Descartar</button>
+          <button class='fica' ion-button (click)="salvar()">Salvar</button>
+        </ion-buttons>
+      </form>
     </div>
-  </ion-content>
+  </div>
+</ion-content>
   

@@ -6,26 +6,29 @@
   <div class='container'>
     <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon>
     <h3 style="text-align:center">Administrador</h3>
-    <ion-list class="list">
+    <form padding [formGroup]='galpaoForm' novalidate class="list">
+    <!-- <ion-list class="list"> -->
       <p style="text-align:center">Liberar galpão</p>
       <ion-item>
         <ion-label>Unidade</ion-label>
-        <ion-select [(ngModel)]="unidade.key" class="select" (ionChange)="selecionaGalpao(unidade.key)">
+        <ion-select [(ngModel)]="unidade.key" class="select" (ionChange)="selecionaGalpao(unidade.key)" formControlName="uni">
           <ion-option class="option" *ngFor='let unidade of unidades' value={{unidade.key}}>{{unidade.nomeUnidade}}</ion-option>
         </ion-select>
       </ion-item>
+      <h6 *ngIf='erroUnidade' class='error'>{{messageUnidade}}</h6>
       <ion-item>
         <ion-label>Galpao</ion-label>
-        <ion-select *ngIf='galpoes.length > 0' [(ngModel)]="galpao.key" class="select" (ionChange)="exibirGalpaoSelecionado(galpao.key)">
+        <ion-select *ngIf='galpoes.length > 0' [(ngModel)]="galpao.key" class="select" formControlName="galp" (ionChange)="exibirGalpaoSelecionado(galpao.key)">
             <ion-option class="option" *ngFor='let galpao of galpoes' value={{galpao.key}}>{{galpao.nomeGalpao}}</ion-option>
         </ion-select>
       </ion-item>
+      <h6 *ngIf='erroGalpao' class='error'>{{messageGalpao}}</h6>
       <pre></pre>
-    </ion-list>
-    <pre></pre>
-    <ion-buttons class='acessos'>
-      <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button> 
-      <button class='fica' ion-button (click)="liberaGalpao(unidade.key, galpao.key)">Liberar Galpão</button>
-    </ion-buttons>
+      <pre></pre>
+      <ion-buttons class='acessos'>
+        <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button> 
+        <button class='fica' ion-button (click)="liberaGalpao(unidade.key, galpao.key)">Liberar Galpão</button>
+      </ion-buttons>
+    </form>
   </div>
 </ion-content>

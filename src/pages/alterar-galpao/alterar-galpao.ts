@@ -6,6 +6,7 @@ import { FirebaseServiceProvider } from '../../providers/firebase-service/fireba
 import { AngularFireDatabase } from '@angular/fire/database';
 import * as firebase from 'firebase';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @IonicPage()
 @Component({
@@ -37,6 +38,20 @@ export class AlterarGalpaoPage {
   temUsuario = false;
   ref = firebase.database().ref('/unidade/');
   exemploImg =  'assets/imgs/exemploImg.jpg';
+  public unidadeForm: any;
+  public galpaoForm: any;
+  messageUnidade = '';
+  erroUnidade = false;
+  messageGalpaoSel = '';
+  erroGalpaoSel = false;
+  messageGalpao = '';
+  erroGalpao = false;
+  messageAltura = '';
+  erroAltura = false;
+  messageLargura = '';
+  erroLargura = false;
+  messageProfundidade = '';
+  erroProfundidade = false;
   
   constructor(
     public navCtrl: NavController, 
@@ -45,9 +60,19 @@ export class AlterarGalpaoPage {
     private alertCtrl: AlertController,
     public dbService: FirebaseServiceProvider,
     public db: AngularFireDatabase,
-    private camera: Camera
+    private camera: Camera,
+    private fb: FormBuilder
     ) {
-      
+      this.unidadeForm = this.fb.group({
+        uni: ['', Validators.required],
+        galp: ['', Validators.required]
+      })
+      this.galpaoForm = this.fb.group({
+        nomeGalpao: null,
+        largura: ['', Validators.pattern(/^[0-9]*?(?:[\.,])([0-9]*?)$/g)],
+        altura: ['', Validators.pattern(/^[0-9]*?(?:[\.,])([0-9]*?)$/g)],
+        profundidade: ['', Validators.pattern(/^[0-9]*?(?:[\.,])([0-9]*?)$/g)]
+      })
   }
 
   ionViewDidLoad() {
@@ -85,27 +110,75 @@ export class AlterarGalpaoPage {
     const loading = this.loadingCtrl.create({
       content: 'Alterando...'
     });
-    if(this.imagem){
-      galpao.imagem = this.imagem;
-    }
-    this.temUsuario = this.dbService.editaGalpao(keyUnidade, keyGalpao, galpao, this.galpaoSelecionado);
-    if(this.temUsuario){
-      const alert = this.alertCtrl.create({
-        subTitle: 'Alteração de Galpão',
-        message: 'As medidas não podem ser alteradas, pois existe usuário administrando o galpão!',
-        buttons: ['Ok']});
-      alert.present()
+    let {uni, galp} = this.unidadeForm.controls;
+    if(!this.unidadeForm.valid){
+      if(!uni.valid){
+        this.erroUnidade = true;
+        this.messageUnidade = 'UNIDADE DEVE SER SELECIONADA';
+      }else{
+        this.messageUnidade = '';
+      }
+      if(!galp.valid){
+        this.erroGalpaoSel = true;
+        this.messageGalpaoSel = 'GALPÃO DEVE SER SELECIONADO';
+      }else{
+        this.messageGalpaoSel = '';
+      }
     }else{
-      loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                        subTitle: 'Alteração de Galpão',
-                        message: 'Galpão alterado com sucesso!',
-                        buttons: ['Ok']});
-                      alert.present().then(r => this.navCtrl.setRoot('HomeAdmPage'))})
-                    .catch((error) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                        subTitle: 'Alteração de galpão falhou',
-                        message: error.message,
-                        buttons: ['Ok']}); 
-                      alert.present();});
+      let {nomeGalpao, largura, altura, profundidade} = this.galpaoForm.controls;
+      if(!nomeGalpao.value && !largura.value && !altura.value && !profundidade.value){
+        this.galpaoForm.status = 'INVALID';
+        if(!this.galpaoForm.valid){
+          this.erroGalpao = true;
+          this.messageGalpao = 'AO MENOS 1 ITEM DEVE SER ALTERADO';
+        }else{
+          this.messageGalpao = '';
+        }
+      }else{
+        if(!this.galpaoForm.valid){
+          if(!largura.valid){
+            this.erroLargura = true;
+            this.messageLargura = 'LARGURA DEVE SER PREENCHIDA NO FORMATO 99,99';
+          }else{
+            this.messageLargura = '';
+          }
+          if(!altura.valid){
+            this.erroAltura = true;
+            this.messageAltura = 'ALTURA DEVE SER PREENCHIDA NO FORMATO 99,99';
+          }else{
+            this.messageAltura = '';
+          }
+          if(!profundidade.valid){
+            this.erroProfundidade = true;
+            this.messageProfundidade = 'PROFUNDIDADE DEVE SER PREENCHIDA NO FORMATO 99,99';
+          }else{
+            this.messageProfundidade = '';
+          }
+        }else{
+          if(this.imagem){
+            galpao.imagem = this.imagem;
+          }
+          this.temUsuario = this.dbService.editaGalpao(keyUnidade, keyGalpao, galpao, this.galpaoSelecionado);
+          if(this.temUsuario){
+            const alert = this.alertCtrl.create({
+              subTitle: 'Alteração de Galpão',
+              message: 'As medidas não podem ser alteradas, pois existe usuário administrando o galpão!',
+              buttons: ['Ok']});
+            alert.present()
+          }else{
+            loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
+                              subTitle: 'Alteração de Galpão',
+                              message: 'Galpão alterado com sucesso!',
+                              buttons: ['Ok']});
+                            alert.present().then(r => this.navCtrl.setRoot('HomeAdmPage'))})
+                          .catch((error) => {loading.dismiss(); const alert = this.alertCtrl.create({
+                              subTitle: 'Alteração de galpão falhou',
+                              message: error.message,
+                              buttons: ['Ok']}); 
+                            alert.present();});
+          }
+        }
+      }
     }
   }
 
