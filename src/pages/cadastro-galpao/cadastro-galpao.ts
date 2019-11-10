@@ -35,6 +35,8 @@ export class CadastroGalpaoPage {
   galpoes = [];
   nomeGalpao;
   nomesGalpao = [];
+  nomeGalpaoJa = '';
+  jaExiste = false;
   exemploImg =  'assets/imgs/exemploImg.jpg';
 
   public qtdeForm: any;
@@ -52,6 +54,8 @@ export class CadastroGalpaoPage {
   erroLargura = false;
   messageAltura = '';
   erroAltura = false;
+  messageNomeGalpaoJa = '';
+  erroNomeGalpaoJa = false;
 
   constructor(
     public navCtrl: NavController, 
@@ -110,6 +114,7 @@ export class CadastroGalpaoPage {
 
 
   addGalpao(nomesGalpao: any, galpao: Galpao, novaKey: any){
+
     let {qtde} = this.qtdeForm.controls;
     if(!this.qtdeForm.valid){
       if(!qtde.valid){
@@ -119,6 +124,7 @@ export class CadastroGalpaoPage {
         this.messageQtde = '';
       }
     }else{
+        this.selecionaGalpaoJa(nomesGalpao, novaKey)
         let {unidadeG} = this.galpaoUniForm.controls;
         let {nomeGalpaoG, profundidadeG, alturaG, larguraG} = this.galpaoForm.controls;
         nomeGalpaoG;
@@ -132,6 +138,13 @@ export class CadastroGalpaoPage {
           this.messageNomeGalpao = 'NOMES DE TODOS OS GALPÕES DEVEM SER PREENCHIDOS';
         }else{
           this.messageNomeGalpao = '';
+          if(this.jaExiste){
+            this.galpaoForm.status='INVALID'
+            this.erroNomeGalpaoJa = true;
+            this.messageNomeGalpaoJa = 'JÁ EXISTE UM GALPÃO CHAMADO '+this.nomeGalpaoJa+' NESTA UNIDADE';
+          }else{
+            this.messageNomeGalpaoJa = '';
+          }
         }
         if(!this.galpaoForm.valid || !this.galpaoUniForm.valid){
           if(!unidadeG.valid){
@@ -170,6 +183,27 @@ export class CadastroGalpaoPage {
         }
       
     }
+  }
+
+  selecionaGalpaoJa(nomesGalpao: any, keyUnidade: any){
+    this.nomeGalpaoJa = '';
+    this.ref.child(keyUnidade+'/unidadesGalpao/').on('value', snapshot => {
+      this.jaExiste = false;
+      this.nomeGalpaoJa = '';
+      snapshot.forEach(element => {
+        let galpao = element.val();
+        galpao.key = element.key;
+        var i = 0;
+        while(i<nomesGalpao.length){
+          if(galpao.nomeGalpao == nomesGalpao[i]){
+            this.jaExiste = true;
+            this.nomeGalpaoJa = nomesGalpao[i];
+            i = galpao.length - 1;
+          }
+          i++
+        }
+      });
+    })
   }
 
   addGalpaoUni(nomesGalpao:any, galpao: Galpao){
@@ -258,7 +292,6 @@ export class CadastroGalpaoPage {
       //erro aqui
     });
   }
-
 
   voltar(){
     this.navCtrl.setRoot(HomeAdmPage)

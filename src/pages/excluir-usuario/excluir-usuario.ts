@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { HomeAdmPage } from '../home-adm/home-adm';
 // import { Galpao, Unidade, snapshotToArrayUnidade, snapshotToArrayGalpao } from '../../app/Modelo/galpao';
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
@@ -54,7 +54,7 @@ export class ExcluirUsuarioPage {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
-    private loadingCtrl: LoadingController,
+    // private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     public dbService: FirebaseServiceProvider,
     public db: AngularFireDatabase,
@@ -153,37 +153,66 @@ export class ExcluirUsuarioPage {
         }
       }
     }else{
-        const loading = this.loadingCtrl.create({
-          content: 'Excluindo...'
-        });
-        var m = 0;
-        var s = 0;
-        while(m < mensagem.length){
-          if(mensagem[m].isChecked == true){
-            var uniKey = mensagem[m].uniKey;
-            var galKey = mensagem[m].galKey;
-            this.dbService.excluiGalpaoUsuario(uniKey, galKey, this.usuarioKey);
-            this.dbService.excluiIdentificacaoGalpaoUsuario(this.usuarioKey, galKey);
-            this.dbService.renovaPosicao(uniKey, galKey);
-            s++;
-          }
-          m++;
-        }
-        if(s == mensagem.length){
-          setTimeout( () => { this.dbService.excluiUsuario(this.usuarioKey) }, 10000);
-        }  
-        loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
-                          subTitle: 'Exclusão de Usuário',
-                          message: 'Usuário excluído com sucesso!',
-                          buttons: ['Ok']});
-                        alert.present().then(r => this.navCtrl.setRoot('HomeAdmPage'))})
-                      .catch((error) => {loading.dismiss(); const alert = this.alertCtrl.create({
+      var m = 0;
+      var s = 0;
+      while(m < mensagem.length){
+        if(mensagem[m].isChecked == true){
+          var uniKey = mensagem[m].uniKey;
+          var galKey = mensagem[m].galKey;
+          var usuarioGalpao = ''
+          var arrayUsuarios = [];
+          this.refUni.child('/'+uniKey+'/unidadesGalpao/'+galKey+'/usuarios').on('value', snapshot => {
+            snapshot.forEach(element => {
+              usuarioGalpao = element.val();
+              arrayUsuarios.push(usuarioGalpao);
+            });
+          })
+          if(arrayUsuarios.length==1){
+            const alert = this.alertCtrl.create({
+              subTitle: 'Este é o único usuário administrando este galpão, caso não haja nenhum administrador, todos os itens nele cadastrados serão excluídos!',
+              message: 'Deseja prosseguir com a exclusão?',
+              buttons: [
+                {
+                  text: 'Cancelar'
+                },
+                {
+                  text: 'Sim',
+                  handler: () => {
+                    this.refUni.child('/'+uniKey+'/unidadesGalpao/'+galKey+'/usuarios/'+this.usuarioKey).remove();
+                    this.dbService.excluiIdentificacaoGalpaoUsuario(this.usuarioKey, galKey);
+                    this.dbService.renovaPosicao(uniKey, galKey);
+                    const alert = this.alertCtrl.create({
+                      subTitle: 'Exclusão de Usuário',
+                      message: 'Usuário excluído com sucesso!',
+                      buttons: ['Ok']});
+                    alert.present().then(r => this.navCtrl.setRoot('HomeAdmPage'))
+                      .catch((error) => {
+                        const alert = this.alertCtrl.create({
                           subTitle: 'Exclusão de Usuário falhou',
                           message: error.message,
                           buttons: ['Ok']});
                         alert.present();});
-      
-    }
+                  } 
+                }
+              ]
+            });
+            alert.present()
+            .catch((error) => {
+              const alert = this.alertCtrl.create({
+                subTitle: 'Cadastro de galpão falhou',
+                message: error.message,
+                buttons: ['Ok']});
+              alert.present();})
+          } 
+          s++;
+        }
+        m++;
+      }
+      if(s == mensagem.length){
+        this.dbService.excluiUsuario(this.usuarioKey);
+      }
+     
+    }  
   }
 
   validaSelecao(c: any): { [key: string]: boolean } {

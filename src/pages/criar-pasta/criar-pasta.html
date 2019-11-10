@@ -16,6 +16,7 @@
           <ion-input type="text" [(ngModel)]='pasta' formControlName="pastaF" placeholder="ex.: caixa"></ion-input>
         </ion-item>
         <h6 *ngIf='erroPasta' class='error'>{{messagePasta}}</h6>
+        <h6 *ngIf='erroPastaJa' class='error'>{{messagePastaJa}}</h6>
         <ion-item>
           <ion-label stacked style="font-size: 18px">
             Nome do item

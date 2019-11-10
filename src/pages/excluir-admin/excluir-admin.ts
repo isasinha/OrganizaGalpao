@@ -101,7 +101,7 @@ export class ExcluirAdminPage {
         const loading = this.loadingCtrl.create({
           content: 'Excluindo...'
         });
-        setTimeout( () => { this.dbService.excluiAdmin(this.usuarioKey) }, 10000);
+        this.dbService.excluiAdmin(this.usuarioKey);
         loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
                           subTitle: 'Exclusão de Administrador',
                           message: 'Administrador excluído com sucesso!',

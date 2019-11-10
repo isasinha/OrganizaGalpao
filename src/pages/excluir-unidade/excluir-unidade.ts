@@ -61,7 +61,7 @@ export class ExcluirUnidadePage {
         this.messageUnidade = '';
       }
     }else{
-      setTimeout( () => { this.dbService.excluiUnidade(keyUnidade) }, 10000);
+      this.dbService.excluiUnidade(keyUnidade);
       loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
                         subTitle: 'Exclusão de Unidade',
                         message: 'Unidade excluída com sucesso!',

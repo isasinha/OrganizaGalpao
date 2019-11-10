@@ -7,6 +7,7 @@ import { RedefinirSenhaPage } from '../redefinir-senha/redefinir-senha';
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
 import { Usuario } from '../../app/Modelo/usuario';
 import * as firebase from 'firebase';
+import { snapshotToArrayUnidade, Unidade } from '../../app/Modelo/galpao';
 
 @IonicPage()
 @Component({
@@ -28,7 +29,9 @@ export class LoginPage {
   usuarioNome:string = '';
   usuarioKey = '';
   usuarioData=[];
+  unidades:Array<Unidade> = [];
   ref = firebase.database().ref('/usuario/');
+  refUni = firebase.database().ref('/unidade/');
 
   constructor(
     public navCtrl: NavController, 
@@ -38,6 +41,9 @@ export class LoginPage {
     private alertCtrl: AlertController,
     public dbService: FirebaseServiceProvider
     ) { 
+      this.refUni.on('value', resp => {
+        this.unidades = snapshotToArrayUnidade(resp);
+      })
   }
 
   ionViewDidLoad() {
@@ -69,13 +75,14 @@ export class LoginPage {
       this.usuarioTipo = this.usuarioData[1];
       this.usuarioNome = this.usuarioData[2];
       this.usuarioKey = this.usuarioData[3];
+
     })
-    const loading = this.loadingCtrl.create({
-      content: 'Logando...'
-    });
-    loading.present();
+    // const loading = this.loadingCtrl.create({
+    //   content: 'Logando...'
+    // });
+    // loading.present();
     if(usuario.cpf == '' || usuario.senha == ''){
-      loading.dismiss(); 
+      // loading.dismiss(); 
       const alert = this.alertCtrl
       .create({
         subTitle:'Login falhou', 
@@ -84,50 +91,51 @@ export class LoginPage {
       });
       alert.present()
     }else{
-      if(this.usuarioData.length <= 0){
-        loading.dismiss(); 
-        const alert = this.alertCtrl
-        .create({
-          subTitle:'Login falhou', 
-          message: "Verifique o CPF e tente novamente", 
-          buttons:['Ok']
-        });
-        alert.present()
-      }else{
-        if(usuario.senha == this.usuarioSenha){
-          if (this.usuarioSenha == '12345678'){
-            loading.dismiss();
-            this.navCtrl.push(RedefinirSenhaPage);
-          }else{
-            loading.dismiss();
-            if(this.usuarioTipo == 'Administrador')
-              this.navCtrl.push(HomeAdmPage)
-            else{
-              this.navCtrl.push(HomePage, {
-                key: this.usuarioKey,
-                nome: this.usuarioNome,
-                cpf: usuario.cpf
-              })
-            }  
-          }  
-        }else{
-          loading.dismiss(); 
+      const loading = this.loadingCtrl.create({
+        content: 'Logando...',
+        duration: 100
+      });
+      loading.present().then( () => {
+        if(this.usuarioData.length <= 0){
+          // loading.dismiss(); 
           const alert = this.alertCtrl
           .create({
             subTitle:'Login falhou', 
-            message: "Verifique a senha e tente novamente", 
+            message: "Verifique o CPF e tente novamente", 
             buttons:['Ok']
           });
           alert.present()
-        }
-      }  
-    }
+        }else{
+          if(usuario.senha == this.usuarioSenha){
+            if (this.usuarioSenha == '12345678'){
+              // loading.dismiss();
+              this.navCtrl.push(RedefinirSenhaPage);
+            }else{
+              // loading.dismiss();
+              if(this.usuarioTipo == 'Administrador')
+                this.navCtrl.push(HomeAdmPage)
+              else{
+                this.navCtrl.push(HomePage, {
+                  key: this.usuarioKey,
+                  nome: this.usuarioNome,
+                  cpf: usuario.cpf
+                })
+              }  
+            }  
+          }else{
+            // loading.dismiss(); 
+            const alert = this.alertCtrl
+            .create({
+              subTitle:'Login falhou', 
+              message: "Verifique a senha e tente novamente", 
+              buttons:['Ok']
+            });
+            alert.present()
+          }
+        }  
+      }
+    )}
   }
-
-  redefineSenha(){
-    this.navCtrl.setRoot(RedefinirSenhaPage);
-  }
-
 } 
 
 //*****************************Descomentar para alterar o login inteiro já existente ***********************************/

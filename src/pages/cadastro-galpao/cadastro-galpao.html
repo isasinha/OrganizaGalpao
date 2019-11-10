@@ -15,8 +15,6 @@
       </ion-item>
       <h6 *ngIf='erroQtde' class='error'>{{messageQtde}}</h6>
     </form> 
-    <br class='br'>
-    <br>
     <form padding [formGroup]='galpaoUniForm' novalidate class="list" *ngIf='galpoes.length > 0'>
     <!-- <ion-list *ngIf='galpoes.length > 0' class="list"> -->
       <ion-item *ngIf='keyU == null'>
@@ -28,8 +26,6 @@
       <h6 *ngIf='erroUnidade' class='error'>{{messageUnidade}}</h6>
     </form>
     <form padding [formGroup]='galpaoForm' novalidate class="list" *ngIf='galpoes.length > 0'>
-      <br *ngIf='galpoes.length > 1' class='br'>
-      <br>
       <p *ngIf='galpoes.length > 1' style="text-align:center">Digite abaixo o nome de cada novo galpão:</p>
       <ion-item *ngFor='let galpao of galpoes; let i = index'>
         <ion-label floating>
@@ -38,6 +34,7 @@
         <ion-input type="text" [(ngModel)]="nomesGalpao[i]" formControlName="nomeGalpaoG"></ion-input>
       </ion-item>
       <h6 *ngIf='erroNomeGalpao' class='error'>{{messageNomeGalpao}}</h6>
+      <h6 *ngIf='erroNomeGalpaoJa' class='error'>{{messageNomeGalpaoJa}}</h6>
       <br *ngIf='galpoes.length > 1' class='br'>
       <br>
       <p *ngIf='galpoes.length > 1' style="text-align:center">Digite abaixo os dados (dados comuns a todos os galpões):</p>

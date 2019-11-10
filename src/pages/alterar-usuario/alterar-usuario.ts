@@ -129,8 +129,7 @@ export class AlterarUsuarioPage {
             this.messageUsuario = '';
           }
         }else{
-
-          setTimeout( () => { this.dbService.editaUsuario(this.usuarioKey, usuario) }, 10000);    var i = 0;
+          this.dbService.editaUsuario(this.usuarioKey, usuario);    var i = 0;
           const loading = this.loadingCtrl.create({
             content: 'Alterando...'
           });

@@ -23,6 +23,7 @@
           </ion-label>
           <ion-input type="text" [(ngModel)]="unidade.nomeUnidade" formControlName="nomeUnidade" placeholder="{{unidadeSel.nomeUnidade}}"></ion-input>
         </ion-item>
+        <h6 *ngIf='erroUnidadeJa' class='error'>{{messageUnidadeJa}}</h6>
         <ion-item *ngFor='let unidadeSel of unidadeSelecionada'>
           <ion-label>
             Endereço

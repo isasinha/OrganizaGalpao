@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, LoadingController } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import * as firebase from 'firebase';
 // import { ManterPosicaoPage } from '../manter-posicao/manter-posicao';
@@ -34,7 +34,7 @@ export class GalpaoSelecionadoPage {
     public navCtrl: NavController, 
     public navParams: NavParams,
     public modalCtrl: ModalController,
-    // private loadingCtrl: LoadingController,
+    private loadingCtrl: LoadingController,
     // private alertCtrl: AlertController,
     public dbService: FirebaseServiceProvider,
     public db: AngularFireDatabase
@@ -123,16 +123,24 @@ export class GalpaoSelecionadoPage {
   }
 
   posicoes(){
-    this.navCtrl.setRoot(PosicoesPage, ({
-      keyGalpao: this.keyGalpao, 
-      key: this.keyUsuario,
-      nome: this.nomeUsuario,
-      cpf: this.cpfUsuario,
-      nomeGalpao: this.nomeGalpao,
-      nomeUnidade: this.nomeUnidade,
-      keyUnidade: this.unidadeKey,
-      galpao: this.galpao
-    })); 
+    if(!this.galpao){
+      const loading = this.loadingCtrl.create({
+        content: 'Aguarde, carregando imagem...',
+        duration: 100
+      });
+      loading.present();
+    }else{
+      this.navCtrl.setRoot(PosicoesPage, ({
+        keyGalpao: this.keyGalpao, 
+        key: this.keyUsuario,
+        nome: this.nomeUsuario,
+        cpf: this.cpfUsuario,
+        nomeGalpao: this.nomeGalpao,
+        nomeUnidade: this.nomeUnidade,
+        keyUnidade: this.unidadeKey,
+        galpao: this.galpao
+      })); 
+    }
   }
   
 

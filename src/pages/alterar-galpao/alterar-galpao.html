@@ -33,6 +33,7 @@
           </ion-label>
           <ion-input type="text" [(ngModel)]="galpao.nomeGalpao" placeholder="{{galpaoSel.nomeGalpao}}" formControlName="nomeGalpao"></ion-input>
         </ion-item>
+        <h6 *ngIf='erroGalpaoJa' class='error'>{{messageGalpaoJa}}</h6>
         <ion-item *ngFor='let galpaoSel of galpaoSelecionado'>
           <ion-label>
             Largura

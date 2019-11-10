@@ -117,8 +117,14 @@ export class RedefinirSenhaPage {
             message: 'Favor conferir as senhas digitadas e tentar novamente!',
             buttons: ['Ok']});
           alert.present()});
+        }else if(usuario.senha == '12345678' || confirmaSenha == '12345678'){
+          loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
+            subTitle: 'Senha digitada é a igual à senha padrão',
+            message: 'Favor digitar uma senha diferente e tentar novamente!',
+            buttons: ['Ok']});
+          alert.present()});
         }else{
-          setTimeout( () => { this.dbService.editaUsuario(this.usuarioKey, usuario) }, 10000);
+          this.dbService.editaUsuario(this.usuarioKey, usuario);
           loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
                             subTitle: 'Alteração de Usuário',
                             message: 'Senha alterada com sucesso!',

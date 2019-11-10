@@ -35,6 +35,7 @@ export class AlterarGalpaoPage {
   keyGalpao;
   keyUnidade;
   imagem;
+  jaExiste = false;
   temUsuario = false;
   ref = firebase.database().ref('/unidade/');
   exemploImg =  'assets/imgs/exemploImg.jpg';
@@ -52,6 +53,8 @@ export class AlterarGalpaoPage {
   erroLargura = false;
   messageProfundidade = '';
   erroProfundidade = false;
+  messageGalpaoJa = '';
+  erroGalpaoJa = false;
   
   constructor(
     public navCtrl: NavController, 
@@ -81,11 +84,23 @@ export class AlterarGalpaoPage {
     })
   }
 
-
   selecionaGalpao(keyUnidade: any){
     this.keyUnidade = keyUnidade;
     this.ref.child(keyUnidade+'/unidadesGalpao/').on('value', resp => {
       this.galpoes = snapshotToArrayGalpao(resp);
+    })
+  }
+
+  selecionaGalpaoJa(nomeGalpao: string){
+    this.ref.child(this.keyUnidade+'/unidadesGalpao/').on('value', snapshot => {
+      this.jaExiste = false;
+      snapshot.forEach(element => {
+         let galpao = element.val();
+         galpao.key = element.key;
+        if(galpao.nomeGalpao == nomeGalpao){
+          this.jaExiste = true;
+        }
+      });
     })
   }
 
@@ -126,13 +141,22 @@ export class AlterarGalpaoPage {
       }
     }else{
       let {nomeGalpao, largura, altura, profundidade} = this.galpaoForm.controls;
-      if(!nomeGalpao.value && !largura.value && !altura.value && !profundidade.value){
+      this.selecionaGalpaoJa(nomeGalpao.value);
+      if(!nomeGalpao.value && !largura.value && !altura.value && !profundidade.value && !this.imagem){
         this.galpaoForm.status = 'INVALID';
         if(!this.galpaoForm.valid){
           this.erroGalpao = true;
           this.messageGalpao = 'AO MENOS 1 ITEM DEVE SER ALTERADO';
         }else{
           this.messageGalpao = '';
+        }
+      }else if(this.jaExiste){
+        this.galpaoForm.status = 'INVALID';
+        if(!this.galpaoForm.valid){
+          this.erroGalpaoJa = true;
+          this.messageGalpaoJa = 'JÁ EXISTE GALPÃO CADASTRADO COM ESSE NOME, NESTA UNIDADE';
+        }else{
+          this.messageGalpaoJa = '';
         }
       }else{
         if(!this.galpaoForm.valid){
@@ -166,6 +190,26 @@ export class AlterarGalpaoPage {
               buttons: ['Ok']});
             alert.present()
           }else{
+            if(galpao.nomeGalpao){
+              var uniNome;
+              this.ref.on('value', snapshot => {
+                snapshot.forEach(element => {
+                  let unidade = element.val();
+                  unidade.key = element.key;
+                  uniNome = unidade.nomeUnidade;
+                })
+              })  
+              var soIdent = true;
+              var usuarioGalpao;
+              this.ref.child(keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios').on('value', outroSnapshot => {
+                outroSnapshot.forEach(element => {
+                  let usuario = element.val();
+                  var usuarioKey = usuario.key = element.key;
+                  usuarioGalpao = {Unidade: uniNome, Galpao: galpao.nomeGalpao}
+                  this.dbService.editaUsuario(usuarioKey, usuario, usuarioGalpao, keyGalpao, soIdent)
+                });
+              })
+            }
             loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
                               subTitle: 'Alteração de Galpão',
                               message: 'Galpão alterado com sucesso!',

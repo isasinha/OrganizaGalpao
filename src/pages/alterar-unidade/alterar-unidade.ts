@@ -25,10 +25,13 @@ export class AlterarUnidadePage {
   unidades:Array<Unidade> = [];
   unidadeSelecionada =[];
   keyUnidade;
+  jaExiste = false;
   ref = firebase.database().ref('/unidade/'); 
   public unidadeForm: any;
   messageUnidade = '';
   erroUnidade = false;
+  messageUnidadeJa = '';
+  erroUnidadeJa = false;
 
   constructor(
     public navCtrl: NavController, 
@@ -75,6 +78,7 @@ export class AlterarUnidadePage {
       content: 'Alterando...'
     });
     let {nomeUnidade, endereco, telefone} = this.unidadeForm.controls;
+    this.selecionaUnidade(nomeUnidade.value);
     if(!nomeUnidade.value && !endereco.value && !telefone.value){
       this.unidadeForm.status = 'INVALID';
       if(!this.unidadeForm.valid){
@@ -83,8 +87,40 @@ export class AlterarUnidadePage {
       }else{
         this.messageUnidade = '';
       }
+    }else if(this.jaExiste){
+      this.unidadeForm.status = 'INVALID';
+      if(!this.unidadeForm.valid){
+        this.erroUnidadeJa = true;
+        this.messageUnidadeJa = 'JÁ EXISTE UMA UNIDADE CADASTRADA COM ESSE NOME';
+      }else{
+        this.messageUnidadeJa = '';
+      }
     }else{
-      setTimeout( () => { this.dbService.editaUnidade(keyUnidade, unidade) }, 10000);
+      this.dbService.editaUnidade(keyUnidade, unidade);
+      if(unidade.nomeUnidade){
+        var nomeUni = unidade.nomeUnidade;
+        var soIdent = true;
+        this.ref.child(keyUnidade+'/unidadesGalpao/').on('value', snapshot => {
+          var usuarioGalpao;
+          snapshot.forEach(element => {
+            let galpao = element.val();
+            var galpaoKey = galpao.key = element.key;
+            var nomeGal = galpao.nomeGalpao;
+            this.ref.child(keyUnidade+'/unidadesGalpao/'+galpaoKey+'/usuarios').on('value', outroSnapshot => {
+              outroSnapshot.forEach(element => {
+                let usuario = element.val();
+                var usuarioKey = usuario.key = element.key;
+                usuarioGalpao = {Unidade: nomeUni, Galpao: nomeGal}
+
+                this.dbService.editaUsuario(usuarioKey, usuario, usuarioGalpao, galpaoKey, soIdent)
+              });
+            })
+
+          });
+        
+        })
+      }
+
       loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
                         subTitle: 'Alteração de Unidade',
                         message: 'Unidade alterada com sucesso!',
@@ -96,6 +132,19 @@ export class AlterarUnidadePage {
                         buttons: ['Ok']});
                       alert.present();});
     }
+  }
+
+  selecionaUnidade(unidadeNome: any){
+    this.jaExiste = false;
+    this.ref.on('value', snapshot => {
+      snapshot.forEach(element => {
+        let unidadeBanco = element.val();
+        unidadeBanco.key = element.key;
+        if(unidadeNome == unidadeBanco.nomeUnidade){
+          this.jaExiste = true;
+        }
+      });
+    })
   }
 
   voltar(){

@@ -3,6 +3,8 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { Galpao, Unidade } from '../../app/Modelo/galpao';
 import { Usuario } from '../../app/Modelo/usuario';
 import * as firebase from 'firebase';
+import { AlertController, LoadingController } from 'ionic-angular';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class FirebaseServiceProvider { 
@@ -16,7 +18,10 @@ export class FirebaseServiceProvider {
 
 
   constructor(
-    public db: AngularFireDatabase) {
+    public db: AngularFireDatabase,
+    public alertCtrl: AlertController,
+    public loadingCtrl: LoadingController
+    ) {
 
   }
 
@@ -137,7 +142,7 @@ export class FirebaseServiceProvider {
             // this.refArm.child('/'+keyGalpao+'/posicao').push(posicao);
             posicao = '';
           }
-        }
+        } 
       }
       i = i + 1;
   }
@@ -209,9 +214,43 @@ export class FirebaseServiceProvider {
     this.db.object('/usuario/'+keyUsuario).remove();
   }
 
-  excluiGalpaoUsuario(keyUnidade: any, keyGalpao: any, keyUsuario: any){
-    this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/'+keyUsuario).remove();
-      
+  excluiGalpaoUsuario (keyUnidade: any, keyGalpao: any, keyUsuario: any): Observable<any>{
+    var usuarioExcluido;
+    var usuarioGalpao = ''
+    var arrayUsuarios = [];
+    this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios').on('value', snapshot => {
+      snapshot.forEach(element => {
+        usuarioGalpao = element.val();
+        arrayUsuarios.push(usuarioGalpao);
+      });
+    })
+    if(arrayUsuarios.length==1){
+      var alert = this.alertCtrl.create({
+        subTitle: 'Este é o único usuário administrando este galpão, caso não haja nenhum administrador, todos os itens nele cadastrados serão excluídos!',
+        message: 'Deseja prosseguir com a exclusão?',
+        buttons: [
+          {
+            text: 'Cancelar'
+          },
+          {
+            text: 'Sim',
+            handler: () => {
+              this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/'+keyUsuario).remove()
+              this.excluiIdentificacaoGalpaoUsuario(keyUsuario, keyGalpao)
+              this.renovaPosicao(keyUnidade, keyGalpao)
+            } 
+          }
+        ]
+      });
+      alert.present()
+      .catch((error) => {
+        const alert = this.alertCtrl.create({
+          subTitle: 'Cadastro de galpão falhou',
+          message: error.message,
+          buttons: ['Ok']});
+        alert.present();})
+    }     
+    return Observable.of(usuarioExcluido);
   }
 
   renovaPosicao(keyUnidade: any, keyGalpao: any){
@@ -366,35 +405,40 @@ export class FirebaseServiceProvider {
     }
   }
 
-  editaUsuario(keyUsuario: any, usuario: any, usuarioGalpao?: string, keyGalpao?:any){
+  editaUsuario(keyUsuario: any, usuario: any, usuarioGalpao?: string, keyGalpao?:any, soIdent?:boolean){
 
-    if(usuario.nome != null){
-      this.refUser.child('/'+keyUsuario).update({
-        nome: usuario.nome
-      })
+    if(soIdent){
+        this.refUser.child('/'+keyUsuario+'/Galpao/'+keyGalpao).set(usuarioGalpao);
     }
-    if(usuario.sobrenome != null){
-      this.refUser.child('/'+keyUsuario).update({
-        sobrenome: usuario.sobrenome
-      })
-    }
-    if(usuario.email != null){
-      this.refUser.child('/'+keyUsuario).update({
-        email: usuario.email
-      })
-    }
-    if(usuario.cpf != null){
-      this.refUser.child('/'+keyUsuario).update({
-        cpf: usuario.cpf
-      })
-    }
-    if(usuario.senha != null){
-      this.refUser.child('/'+keyUsuario).update({
-        senha: usuario.senha
-      })
-    }
-    if(usuarioGalpao != null){
-      this.refUser.child('/'+keyUsuario+'/Galpao/'+keyGalpao).set(usuarioGalpao);
+    else{
+      if(usuario.nome != null){
+        this.refUser.child('/'+keyUsuario).update({
+          nome: usuario.nome
+        })
+      }
+      if(usuario.sobrenome != null){
+        this.refUser.child('/'+keyUsuario).update({
+          sobrenome: usuario.sobrenome
+        })
+      }
+      if(usuario.email != null){
+        this.refUser.child('/'+keyUsuario).update({
+          email: usuario.email
+        })
+      }
+      if(usuario.cpf != null){
+        this.refUser.child('/'+keyUsuario).update({
+          cpf: usuario.cpf
+        })
+      }
+      if(usuario.senha != null){
+        this.refUser.child('/'+keyUsuario).update({
+          senha: usuario.senha
+        })
+      }
+      if(usuarioGalpao != null){
+        this.refUser.child('/'+keyUsuario+'/Galpao/'+keyGalpao).set(usuarioGalpao);
+      }
     }
   }
 

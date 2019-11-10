@@ -102,7 +102,7 @@ export class ExcluirGalpaoPage {
       var keyUsuario = this.usuarios[i];
       this.dbService.excluiIdentificacaoGalpaoUsuario(keyUsuario, keyGalpao);
     }
-    setTimeout( () => { this.dbService.excluiGalpao(keyUnidade, keyGalpao) }, 10000);
+    this.dbService.excluiGalpao(keyUnidade, keyGalpao);
     loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
                       subTitle: 'Exclusão de Galpão',
                       message: 'Galpão excluído com sucesso!',

@@ -319,7 +319,7 @@ export class CadastroUsuarioPage {
   }
 
   addUsuarioGalpao(keyUnidade: any, keyGalpao: any, keyUsuario: any, usuario: any){
-    setTimeout( () => { this.dbService.editaGalpaoUsuario(keyUnidade, keyGalpao, keyUsuario, usuario) }, 10000);
+    this.dbService.editaGalpaoUsuario(keyUnidade, keyGalpao, keyUsuario, usuario);
   }
 
   jaExisteUsuario(keyGalpao:any){

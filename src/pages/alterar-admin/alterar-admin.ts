@@ -124,7 +124,7 @@ export class AlterarAdminPage {
             this.messageUsuario = '';
           }
         }else{
-    setTimeout( () => { this.dbService.editaUsuario(this.usuarioKey, usuario) }, 10000);
+    this.dbService.editaUsuario(this.usuarioKey, usuario);
     loading.present().then((data) => {loading.dismiss(); const alert = this.alertCtrl.create({
                       subTitle: 'Alteração de Usuário',
                       message: 'Usuário alterado com sucesso!',
