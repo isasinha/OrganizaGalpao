@@ -141,7 +141,7 @@ export class PosicoesPage {
     if (this.windowWidth > 600){
       this.renderer.setSize (750, 625);
     }else{
-      this.renderer.setSize (240, 190);
+      this.renderer.setSize (290, 210);
     }
     this._ELEMENT.appendChild(this.renderer.domElement);
     /*this._GEOMETRY = new THREE.BoxGeometry(3, 3, 3);
@@ -159,7 +159,7 @@ export class PosicoesPage {
     this._SCENE.add (this._SPRITE)
     //this._SCENE.add(this._CUBE);
     this._CAMERA.position.z = 20;*/
-    this._CAMERA.position.z = 5;
+    this._CAMERA.position.z = 5.4;
     let textureLoader = new THREE.TextureLoader();
     if(!this.imagem)
     this.imagem = this.exemploImg;
@@ -221,7 +221,7 @@ export class PosicoesPage {
     this._CAMERA.position.z -= 0.1
     this.profZoom = this.profZoom + 1;
     if (this._CAMERA.position.z.toFixed(1) == zoomPosition){
-      this._CAMERA.position.z = 5;
+      this._CAMERA.position.z = 5.4;
       this.profZoom = 1;
     }
     this.positions = this.criaView(this.altura, this.largura);
@@ -243,7 +243,7 @@ export class PosicoesPage {
     if (this.windowWidth > 600){
       fonte = 625 - (this.altura * 14)
     }else{
-      fonte = 190 - (this.altura * 12)
+      fonte = 210 - (this.altura * 12)
     }
     // let novaAltura:number = (Number(this.altura)) + 1; 
     let tamanho = fonte / this.altura;
