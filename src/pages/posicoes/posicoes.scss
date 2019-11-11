@@ -18,6 +18,33 @@ page-posicoes {
       text-align-last: center;
     }
 
+    .fundo-grid{
+      // background-color: blue;
+      // border: 5px;
+      margin-top: -20px;
+      // margin-left: -10px;
+      // margin-right: -50px;
+    }
+
+    .fundo-row{
+      // background-color: blue;
+      border: 1px;
+      margin: 1px;
+      // margin-top: -3.5px;
+    }
+
+    .fundo-colum{
+      // background-color: white;
+      background-color:rgba(255, 255, 255, 0.2);
+      border: 1px;
+      margin: 1px;
+      color: rgb(73, 44, 47);
+      // margin-top: -3.5px;
+    }
+
+
+
+
     @media only screen and (min-width: 600px){
      
         .container{

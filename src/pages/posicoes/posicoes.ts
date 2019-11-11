@@ -217,10 +217,16 @@ export class PosicoesPage {
   }
 
   zoom (): void{
-    var zoomPosition = 5 - (this.profundidade*0.1)
+    var zoomPosition = 4.6 - (this.profundidade*0.1)
     this._CAMERA.position.z -= 0.1
     this.profZoom = this.profZoom + 1;
-    if (this._CAMERA.position.z.toFixed(1) == zoomPosition){
+    var cam = this._CAMERA.position.z.toFixed(1)
+    // var camMenos1:any = cam - 0.1;
+    // var camMenos1Fixed = camMenos1.toFixed(1)
+    // var zoomMais1 = zoomPosition - 0.1;
+    // var zoomMais1Fixed = zoomMais1.toFixed(1)
+    var zoomPositionFixed = zoomPosition.toFixed(1)
+    if (cam == zoomPositionFixed ){//|| camMenos1Fixed == zoomPositionFixed || zoomMais1Fixed == cam){
       this._CAMERA.position.z = 4.6;
       this.profZoom = 1;
     }
