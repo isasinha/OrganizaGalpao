@@ -1,0 +1,54 @@
+<ion-header>
+</ion-header> 
+
+<ion-content padding>
+  <br>  
+  <div class='container'>
+    <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon>
+    <p style="text-align:center">Informe de {{usuario.nome}} {{usuario.sobrenome}}</p>
+    <p style="text-align:center">Prontuário número {{usuario.prontuario}}</p>
+    <form padding [formGroup]='prontuarioForm' novalidate class="list">
+      <ion-item>
+        <ion-label floating>
+          Estado*
+        </ion-label>
+        <ion-input type="text" [(ngModel)]="informe.estado" formControlName="estado"></ion-input>
+      </ion-item>
+      <h6 *ngIf='erroEstado' class='error'>{{messageEstado}}</h6>
+      <ion-item>
+        <ion-label stacked>
+          Hora da última visita*
+        </ion-label>
+        <ion-input type="time" [(ngModel)]="informe.horaVisita" formControlName="horaVisita"></ion-input>
+      </ion-item>
+      <h6 *ngIf='erroHoraVisita' class='error'>{{messageHoraVisita}}</h6>
+      <ion-item>
+        <ion-label floating>
+          Previsão de alta?*
+        </ion-label>
+        <ion-input type="text" [(ngModel)]="informe.prevAlta" formControlName="prevAlta"></ion-input>
+      </ion-item>
+      <h6 *ngIf='erroPrevAlta' class='error'>{{messagePrevAlta}}</h6>
+      <ion-item>
+        <ion-label stacked>
+          Data de previsão de alta?*
+        </ion-label>
+        <ion-input type="date" [(ngModel)]="informe.dataAlta" formControlName="dataAlta"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>
+          Outras informações (medicamentos, exames, sinais vitais, etc) - Opcional
+        </ion-label>
+        <ion-textarea class='textarea' type="text" row='5' [(ngModel)]="informe.outros" formControlName="outros"></ion-textarea>
+      </ion-item>
+      <pre></pre>
+      <ion-buttons class='acessos'>
+        <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
+        <button class='fica' ion-button (click)='atualizaInforme()'>Cadastrar</button>
+      </ion-buttons>
+    </form>
+      
+
+
+  </div>
+</ion-content>

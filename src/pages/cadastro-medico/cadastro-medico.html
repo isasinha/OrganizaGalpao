@@ -1,0 +1,39 @@
+<!-- 
+/**************************************************** 
+// ESSE CADASTRO É DE USO EXCLUSIVO PARA IMPLANTAÇÃO
+****************************************************/ 
+-->
+
+<ion-header>
+</ion-header> 
+
+<ion-content padding>
+  <br>  
+  <div class='container'>
+    <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon>
+    <h3 style="text-align:center">Cadastrar novo Médico</h3> 
+    <form padding [formGroup]='usuarioForm' novalidate class="list">
+      <ion-item>
+        <ion-label floating>
+          <ion-icon name='person'></ion-icon>  
+          Nome*
+        </ion-label>
+        <ion-input type="text" [(ngModel)]="usuario.nome" formControlName="nome"></ion-input>
+      </ion-item>
+      <h6 *ngIf='erroNome' class='error'>{{messageNome}}</h6>
+      <ion-item>
+        <ion-label floating>
+          <ion-icon name='person'></ion-icon>  
+          Sobrenome*
+        </ion-label>
+        <ion-input type="text" [(ngModel)]="usuario.sobrenome" formControlName="sobrenome"></ion-input>
+      </ion-item>
+      <h6 *ngIf='erroSobrenome' class='error'>{{messageSobrenome}}</h6>
+      <pre></pre>
+      <ion-buttons class='acessos'>
+        <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
+        <button class='fica' ion-button (click)='addUsuario(usuario)'>Cadastrar</button>
+      </ion-buttons>
+    </form>
+  </div>
+</ion-content>

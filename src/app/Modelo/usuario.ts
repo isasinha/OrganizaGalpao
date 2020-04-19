@@ -1,8 +1,10 @@
+
 export interface Usuario{
+    prontuario?: string;
     nome: string;
     sobrenome: string;
-    cpf: string;
-    senha?: string;
-    tipo?: string;
-    email: string;
+    dtNasc?: string;
+    login: string;
+    senha: string;
+    tipo: string;
 }

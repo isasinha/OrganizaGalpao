@@ -15,10 +15,11 @@ import { FormBuilder, Validators } from '@angular/forms';
 export class RedefinirSenhaPage {
 
   usuario: Usuario = {
+    prontuario: null,
     nome: null,
     sobrenome: null,
-    cpf: null,
-    email: null,
+    dtNasc: null,
+    login: null,
     senha: null,
     tipo: null
   };
@@ -27,14 +28,14 @@ export class RedefinirSenhaPage {
   usuarioDados = [];
   user = [];
   temUsuario = false;
-  usuarioCpf;
+  usuarioLogin;
   usuarioKey;
   confirmaSenha;
   refUser = firebase.database().ref('/usuario/');
-  public cpfForm: any;
+  public loginForm: any;
   public senhaForm: any;
-  messageCpf = '';
-  erroCpf = false;
+  messageLogin = '';
+  erroLogin = false;
   messageSenha = '';
   erroSenha = false;
   messageConfirmaSenha = '';
@@ -49,8 +50,8 @@ export class RedefinirSenhaPage {
     public db: AngularFireDatabase,
     public fb: FormBuilder
     ) {
-      this.cpfForm = fb.group({
-        cpf: ['', Validators.required]
+      this.loginForm = fb.group({
+        login: ['', Validators.required]
       })
       this.senhaForm = fb.group({
         senhaF: ['', Validators.required],
@@ -62,13 +63,13 @@ export class RedefinirSenhaPage {
   }
 
 
-  selecionaUsuario(usuarioCpf: any){
+  selecionaUsuario(usuarioLogin: any){
     this.user = [];
-    const snapshotToArrayUsuarioCPF = snapshot => {
+    const snapshotToArrayUsuarioLogin = snapshot => {
       snapshot.forEach(element => {
         let usuarioBanco = element.val();
         usuarioBanco.key = element.key;
-        if(usuarioCpf == usuarioBanco.cpf){
+        if(usuarioLogin == usuarioBanco.login){
           this.user = usuarioBanco;
           this.usuarioKey = usuarioBanco.key;
           this.temUsuario = true;
@@ -79,7 +80,7 @@ export class RedefinirSenhaPage {
     this.refUser.on('value', resp => {
       this.usuarioSelecionado = [];
       this.temUsuario = false;
-      this.usuarioSelecionado = snapshotToArrayUsuarioCPF(resp);
+      this.usuarioSelecionado = snapshotToArrayUsuarioLogin(resp);
     })
   }
 
@@ -87,13 +88,13 @@ export class RedefinirSenhaPage {
     const loading = this.loadingCtrl.create({
       content: 'Alterando...'
     });
-    let {cpf} = this.cpfForm.controls;
-    if(!this.cpfForm.valid){
-      if(!cpf.valid){
-        this.erroCpf = true;
-        this.messageCpf = 'CPF DEVE SER PREENCHIDO';
+    let {login} = this.loginForm.controls;
+    if(!this.loginForm.valid){
+      if(!login.valid){
+        this.erroLogin = true;
+        this.messageLogin = 'LOGIN DEVE SER PREENCHIDO';
       }else{
-        this.messageCpf = '';
+        this.messageLogin = '';
       }
     }else{
       let {senhaF, confirmaSenhaF} = this.senhaForm.controls;

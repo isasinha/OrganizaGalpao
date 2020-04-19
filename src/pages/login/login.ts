@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 // import { AuthService } from '../../app/auth.service';
-import { HomePage } from '../home/home';
-import { HomeAdmPage } from '../home-adm/home-adm';
+import { HomeUserPage } from '../home-user/home-user';
+import { HomeRecepPage } from '../home-recep/home-recep';
 import { RedefinirSenhaPage } from '../redefinir-senha/redefinir-senha';
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
 import { Usuario } from '../../app/Modelo/usuario';
 import * as firebase from 'firebase';
-import { snapshotToArrayUnidade, Unidade } from '../../app/Modelo/galpao';
+import { HomeAdmPage } from '../home-adm/home-adm';
+import { HomeMedicoPage } from '../home-medico/home-medico';
 
 @IonicPage()
 @Component({
@@ -17,33 +18,30 @@ import { snapshotToArrayUnidade, Unidade } from '../../app/Modelo/galpao';
 export class LoginPage {
 
   usuario: Usuario = {
+    prontuario: '',
     nome: '',
     sobrenome: '',
-    cpf: '',
+    dtNasc: '',
+    login: '',
     senha: '',
-    tipo: '',
-    email: ''
+    tipo: ''
   }
   usuarioSenha:string = '';
   usuarioTipo:string = '';
   usuarioNome:string = '';
+  usuarioLogin:string = '';
   usuarioKey = '';
+  usuarioSobrenome = '';
   usuarioData=[];
-  unidades:Array<Unidade> = [];
   ref = firebase.database().ref('/usuario/');
-  refUni = firebase.database().ref('/unidade/');
 
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    // private authService: AuthService,
     private loadingCtrl: LoadingController, 
     private alertCtrl: AlertController,
     public dbService: FirebaseServiceProvider
     ) { 
-      this.refUni.on('value', resp => {
-        this.unidades = snapshotToArrayUnidade(resp);
-      })
   }
 
   ionViewDidLoad() {
@@ -52,16 +50,18 @@ export class LoginPage {
 
   login(usuario: Usuario){
 
-    const snapshotToArrayUsuarioCPF = snapshot => {
+    const snapshotToArrayUsuarioLogin = snapshot => {
       let returnArray = [];
       snapshot.forEach(element => {
         let usuarioBanco = element.val();
         usuarioBanco.key = element.key;
-        if(usuario.cpf == usuarioBanco.cpf){
-          returnArray.push(usuarioBanco.senha);
-          returnArray.push(usuarioBanco.tipo);
-          returnArray.push(usuarioBanco.nome);
-          returnArray.push(usuarioBanco.key);
+        if((usuario.login).toUpperCase() == usuarioBanco.login){
+          returnArray.push(usuarioBanco.senha);       //posição 0 = senha
+          returnArray.push(usuarioBanco.tipo);        //posição 1 = tipo de usuário
+          returnArray.push(usuarioBanco.nome);        //posição 2 = nome
+          returnArray.push(usuarioBanco.login);       //posição 3 = login
+          returnArray.push(usuarioBanco.key);         //posição 4 = key
+          returnArray.push(usuarioBanco.sobrenome);   //posição 5 = sobrenome
         } 
       });
       return returnArray;
@@ -70,23 +70,22 @@ export class LoginPage {
       this.usuarioData = [];
       this.usuarioSenha = '';
       this.usuarioTipo = '';
-      this.usuarioData = snapshotToArrayUsuarioCPF(resp);
+      this.usuarioData = snapshotToArrayUsuarioLogin(resp);
       this.usuarioSenha = this.usuarioData[0];
       this.usuarioTipo = this.usuarioData[1];
       this.usuarioNome = this.usuarioData[2];
-      this.usuarioKey = this.usuarioData[3];
+      this.usuarioLogin = this.usuarioData[3];
+      this.usuarioKey = this.usuarioData[4];
+      this.usuarioSobrenome = this.usuarioData[5];
 
     })
-    // const loading = this.loadingCtrl.create({
-    //   content: 'Logando...'
-    // });
-    // loading.present();
-    if(usuario.cpf == '' || usuario.senha == ''){
-      // loading.dismiss(); 
+
+    if(usuario.login == '' || usuario.senha == ''){
+
       const alert = this.alertCtrl
       .create({
         subTitle:'Login falhou', 
-        message: "CPF e senha devem estar preenchidos", 
+        message: "Login e senha devem estar preenchidos", 
         buttons:['Ok']
       });
       alert.present()
@@ -97,37 +96,46 @@ export class LoginPage {
       });
       loading.present().then( () => {
         if(this.usuarioData.length <= 0){
-          // loading.dismiss(); 
           const alert = this.alertCtrl
           .create({
             subTitle:'Login falhou', 
-            message: "Verifique o CPF e tente novamente", 
+            message: "Verifique login e senha e tente novamente", 
             buttons:['Ok']
           });
           alert.present()
         }else{
           if(usuario.senha == this.usuarioSenha){
             if (this.usuarioSenha == '12345678'){
-              // loading.dismiss();
-              this.navCtrl.push(RedefinirSenhaPage);
+              this.navCtrl.push(RedefinirSenhaPage, {
+                nome: this.usuarioNome
+              })
             }else{
-              // loading.dismiss();
-              if(this.usuarioTipo == 'Administrador')
-                this.navCtrl.push(HomeAdmPage)
-              else{
-                this.navCtrl.push(HomePage, {
-                  key: this.usuarioKey,
-                  nome: this.usuarioNome,
-                  cpf: usuario.cpf
+              if(this.usuarioTipo == 'Administrador'){
+                this.navCtrl.push(HomeAdmPage, {
+                  nome: this.usuarioNome
                 })
-              }  
+              }else if(this.usuarioTipo == 'Recepcionista'){
+                this.navCtrl.push(HomeRecepPage, {
+                  nome: this.usuarioNome
+                })
+              }else if(this.usuarioTipo == 'Medico'){
+                this.navCtrl.push(HomeMedicoPage, {
+                  nome: this.usuarioNome,
+                  loginMedico: this.usuarioLogin
+                })
+              }else if(this.usuarioTipo == 'Usuario'){
+                this.navCtrl.push(HomeUserPage, {
+                  nome: this.usuarioNome,
+                  sobrenome: this.usuarioSobrenome,
+                  usuarioKey: this.usuarioKey
+                })
+              }   
             }  
           }else{
-            // loading.dismiss(); 
             const alert = this.alertCtrl
             .create({
               subTitle:'Login falhou', 
-              message: "Verifique a senha e tente novamente", 
+              message: "Verifique login e senha e tente novamente", 
               buttons:['Ok']
             });
             alert.present()
@@ -137,181 +145,3 @@ export class LoginPage {
     )}
   }
 } 
-
-//*****************************Descomentar para alterar o login inteiro já existente ***********************************/
-//
-//||
-//||import { Component } from '@angular/core';
-//||import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
-//||// import { AuthService } from '../../app/auth.service';
-//||import { HomePage } from '../home/home';
-//||import { HomeAdmPage } from '../home-adm/home-adm';
-//||import { RedefinirSenhaPage } from '../redefinir-senha/redefinir-senha';
-//||import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
-//||import { Usuario } from '../../app/Modelo/usuario';
-//||import * as firebase from 'firebase';
-//||import { Observable} from 'rxjs';
-//||
-//||@IonicPage()
-//||@Component({
-//||  selector: 'page-login',
-//||  templateUrl: 'login.html',
-//||})
-//||export class LoginPage {
-//||
-//||  usuario: Usuario = {
-//||    nome: '',
-//||    sobrenome: '',
-//||    cpf: '',
-//||    senha: '',
-//||    tipo: '',
-//||    email: ''
-//||  }
-//||  usuarioSenha:string = '';
-//||  usuarioTipo:string = '';
-//||  usuarioNome:string = '';
-//||  usuarioKey = '';
-//||  usuarioCpf = '';
-//||  ref;
-//||
-//||  constructor(
-//||    public navCtrl: NavController, 
-//||    public navParams: NavParams,
-//||    // private authService: AuthService,
-//||    private loadingCtrl: LoadingController, 
-//||    private alertCtrl: AlertController,
-//||    public dbService: FirebaseServiceProvider
-//||    ) { 
-//||      this.ref = firebase.database().ref('/usuario/');
-//||  }
-//||
-//||  ionViewDidLoad() {
-//||
-//||  }
-//||
-//||  verificaUsuario(usuario: Usuario): Observable<any>{
-//||    this.usuarioNome = '';
-//||    this.usuarioSenha = '';
-//||    this.usuarioTipo = '';
-//||    this.usuarioCpf = '';
-//||    return Observable.create(subscriber => {
-//||      let callbackFn = this.ref.once ('value', snapshot => {
-//||        console.log ("snapshot", snapshot.val());
-//||        snapshot.forEach (element => {
-//||          let usuarioBanco = element.val();
-//||          usuarioBanco.key = element.key;
-//||          if(usuario.cpf == usuarioBanco.cpf){
-//||            this.usuarioSenha = usuarioBanco.senha;
-//||            this.usuarioTipo = usuarioBanco.tipo;
-//||            this.usuarioNome = usuarioBanco.nome;
-//||            this.usuarioKey = usuarioBanco.key;
-//||            this.usuarioCpf = usuarioBanco.cpf;
-//||            subscriber.next (usuario)
-//||            return
-//||          }
-//||          
-//||          
-//||        })
-//||        //vai devolver um usuário vazio, provavelmente vai ser ignorado
-//||        subscriber.next(this.usuario)
-//||        //snapshot.key
-//||        //console.log ("Criança: ", snapshot.getChildren()
-//||        //subscriber.next(usuario);
-//||        
-//||      },
-//||        error => subscriber.error (error));
-//||      //return () => this.ref.off ('value', callbackFn);
-//||      return callbackFn;
-//||    });
-//||    
-//||    /*this.ref.once('value', snapshot => {
-//||          snapshot.forEach(element => {
-//||            console.log ("no foreach")
-//||            let usuarioBanco = element.val();
-//||            usuarioBanco.key = element.key;
-//||            if(usuario.cpf == usuarioBanco.cpf){
-//||              this.usuarioSenha = usuarioBanco.senha;
-//||              this.usuarioTipo = usuarioBanco.tipo;
-//||              this.usuarioNome = usuarioBanco.nome;
-//||              this.usuarioKey = usuarioBanco.key;
-//||              this.usuarioCpf = usuarioBanco.cpf;
-//||            } 
-//||          });
-//||        }).*/
-//||    } 
-//||
-//||  login(usuario: Usuario){
-//||
-//||    let loading = this.loadingCtrl.create({
-//||      content: 'Logando...'
-//||    });
-//||    loading.present();
-//||    if(usuario.cpf == '' || usuario.senha == ''){
-//||      loading.dismiss();
-//||      const alert = this.alertCtrl
-//||      .create({
-//||        subTitle:'Login falhou', 
-//||        message: "CPF e senha devem estar preenchidos", 
-//||        buttons:['Ok']
-//||      });
-//||      alert.present()
-//||    }else{
-//||
-//||      this.verificaUsuario(usuario)
-//||      .subscribe( 
-//||        (data) => {
-//||          console.log ("retorno, no subscribe")
-//||          console.log (data)
-//||          if(this.usuarioCpf == ''){
-//||            loading.dismiss(); 
-//||            const alert = this.alertCtrl
-//||            .create({
-//||              subTitle:'Login falhou', 
-//||              message: "Verifique o CPF e tente novamente", 
-//||              buttons:['Ok']
-//||            });
-//||            alert.present()
-//||            return
-//||          }else{
-//||            if(usuario.senha == this.usuarioSenha){
-//||              if (this.usuarioSenha == '12345678'){
-//||                loading.dismiss();
-//||                this.navCtrl.push(RedefinirSenhaPage);
-//||                return
-//||              }else{
-//||                loading.dismiss();
-//||                if(this.usuarioTipo == 'Administrador'){
-//||                  this.navCtrl.push(HomeAdmPage)
-//||                  console.log ("passou")
-//||                  return
-//||                }                  
-//||                else
-//||                  this.navCtrl.push(HomePage, {
-//||                    key: this.usuarioKey,
-//||                    nome: this.usuarioNome,
-//||                    cpf: usuario.cpf
-//||                  }) 
-//||              }  
-//||            }else{
-//||              loading.dismiss(); 
-//||              const alert = this.alertCtrl
-//||              .create({
-//||                subTitle:'Login falhou', 
-//||                message: "Verifique a senha e tente novamente", 
-//||                buttons:['Ok']
-//||              });
-//||              alert.present()
-//||            }
-//||          }  
-//||        // })
-//||        
-//||        }
-//||      )
-//||    }
-//||  }
-//||
-//||  redefineSenha(){
-//||    this.navCtrl.setRoot(RedefinirSenhaPage);
-//||  }
-//||
-//||} 

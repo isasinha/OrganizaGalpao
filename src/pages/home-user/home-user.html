@@ -1,0 +1,20 @@
+<ion-header>
+</ion-header> 
+
+<ion-content padding>
+  <br>  
+  <div class='container'>
+    <ion-icon name='menu' large menuToggle class='menuToggle'></ion-icon>
+    <h3 style="text-align:center">Informe de {{nomeUsuario}} {{sobrenomeUsuario}}</h3>
+    <ion-list>
+      selecione a data desejada para mais informações
+      <button ion-item *ngFor='let informe of informes' (click)='opcaoEscolhida(informe)'>
+        <ion-card>
+          Data/Hora: {{informe.dataHora}}<br/>
+          Estado: {{informe.estado}}<br/>
+          Previsão de Alta: {{informe.prevAlta}}
+        </ion-card>
+      </button>
+    </ion-list>
+  </div>
+</ion-content>

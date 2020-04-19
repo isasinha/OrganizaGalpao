@@ -1,20 +1,7 @@
-page-cadastro-usuario {
+page-detalhe-informe {
     .acessos{
         text-align-last: center;
     }
-
-    .texto1{
-        text-align: justify;   
-        font-weight: 600; 
-    }
-
-    .error{
-        color: #556B2F;
-        font-size: 12px;
-        text-align: center;
-        font-weight: 1000;
-      }
-      
     @media only screen and (min-width: 600px){
      
         .container{
@@ -22,16 +9,17 @@ page-cadastro-usuario {
             height: 100%;
             margin: auto;
         }
-
+    
         .back{
             display: none
         }
     }
-
+    
     @media only screen and (max-width: 600px){
      
         .botao-acessa{
             display: none
         }
     }
+    
 }

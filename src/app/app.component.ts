@@ -2,8 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { Platform, Nav } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { ContatoPage } from '../pages/contato/contato';
-import { UnidadesPage } from '../pages/unidades/unidades';
 import { LoginPage } from '../pages/login/login';
 import { AngularFireAuth } from '@angular/fire/auth';
 
@@ -24,8 +22,6 @@ export class MyApp {
       splashScreen.hide();
 
       this.paginas = [
-        {titulo: 'Contato', pagina: ContatoPage, icon: 'call'},
-        {titulo: 'Unidades', pagina: UnidadesPage, icon:'home'},
         {titulo: 'Sair', pagina: LoginPage, icon:'log-out'}
       ];
 

@@ -1,18 +1,10 @@
 <ion-menu [content]='content' class='menu'>
     <ion-header>
-        <!-- <ion-toolbar>
-            <button ion-button menuToggle>
-                <ion-icon name='arrow-round-back' class='back'></ion-icon>
-            </button>
-        </ion-toolbar> -->
     </ion-header>
 
     <ion-content  no-bounce>
         <pre></pre>
-        <!-- <button ion-button small menuToggle class='backMenu'> -->
-            <!-- <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon> -->
             <ion-icon name='arrow-round-back' large class='backMenu'  menuToggle></ion-icon>
-        <!-- </button> -->
         <ion-list>
             <button menuClose ion-item *ngFor='let pagina of paginas' [class.activeHighLight]='veSeEstaAtivo(pagina)'(click)='abrePagina(pagina)'>
                 <ion-icon name={{pagina.icon}}></ion-icon> {{pagina.titulo}}

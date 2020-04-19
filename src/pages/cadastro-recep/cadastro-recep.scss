@@ -1,11 +1,12 @@
-page-cadastro-usuario {
+
+/**************************************************** 
+// ESSE CADASTRO É DE USO EXCLUSIVO PARA IMPLANTAÇÃO
+****************************************************/
+
+
+page-cadastro-recep {
     .acessos{
         text-align-last: center;
-    }
-
-    .texto1{
-        text-align: justify;   
-        font-weight: 600; 
     }
 
     .error{
@@ -13,8 +14,8 @@ page-cadastro-usuario {
         font-size: 12px;
         text-align: center;
         font-weight: 1000;
-      }
-      
+    }
+
     @media only screen and (min-width: 600px){
      
         .container{

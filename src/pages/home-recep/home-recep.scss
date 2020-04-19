@@ -1,4 +1,4 @@
-page-home-adm {
+page-home-recep {
 
 .botaoAlert{
     background-color: #556B2F;
@@ -10,10 +10,16 @@ page-home-adm {
 }
 @media only screen and (min-width: 600px){
      
+    
     .container{
         width: 60%;
-        height: 100%;
-        margin: auto;
+        display: 100%;
+        display: table;
+    }
+
+    .subcontainer{
+        display: table-row;
+
     }
 
     .back{
@@ -25,6 +31,17 @@ page-home-adm {
  
     .botao-acessa{
         display: none
+    }
+
+    .container{
+        height: 90%;
+        display: table;
+    }
+
+    .subcontainer{
+        display: table-row;
+        height: 100%;
+        vertical-align: middle;
     }
 }
 

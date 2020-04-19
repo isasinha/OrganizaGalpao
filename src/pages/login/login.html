@@ -5,18 +5,19 @@
 <ion-content padding class='fundo'>
   <br>  
   <div class='container'>
-    <ion-icon name='menu' large menuToggle class='menuToggle'></ion-icon>
     <br>
+    <pre></pre>
     <div class='logoOrgGalp'>
-      <img class="logoOrgGalp" src='../../assets/imgs/logo300-01.png'>
+      <img class="logoOrgGalp" src='../../assets/imgs/logoAcessaFundo.png'>
     </div>
+    <pre></pre>
     <ion-list class="list">
       <ion-item>
         <ion-label floating>
           <ion-icon name='contact'></ion-icon>  
-          cpf
+          Login
         </ion-label>
-        <ion-input type="text"  [(ngModel)]="usuario.cpf" [brmasker]="{mask:'999.999.999-99', len:14, type:'num'}"></ion-input>
+        <ion-input type="text" [(ngModel)]="usuario.login"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>

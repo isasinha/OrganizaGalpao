@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { Galpao, Unidade } from '../../app/Modelo/galpao';
 import { Usuario } from '../../app/Modelo/usuario';
 import * as firebase from 'firebase';
 import { AlertController, LoadingController } from 'ionic-angular';
@@ -9,13 +8,8 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class FirebaseServiceProvider { 
 
-  ref = firebase.database().ref('/unidade');
   refUser = firebase.database().ref('/usuario');
-  refArm = firebase.database().ref('/armazenamento');
-  profundidade;
-  altura;
-  largura;
-
+  refInforme = firebase.database().ref('/informe');
 
   constructor(
     public db: AngularFireDatabase,
@@ -25,392 +19,46 @@ export class FirebaseServiceProvider {
 
   }
 
-  cadastraUnidade(unidade: Unidade){
-    let unidadeKey = this.db.list('unidade').push(unidade).key;
-    return unidadeKey;
-  }
-
-  geraPosicao(galpao:Galpao){
-    this.profundidade = galpao.profundidade;
-    this.altura = galpao.altura;
-    this.largura = galpao.largura;
-    
-    var profString = galpao.profundidade.toString();
-    var profArray = profString.split('');
-    var x = 0;
-    while (x < profArray.length){
-      if (profArray[x] == '.' || profArray[x] == ',' )
-        var profEhDecimal = true;
-      x++;
-    }
-    if (profEhDecimal){
-      var decimalProfundidade = parseInt(/^[0-9]*?(?:[\.,])([0-9]*?)$/g.exec(galpao.profundidade.toString())[1]);
-      this.profundidade = Math.trunc(parseInt(galpao.profundidade.toString()));
-      if ((decimalProfundidade > 50 && decimalProfundidade < 100) || decimalProfundidade > 499){
-        this.profundidade = this.profundidade + 1;
-      }
-    }
-
-    var altString = galpao.altura.toString();
-    var altArray = altString.split('')
-    var w = 0;
-    while (w < altArray.length){
-      if (altArray[w] == '.' || altArray[w] == ',')
-        var altEhDecimal = true;
-      w++;
-    }
-    if (altEhDecimal){
-      var decimalAltura = parseInt(/^[0-9]*?(?:[\.,])([0-9]*?)$/g.exec(galpao.altura.toString())[1]);
-      this.altura = Math.trunc(parseInt(galpao.altura.toString()))
-      if ((decimalAltura > 50 && decimalAltura < 100) || decimalAltura > 499){
-        this.altura = this.altura + 1;
-      }
-    }
-
-    var largString = galpao.largura.toString();
-    var largArray = largString.split('')
-    var z = 0;
-    while (z < largArray.length){
-      if (largArray[z] == '.' || largArray[z] == ',')
-        var largEhDecimal = true;
-      z++;
-    }
-    if (largEhDecimal){
-      var decimalLargura = parseInt(/^[0-9]*?(?:[\.,])([0-9]*?)$/g.exec(galpao.largura.toString())[1]);
-      this.largura = Math.trunc(parseInt(galpao.largura.toString()));
-      if ((decimalLargura > 50 && decimalLargura < 100) || decimalLargura > 499){
-        this.largura = this.largura + 1;
-      }
-    }
-
-    var medidas = [];
-    medidas.push(this.profundidade);
-    medidas.push(this.altura);
-    medidas.push(this.largura);
-
-    return medidas;
-
-  }
-
-  cadastraGalpaoInicial(galpao:Galpao, nomesGalpao: any, keyU: any){
-    this.geraPosicao(galpao);
-
-    let i = 0;
-    while(i < nomesGalpao.length){
-      galpao.nomeGalpao = nomesGalpao[i];
-      var keyGalpao = this.ref.child('/'+keyU+'/unidadesGalpao').push(galpao).key; 
-      if(galpao.imagem != null){
-        this.refArm.child('/'+keyGalpao+'/').set({imagem: galpao.imagem});
-      }
-      var posicao = '';
-      for (var j = 0; j < this.profundidade; j++){
-        posicao = (j+1).toString();
-        var posicaoProfundidade = 'P' + posicao + '-';
-        for (var k = 0; k < this.altura; k++){
-          posicao = posicaoProfundidade + 'A' + (k+1).toString() + '-';
-          var posicaoAltura = posicao;
-          for (var l = 0; l < this.largura; l++){
-            posicao = posicaoAltura + 'L' + (l+1).toString();
-            this.refArm.child('/'+keyGalpao+'/posicao/'+ posicao).set({observacao: ""});
-            // this.refArm.child('/'+keyGalpao+'/posicao').push(posicao);
-            posicao = '';
-          }
-        }
-      }
-      i = i + 1;
-    }
-  }
-
-
-  cadastraGalpaoLiberar(galpao:Galpao, keyGalpao: any){
-    this.geraPosicao(galpao);
-
-    let i = 0;
-      if(galpao.imagem != null){
-        this.refArm.child('/'+keyGalpao+'/').set({imagem: galpao.imagem});
-      }
-      var posicao = '';
-      for (var j = 0; j < this.profundidade; j++){
-        posicao = (j+1).toString();
-        var posicaoProfundidade = 'P' + posicao + '-';
-        for (var k = 0; k < this.altura; k++){
-          posicao = posicaoProfundidade + 'A' + (k+1).toString() + '-';
-          var posicaoAltura = posicao;
-          for (var l = 0; l < this.largura; l++){
-            posicao = posicaoAltura + 'L' + (l+1).toString();
-            this.refArm.child('/'+keyGalpao+'/posicao/'+ posicao).set({observacao: ""});
-            // this.refArm.child('/'+keyGalpao+'/posicao').push(posicao);
-            posicao = '';
-          }
-        } 
-      }
-      i = i + 1;
-  }
-
-  cadastraObservacao(keyGalpao: any, posicao: any, observacao: string){
-     this.refArm.child('/'+keyGalpao+'/posicao/'+posicao).update({observacao: observacao});
-  }
-
-  
-  cadastraPasta(keyGalpao: any, posicao: any, pasta: string, item: string){
-    this.refArm.child('/'+keyGalpao+'/posicao/'+posicao+'/'+pasta+'/itens').push({item: item});
-  }
-
-  cadastraItem(keyGalpao: any, posicao: any, pasta: string, item: string){
-    this.refArm.child('/'+keyGalpao+'/posicao/'+posicao+'/'+pasta+'/itens').push({item: item});
-  }
-
-  excluiItem(keyGalpao: any, posicao: any, pasta: string, itemKey: string){
-    this.refArm.child('/'+keyGalpao+'/posicao/'+posicao+'/'+pasta+'/itens/'+itemKey).remove();
-  }
-
-  excluiPasta(keyGalpao: any, posicao: any, pasta: string){
-    this.refArm.child('/'+keyGalpao+'/posicao/'+posicao+'/'+pasta).remove();
-  }
-
-  cadastraUsuario(usuario:Usuario, usuarioGalpao?:string, keyGalpao?: any){
-     let keyUsuario = this.db.list('usuario').push(usuario).key;
-     if(usuarioGalpao != null){
-      this.refUser.child('/'+keyUsuario+'/Galpao/'+keyGalpao).update(usuarioGalpao);
-    }
+  cadastraUsuario(usuario:Usuario){
+    let keyUsuario = this.db.list('usuario').push(usuario).key;
     return keyUsuario;
   }
 
-  excluiGalpao(keyUnidade: any, keyGalpao: any){
-    this.db.object('/unidade/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).remove();
-    this.db.object('/armazenamento/'+keyGalpao).remove();
+  geraLogin(nome: string, sobrenome: string){
+    var meioNomeArray = nome.split("");
+    var meioNome = (meioNomeArray[0]+
+                    meioNomeArray[1]+
+                    meioNomeArray[2]).toUpperCase();
+    var meioSobrenomeArray= sobrenome.split("")
+    var num = meioSobrenomeArray.length
+    var meioSobrenome=(meioSobrenomeArray[num-2]+meioSobrenomeArray[num-1]).toUpperCase();
+    var fimLogin = Math.round(Math.random() * 100);
+    return meioNome + meioSobrenome + fimLogin;
   }
 
-  excluiUnidade(keyUnidade: any){
-    this.ref.child('/'+keyUnidade+'/unidadesGalpao/').on('value', snapshot => {
-      var keyGalpao = '';
-      var usuarios = [];
-      snapshot.forEach(element => {
-        let galpao = element.val();
-        galpao.key = element.key;
-        keyGalpao = element.key;
-        firebase.database().ref('/unidade/'+keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/').on('value', snapshot => { 
-          snapshot.forEach(element => {
-            let usuario = element.val();
-            usuario.key = element.key;
-            usuarios.push(usuario.key); 
-          });
-        })
-        for (var i = 0; i<usuarios.length; i++){
-          var keyUsuario = usuarios[i];
-          this.excluiIdentificacaoGalpaoUsuario(keyUsuario, keyGalpao);
-        }
-        this.excluiGalpao(keyUnidade, keyGalpao);
-      })
-    });
-    this.db.object('/unidade/'+keyUnidade).remove();
+  geraRandom(){
+    return Math.random().toString(36).slice(-10);
   }
 
-  excluiAdmin(keyUsuario: any){
-    this.db.object('/usuario/'+keyUsuario).remove();
+  converteData(dtNasc: string){
+    var dataNasc = dtNasc.split("");
+    return dataNasc[8]+
+           dataNasc[9]+"/"+ 
+           dataNasc[5]+
+           dataNasc[6]+"/"+
+           dataNasc[0]+
+           dataNasc[1]+
+           dataNasc[2]+
+           dataNasc[3];
   }
 
-  excluiUsuario(keyUsuario: any){
-    this.db.object('/usuario/'+keyUsuario).remove();
-  }
+  editaUsuario(keyUsuario: any, usuario: any){
 
-  excluiGalpaoUsuario (keyUnidade: any, keyGalpao: any, keyUsuario: any): Observable<any>{
-    var usuarioExcluido;
-    var usuarioGalpao = ''
-    var arrayUsuarios = [];
-    this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios').on('value', snapshot => {
-      snapshot.forEach(element => {
-        usuarioGalpao = element.val();
-        arrayUsuarios.push(usuarioGalpao);
-      });
-    })
-    if(arrayUsuarios.length==1){
-      var alert = this.alertCtrl.create({
-        subTitle: 'Este é o único usuário administrando este galpão, caso não haja nenhum administrador, todos os itens nele cadastrados serão excluídos!',
-        message: 'Deseja prosseguir com a exclusão?',
-        buttons: [
-          {
-            text: 'Cancelar'
-          },
-          {
-            text: 'Sim',
-            handler: () => {
-              this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/'+keyUsuario).remove()
-              this.excluiIdentificacaoGalpaoUsuario(keyUsuario, keyGalpao)
-              this.renovaPosicao(keyUnidade, keyGalpao)
-            } 
-          }
-        ]
-      });
-      alert.present()
-      .catch((error) => {
-        const alert = this.alertCtrl.create({
-          subTitle: 'Cadastro de galpão falhou',
-          message: error.message,
-          buttons: ['Ok']});
-        alert.present();})
-    }     
-    return Observable.of(usuarioExcluido);
-  }
-
-  renovaPosicao(keyUnidade: any, keyGalpao: any){
-    var usuarioGalpao = ''
-    var arrayUsuarios = [];
-    this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios').on('value', snapshot => {
-      snapshot.forEach(element => {
-        usuarioGalpao = element.val();
-        arrayUsuarios.push(usuarioGalpao);
-      });
-    })
-    if(arrayUsuarios.length<=0){ 
-      this.ref.child('/'+keyUnidade+'/unidadesGalpao/').on('value', outroSnapshot => {
-        outroSnapshot.forEach(element => {
-          var galpao = element.val();
-          galpao.key = element.key;
-          if(galpao.key == keyGalpao)
-          this.cadastraGalpaoLiberar(galpao, keyGalpao);
-        })
+    if(usuario.prontuario != null){
+      this.refUser.child('/'+keyUsuario).update({
+        prontuario: usuario.prontuario
       })
     }
-  }
-
-  excluiIdentificacaoGalpaoUsuario(keyUsuario: any, identiKey: any){
-    this.refUser.child('/'+keyUsuario+'/Galpao/'+identiKey).remove();
-    const snapshotToArrayUsuarioKey = snapshot => {
-      let returnArray = [];
-      snapshot.forEach(element => {
-         let galpao = element.val();
-         galpao.key = element.key;
-        returnArray.push(galpao.key); 
-      });
-      return returnArray;
-    }
-    this.refUser.child('/'+keyUsuario+'/Galpao/').on('value', resp => { 
-      let galpoes = [];
-      galpoes = snapshotToArrayUsuarioKey(resp);
-      if (galpoes.length == 0){
-        this.excluiUsuario(keyUsuario);
-      }
-    })
-  }
-
-  listaUnidade(){
-    return this.db.list('unidade/');
-  }
-
-  editaGalpao(keyUnidade: any, keyGalpao: any, galpao: Galpao, galpaoOriginal: any){
-    var galpaoAlterado: Galpao = {
-      nomeGalpao: null,
-      largura: null,
-      altura: null,
-      profundidade: null,
-      imagem: null
-    };;
-    var temUsuario:boolean = false;
-    if(galpao.altura || galpao.profundidade || galpao.largura){
-
-      this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao+"/usuarios").on('value', snapshot => {
-        
-        snapshot.forEach(element => {
-          if(element.val()){ 
-            temUsuario = true;
-          }
-        });
-      })
-    }
-
-    if(!temUsuario){
-      if(galpao.nomeGalpao != null){
-        this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).update({
-          nomeGalpao: galpao.nomeGalpao
-        })
-      }
-      if(galpao.largura != null){
-        this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).update({
-          largura: galpao.largura
-        })
-        galpaoAlterado.largura = galpao.largura;
-      }else{
-        galpaoAlterado.largura = galpaoOriginal[0].largura;
-      }
-      if(galpao.altura != null){
-        this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).update({
-          altura: galpao.altura
-        })
-        galpaoAlterado.altura = galpao.altura;
-      }else{
-        galpaoAlterado.altura = galpaoOriginal[0].altura;
-      }
-      if(galpao.profundidade != null){
-        this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).update({
-          profundidade: galpao.profundidade
-        })
-        galpaoAlterado.profundidade = galpao.profundidade;
-      }else{
-        galpaoAlterado.profundidade = galpaoOriginal[0].profundidade;
-      }
-      if(galpao.imagem != null){
-        this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao).update({
-          imagem: galpao.imagem
-        })
-      }
-      if(galpao.altura || galpao.profundidade || galpao.largura){
-        this.db.object('/armazenamento/'+keyGalpao).remove().then(() => this.cadastraGalpaoLiberar(galpaoAlterado, keyGalpao));
-      }
-    }
-    return temUsuario;
-  }
-
-  editaGalpaoUsuario(keyUnidade: any, keyGalpao: any, keyUsuario: any, usuario: Usuario){
-
-    if(usuario.cpf != null){
-      this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/'+keyUsuario).update({
-        cpf: usuario.cpf
-      })
-    }
-    if(usuario.nome != null){
-      this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/'+keyUsuario).update({
-        nome: usuario.nome
-      })
-    }
-    if(usuario.sobrenome != null){
-      this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/'+keyUsuario).update({
-        sobrenome: usuario.sobrenome
-      })
-    }
-    if(usuario.email != null){
-      this.ref.child('/'+keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/'+keyUsuario).update({
-        email: usuario.email
-      })
-    }
-  }
-
-
-  editaUnidade(keyUnidade: any, unidade: Unidade){
-
-    if(unidade.nomeUnidade != null){
-      this.ref.child('/'+keyUnidade).update({
-        nomeUnidade: unidade.nomeUnidade
-      })
-    }
-    if(unidade.endereco != null){
-      this.ref.child('/'+keyUnidade).update({
-        endereco: unidade.endereco
-      })
-    }
-    if(unidade.telefone != null){
-      this.ref.child('/'+keyUnidade).update({
-        telefone: unidade.telefone
-      })
-    }
-  }
-
-  editaUsuario(keyUsuario: any, usuario: any, usuarioGalpao?: string, keyGalpao?:any, soIdent?:boolean){
-
-    if(soIdent){
-        this.refUser.child('/'+keyUsuario+'/Galpao/'+keyGalpao).set(usuarioGalpao);
-    }
-    else{
       if(usuario.nome != null){
         this.refUser.child('/'+keyUsuario).update({
           nome: usuario.nome
@@ -421,14 +69,14 @@ export class FirebaseServiceProvider {
           sobrenome: usuario.sobrenome
         })
       }
-      if(usuario.email != null){
+      if(usuario.dtNasc != null){
         this.refUser.child('/'+keyUsuario).update({
-          email: usuario.email
+          dtNasc: usuario.dtNasc
         })
       }
-      if(usuario.cpf != null){
+      if(usuario.login != null){
         this.refUser.child('/'+keyUsuario).update({
-          cpf: usuario.cpf
+          login: usuario.login
         })
       }
       if(usuario.senha != null){
@@ -436,43 +84,10 @@ export class FirebaseServiceProvider {
           senha: usuario.senha
         })
       }
-      if(usuarioGalpao != null){
-        this.refUser.child('/'+keyUsuario+'/Galpao/'+keyGalpao).set(usuarioGalpao);
-      }
     }
-  }
 
-
-  //*****************************Descomentar para alterar a função já existente ***********************************/
-  //
-  //||editaUsuario(keyUsuario: any, usuario: any, usuarioGalpao?: string, keyGalpao?:any): Observable <any>{
-//||
-  //||  if(usuarioGalpao != null){
-  //||    this.insereUsuarioGalpao(usuarioGalpao, keyUsuario, keyGalpao).subscribe();
-  //||  }
-  //||
-  //||  // (this.refUser.child("/" + keyUsuario).on('value', resp => {
-  //||  //   (resp);
-  //||  // })as Observable<any>
-  //||  return Observable.of(this.refUser.child("/" + keyUsuario).on('value', resp => {
-  //||    (snapshot) => { 
-  //||    snapshot.forEach (element => {
-  //||      let usuarioExistente = element.val();
-  //||      usuarioExistente.key = element.key;
-  //||      this.refUser.child ('/' + keyUsuario).update ({
-  //||      nome : usuario.nome != null ? usuario.nome : usuarioExistente.nome,
-  //||      sobrenome : usuario.sobrenome != null ? usuario.sobrenome :usuarioExistente.sobrenome,
-  //||      cpf: usuario.cpf != null ? usuario.cpf : usuarioExistente.cpf,
-  //||      email: usuario.email != null ? usuario.email : usuarioExistente.email,
-  //||      senha : usuario.senha != null ? usuario.senha : usuarioExistente.senha
-  //||      });
-  //||    });
-  //||    }
-  //||  }))as Observable<any>
-  //||}
-  //||
-  //||insereUsuarioGalpao(usuarioGalpao: any, keyUsuario: any, keyGalpao: any): Observable<any>{
-  //||  return Observable.of(this.refUser.child('/'+keyUsuario+'/Galpao/'+keyGalpao).set(usuarioGalpao)) as Observable<any>;
-  //||}
+    cadastraInforme(informe: any){
+      return this.db.list('informe').push(informe).key;
+    }
 
 }

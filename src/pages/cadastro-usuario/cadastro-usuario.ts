@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 // import { AuthService } from '../../app/auth.service';
-import { HomeAdmPage } from '../home-adm/home-adm';
+import { HomeRecepPage } from '../home-recep/home-recep';
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
 import { Usuario } from '../../app/Modelo/usuario';
-import { Unidade, Galpao, snapshotToArrayUnidade, snapshotToArrayGalpao } from '../../app/Modelo/galpao';
 import * as firebase from 'firebase';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -17,61 +16,36 @@ import { FormBuilder, Validators } from '@angular/forms';
 export class CadastroUsuarioPage {
 
   usuario: Usuario = {
+    prontuario: '',
     nome: '', 
     sobrenome: '',
-    cpf: '',
-    senha: '12345678',
-    tipo: 'Usuario',
-    email: ''
+    dtNasc: '',
+    login: '',
+    senha: '',
+    tipo: 'Usuario'
   }
   
-  unidade: Unidade={
-    nomeUnidade: null,
-    unidadesGalpao: null,
-    endereco: null,
-    telefone: null
-  };
-  galpao: Galpao = {
-    nomeGalpao: null,
-    largura: null,
-    altura: null,
-    profundidade: null,
-    imagem: null
-  };
-  unidades:Array<Unidade> = [];
-  galpoes = [];
-  galpaoSelecionado = [];
-  usuariosNoGalpao = [];
-  keyGalpao;
-  keyUnidade;
   keyUsuario;
-  nomeUnidade = [];
-  nomeGalpao = [];
   usuarioSelecionado = [];
-  usuarioSelecionadoGalpao = [];
-  usuarioGalpao;
+  dataNasc = [];
   show = false;
-  showUG = false;
-  temUsuario = false;
-  temUsuarioUG = false;
-  galpoesUser = [];
   user = [];
   usuarioKey;
-  usuarioCpf; 
-  ref = firebase.database().ref('/unidade/');
+  temUsuario = false;
   refUser = firebase.database().ref('/usuario/');
   public usuarioForm: any;
   messageNome = '';
   erroNome = false;
   messageSobrenome = '';
   erroSobrenome = false;
-  messageEmail = '';
-  erroEmail = false;
-  messageUnidade = '';
-  erroUnidade = false;
-  messageGalpao = '';
-  erroGalpao = false;
-  public usuarioExistenteForm: any;
+  messageDtNasc = '';
+  erroDtNasc = false;
+  meioNomeArray;
+  meioSobrenomeArray;
+  meioNome;
+  meioSobrenome;
+  fimLogin;
+  num;
 
 
   constructor( 
@@ -87,30 +61,23 @@ export class CadastroUsuarioPage {
       this.usuarioForm = fb.group({
         nome: ['', Validators.required],
         sobrenome: ['', Validators.required],
-        email: ['', [Validators.required, Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$')]],
-        unidade: ['', Validators.required],
-        galpao: ['', Validators.required]
-      })
-      this.usuarioExistenteForm = fb.group({
-        unidade: ['', Validators.required],
-        galpao: ['', Validators.required]
+        dtNasc: ['', Validators.required],
       })
   }
+  
 
   ionViewDidLoad() {
-    this.ref.on('value', resp => {
-      this.unidades = snapshotToArrayUnidade(resp);
-    })
+
   }
 
-  selecionaUsuario(usuarioCpf: any){
+  selecionaUsuario(usuarioProntuario: any){
     this.user = [];
-    const snapshotToArrayUsuarioCPF = snapshot => {
+    const snapshotToArrayUsuarioProntuario = snapshot => {
       snapshot.forEach(element => {
         let usuarioBanco = element.val();
         usuarioBanco.key = element.key;
         if(usuarioBanco.tipo == 'Usuario'){
-          if(usuarioCpf == usuarioBanco.cpf){
+          if(usuarioProntuario == usuarioBanco.prontuario){
             this.user = usuarioBanco;
             this.usuarioKey = usuarioBanco.key;
             this.temUsuario = true;
@@ -122,56 +89,16 @@ export class CadastroUsuarioPage {
     this.refUser.on('value', resp => {
       this.usuarioSelecionado = [];
       this.temUsuario = false;
-      this.usuarioSelecionado = snapshotToArrayUsuarioCPF(resp);
-    })
-    this.selecionaUsuarioGalpao(usuarioCpf);
-  }
-
-  selecionaUsuarioGalpao(usuarioCpf: any){
-    this.galpoesUser = [];
-    const snapshotToArrayUsuarioCPFGalpao = snapshot => {
-      snapshot.forEach(element => {
-        let usuarioBanco = element.val();
-        this.galpoesUser.push(usuarioBanco)
-      });
-      return this.galpoesUser;
-    }
-    this.refUser.child(this.usuarioKey+'/Galpao/').on('value', resp => {
-      this.usuarioSelecionadoGalpao = [];
-      this.usuarioSelecionadoGalpao = snapshotToArrayUsuarioCPFGalpao(resp);
+      this.usuarioSelecionado = snapshotToArrayUsuarioProntuario(resp);
     })
   }
 
-  selecionaGalpao(keyUnidade: any){
-    this.keyUnidade = keyUnidade;
-    this.ref.child(keyUnidade+'/unidadesGalpao/').on('value', resp => {
-      this.galpoes = snapshotToArrayGalpao(resp);
-    })
-  }
-
-  exibirGalpaoSelecionado(keyGalpao: any){
-    const snapshotToArrayGalpaoSelecionado = snapshot => {
-      let returnArray = [];
-      snapshot.forEach(element => {
-         let galpao = element.val();
-         galpao.key = element.key;
-        if(galpao.key == keyGalpao){
-          returnArray.push(galpao); 
-        }
-      });
-      return returnArray;
-    }
-    this.ref.child(this.keyUnidade+'/unidadesGalpao/').on('value', resp => {
-      this.galpaoSelecionado = snapshotToArrayGalpaoSelecionado(resp);
-    })
-    this.jaExisteUsuario(keyGalpao);
-  }
-
-  addUsuario(keyUnidade: any, keyGalpao: any, usuario: Usuario){
+  
+  addUsuario(usuario: Usuario){
     const loading = this.loadingCtrl.create({
       content: 'Cadastrando...'
     }); 
-    let {nome, sobrenome, email, unidade, galpao} = this.usuarioForm.controls;
+    let {nome, sobrenome, dtNasc} = this.usuarioForm.controls;
     if(!this.usuarioForm.valid){
       if(!nome.valid){
         this.erroNome = true;
@@ -185,182 +112,37 @@ export class CadastroUsuarioPage {
       }else{
         this.messageSobrenome = '';
       }
-      if(!email.valid){
-        this.erroEmail = true;
-        this.messageEmail = 'E-MAIL DEVE SER PREENCHIDO NO FORMATO: nome@email.com';
+      if(!dtNasc.valid){
+        this.erroDtNasc = true;
+        this.messageDtNasc = 'DATA DE NASCIMENTO DEVE SER PREENCHIDA';
       }else{
-        this.messageEmail = '';
-      }
-      if(!unidade.valid){
-        this.erroUnidade = true;
-        this.messageUnidade = 'UNIDADE DEVE SER SELECIONADA';
-      }else{
-        this.messageUnidade = '';
-      }
-      if(!galpao.valid){
-        this.erroGalpao = true;
-        this.messageGalpao = 'GALPÃO DEVE SER SELECIONADO';
-      }else{
-        this.messageGalpao = '';
+        this.messageDtNasc = '';
       }
     }else{
-      const snapshotToArrayUnidadeNome = snapshot => {
-        let returnArray = [];
-        snapshot.forEach(element => {
-          let unidade = element.val();
-          unidade.key = element.key;
-          if(unidade.key == keyUnidade){
-            returnArray.push(unidade.nomeUnidade); 
-          }
-        });
-        return returnArray;
-      }
-      this.ref.on('value', resp => {
-        this.nomeUnidade = snapshotToArrayUnidadeNome(resp);
-      })
-      const snapshotToArrayGalpaoNome = snapshot => {
-        let returnArray = [];
-        snapshot.forEach(element => {
-          let galpao = element.val();
-          galpao.key = element.key;
-          if(galpao.key == keyGalpao){
-            returnArray.push(galpao.nomeGalpao); 
-          }
-        });
-        return returnArray;
-      }
-      this.ref.child(this.keyUnidade+'/unidadesGalpao/').on('value', resp => {
-        this.nomeGalpao = snapshotToArrayGalpaoNome(resp);
-      })
-      this.usuarioGalpao = {Unidade: this.nomeUnidade[0], Galpao: this.nomeGalpao[0]}
-      this.keyUsuario = this.dbService.cadastraUsuario(this.usuario, this.usuarioGalpao, keyGalpao);
-      this.addUsuarioGalpao(this.keyUnidade, keyGalpao, this.keyUsuario, this.usuario);
+      this.usuario.dtNasc = this.dbService.converteData(this.usuario.dtNasc);
+      this.usuario.senha = this.dbService.geraRandom();
+      this.usuario.login = this.dbService.geraLogin(this.usuario.nome, this.usuario.sobrenome);
+      this.keyUsuario = this.dbService.cadastraUsuario(this.usuario);
       loading.present().then((data) => {loading.dismiss(); 
         const alert = this.alertCtrl.create({
-            subTitle: 'Cadastro de usuário', 
-            message: 'Usuário cadastrado com sucesso!',
+            title:this.usuario.nome + ' ' + this.usuario.sobrenome,
+            subTitle: 'LOGIN: '+this.usuario.login, 
+            message: 'SENHA: '+this.usuario.senha,
             buttons: ['Ok']});
-          alert.present().then(r => this.navCtrl.setRoot(HomeAdmPage))})
+          alert.present().then(r => this.navCtrl.setRoot(HomeRecepPage))})
         .catch((error) => {
           loading.dismiss();
           const alert = this.alertCtrl.create({
-            subTitle: 'Cadastro de usuário falhou',
-            message: 'Verifique os dados de login e senha e tente novamente',
+            subTitle: 'Cadastro de paciente falhou',
+            message: 'Tente novamente',
             buttons: ['Ok']});
           alert.present();})
     
     }
   }
 
-  alteraUsuario(keyUnidade: any, keyGalpao: any){
-    let {unidade, galpao} = this.usuarioExistenteForm.controls;
-    if(!this.usuarioExistenteForm.valid){
-      if(!unidade.valid){
-        this.erroUnidade = true;
-        this.messageUnidade = 'UNIDADE DEVE SER SELECIONADA';
-      }else{
-        this.messageUnidade = '';
-      }
-      if(!galpao.valid){
-        this.erroGalpao = true;
-        this.messageGalpao = 'GALPÃO DEVE SER SELECIONADO';
-      }else{
-        this.messageGalpao = '';
-      }
-    }else{
-      const snapshotToArrayUnidadeNome = snapshot => {
-        let returnArray = [];
-        snapshot.forEach(element => {
-          let unidade = element.val();
-          unidade.key = element.key;
-          if(unidade.key == keyUnidade){
-            returnArray.push(unidade.nomeUnidade); 
-          }
-        });
-        return returnArray;
-      }
-      this.ref.on('value', resp => {
-        this.nomeUnidade = snapshotToArrayUnidadeNome(resp);
-      })
-      const snapshotToArrayGalpaoNome = snapshot => {
-        let returnArray = [];
-        snapshot.forEach(element => {
-          let galpao = element.val();
-          galpao.key = element.key; 
-          if(galpao.key == keyGalpao){
-            returnArray.push(galpao.nomeGalpao); 
-          }
-        });
-        return returnArray;
-      }
-      this.ref.child(keyUnidade+'/unidadesGalpao/').on('value', resp => {
-        this.nomeGalpao = snapshotToArrayGalpaoNome(resp);
-      })
-      this.usuarioGalpao = {Unidade: this.nomeUnidade[0], Galpao: this.nomeGalpao[0]}
-      const loading = this.loadingCtrl.create({
-        content: 'Cadastrando...'
-      });
-      this.dbService.editaUsuario(this.usuarioKey, this.usuarioSelecionado, this.usuarioGalpao, keyGalpao);
-      loading.present().then((data) => {loading.dismiss(); 
-                      const alert = this.alertCtrl.create({
-                          subTitle: 'Cadastro de usuário', 
-                          message: 'Usuário cadastrado com sucesso!',
-                          buttons: ['Ok']});
-                        alert.present().then(r => this.navCtrl.setRoot(HomeAdmPage))})
-                      .catch((error) => {
-                        loading.dismiss();
-                        const alert = this.alertCtrl.create({
-                          subTitle: 'Cadastro de usuário falhou',
-                          message: 'Verifique os dados de login e senha e tente novamente',
-                          buttons: ['Ok']});
-                        alert.present();})
-      this.addUsuarioGalpao(this.keyUnidade, keyGalpao, this.usuarioKey, this.usuarioSelecionado);
-    }
-  }
-
-  addUsuarioGalpao(keyUnidade: any, keyGalpao: any, keyUsuario: any, usuario: any){
-    this.dbService.editaGalpaoUsuario(keyUnidade, keyGalpao, keyUsuario, usuario);
-  }
-
-  jaExisteUsuario(keyGalpao:any){
-    const snapshotToArrayGalpaoSelecionado = snapshot => {
-      let returnArray = [];
-      snapshot.forEach(element => {
-         let usuario = element.val();
-         usuario.key = element.key;
-         returnArray.push(usuario.cpf);
-         returnArray.push(usuario.nome);
-         returnArray.push(usuario.sobrenome); 
-      });
-      return returnArray;
-    }
-    this.ref.child(this.keyUnidade+'/unidadesGalpao/'+keyGalpao+'/usuarios/').on('value', resp => {
-      this.usuariosNoGalpao = snapshotToArrayGalpaoSelecionado(resp);
-    })
-    if(this.usuariosNoGalpao.length > 0){
-      var i = 0;
-      var mensagem:string='';
-      while(i < this.usuariosNoGalpao.length){
-        var j = i+1;
-        var k = j+1;
-        mensagem += this.usuariosNoGalpao[j].toString() + ' ' + this.usuariosNoGalpao[k].toString() + ' CPF ' + this.usuariosNoGalpao[i].toString() + '. \n|| '
-        i = k+1;
-      }
-      const loading = this.loadingCtrl.create({
-        content: 'Verificando...'
-      });
-      loading.present().then((data) => {
-        loading.dismiss();
-        const alert = this.alertCtrl.create({
-          subTitle: 'Este galpão já está sendo administrado pelos usuários:',
-          message: mensagem,
-          buttons: ['Ok']});
-        alert.present()})
-    }
-  }
-
   voltar(){
-    this.navCtrl.setRoot(HomeAdmPage)
+    this.navCtrl.setRoot(HomeRecepPage);
   }
 
 }

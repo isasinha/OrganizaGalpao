@@ -5,60 +5,52 @@
   <br>  
   <div class='container'>
     <ion-icon name='arrow-round-back' large class='back' (click)="voltar()"></ion-icon>
-    <h3 style="text-align:center">Administrador</h3> 
-    <p style="text-align:center">Cadastrar novo usuário</p>
-
+    <h3 style="text-align:center">Cadastrar novo paciente</h3> 
     <ion-list>
       <ion-item> 
         <ion-label floating>
-          <ion-icon name='contact'></ion-icon>  
-          CPF*
+          <ion-icon name='folder'></ion-icon>  
+          Prontuário*
         </ion-label>
-        <ion-input type="text" [(ngModel)]="usuario.cpf" (keyup)="selecionaUsuario(usuario.cpf)" [brmasker]="{mask:'999.999.999-99', len:14, type:'num'}"></ion-input>
+        <ion-input type="text" [(ngModel)]="usuario.prontuario" (keyup)="selecionaUsuario(usuario.prontuario)"></ion-input>
       </ion-item>
     </ion-list> 
-    <form padding [formGroup]='usuarioExistenteForm' novalidate class="list" *ngIf='usuario.cpf != "" && temUsuario'>
-    <!-- <ion-list class="list" *ngIf='usuario.cpf != "" && temUsuario'> -->
+    <form padding novalidate class="list" *ngIf='usuario.prontuario != "" && temUsuario'>
+      <p class='texto1'>Este número de prontuário já está cadastrado para o seguinte paciente:</p>
       <ion-item>
         <ion-label >
           <ion-icon name='person'></ion-icon>  
-          Nome: {{usuarioSelecionado.nome}} {{usuarioSelecionado.sobrenome}}
+          Nome: 
+          <br/><br/>
+          {{usuarioSelecionado.nome}} {{usuarioSelecionado.sobrenome}}
         </ion-label>
       </ion-item>
       <ion-item>
         <ion-label >
-          <ion-icon name='mail'></ion-icon>  
-          E-mail: {{usuarioSelecionado.email}}
+          <ion-icon name='calendar'></ion-icon>  
+          Data de Nascimento: 
+          <br/><br/>
+          {{usuarioSelecionado.dtNasc}}
         </ion-label>
       </ion-item>
-      <p class='texto1'>Este usuário já está administrando os seguintes galpões:</p>
-      <p *ngFor='let galpaoUser of usuarioSelecionadoGalpao'>
-          Unidade: {{galpaoUser.Unidade}} <br> Galpão: {{galpaoUser.Galpao}}
-      </p>
-      <p class='texto1'>Selecione abaixo a unidade e galpão ao qual deseja incluir este usuário:</p>
       <ion-item>
-        <ion-label>Unidade*</ion-label>
-        <ion-select [(ngModel)]="unidade.key" formControlName="unidade" class="select" (ionChange)="selecionaGalpao(unidade.key)">
-          <ion-option class="option" *ngFor='let unidade of unidades' value={{unidade.key}}>{{unidade.nomeUnidade}}</ion-option>
-        </ion-select>
+        <ion-label >
+          <ion-icon name='contact'></ion-icon>  
+          Login: {{usuarioSelecionado.login}}
+        </ion-label>
       </ion-item>
-      <h6 *ngIf='erroUnidade' class='error'>{{messageUnidade}}</h6>
-      <ion-item> 
-        <ion-label>Galpao*</ion-label>
-        <ion-select *ngIf='galpoes.length > 0' [(ngModel)]="galpao.key" formControlName="galpao" class="select" (ionChange)="exibirGalpaoSelecionado(galpao.key)">
-            <ion-option class="option" *ngFor='let galpao of galpoes' value={{galpao.key}}>{{galpao.nomeGalpao}}</ion-option>
-        </ion-select>
+      <ion-item>
+        <ion-label >
+          <ion-icon name='lock'></ion-icon>  
+          Senha: {{usuarioSelecionado.senha}}
+        </ion-label>
       </ion-item>
-      <h6 *ngIf='erroGalpao' class='error'>{{messageGalpao}}</h6>
       <pre></pre>
       <ion-buttons class='acessos'>
         <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
-        <!-- <button class='fica' *ngIf='usuarioSelecionado == null || usuarioSelecionado.length == 0' ion-button (click)='addUsuario(unidade.key, galpao.key, usuario)'>Cadastrar</button> -->
-        <button class='fica' *ngIf='usuarioSelecionado != 0' ion-button (click)='alteraUsuario(unidade.key, galpao.key)'>Cadastrar</button>
       </ion-buttons>
     </form>
-    <form padding [formGroup]='usuarioForm' novalidate class="list" *ngIf='usuario.cpf != "" && !temUsuario'>
-    <!-- <ion-list class="list" *ngIf='usuario.cpf != "" && !temUsuario'> -->
+    <form padding [formGroup]='usuarioForm' novalidate class="list" *ngIf='usuario.prontuario != "" && !temUsuario'>
       <ion-item>
         <ion-label floating>
           <ion-icon name='person'></ion-icon>  
@@ -76,41 +68,17 @@
       </ion-item>
       <h6 *ngIf='erroSobrenome' class='error'>{{messageSobrenome}}</h6>
       <ion-item>
-        <ion-label >
-          <pre></pre>
-          <ion-icon name='lock'></ion-icon>  
-          Senha padrão*: {{usuario.senha}}
+        <ion-label stacked>
+          <ion-icon name='calendar'></ion-icon>  
+          Data de Nascimento*
         </ion-label>
+        <ion-input type="date" [(ngModel)]="usuario.dtNasc" formControlName="dtNasc"></ion-input>
       </ion-item>
-      <ion-item>
-        <ion-label floating>
-          <ion-icon name='mail'></ion-icon>  
-          E-mail*
-        </ion-label>
-        <ion-input type="text" [(ngModel)]="usuario.email" formControlName="email"></ion-input>
-      </ion-item>
-      <h6 *ngIf='erroEmail' class='error'>{{messageEmail}}</h6>
-      <p class='texto1'>Selecione abaixo a unidade e galpão ao qual deseja incluir este usuário:</p>
-      <ion-item>
-        <ion-label>Unidade*</ion-label>
-        <ion-select [(ngModel)]="unidade.key" formControlName="unidade" class="select" (ionChange)="selecionaGalpao(unidade.key)">
-          <ion-option class="option" *ngFor='let unidade of unidades' value={{unidade.key}}>{{unidade.nomeUnidade}}</ion-option>
-        </ion-select>
-      </ion-item>
-      <h6 *ngIf='erroUnidade' class='error'>{{messageUnidade}}</h6>
-      <ion-item>
-        <ion-label>Galpão*</ion-label>
-        <ion-select *ngIf='galpoes.length > 0' [(ngModel)]="galpao.key" formControlName="galpao" class="select" (ionChange)="exibirGalpaoSelecionado(galpao.key)">
-            <ion-option class="option" *ngFor='let galpao of galpoes' value={{galpao.key}}>{{galpao.nomeGalpao}}</ion-option>
-        </ion-select>
-      </ion-item> 
-      <h6 *ngIf='erroGalpao' class='error'>{{messageGalpao}}</h6>
-    <!-- </ion-list> -->
+      <h6 *ngIf='erroDtNasc' class='error'>{{messageDtNasc}}</h6>
       <pre></pre>
       <ion-buttons class='acessos'>
         <button class='botao-acessa' ion-button (click)="voltar()">Voltar</button>
-        <button class='fica' *ngIf='usuarioSelecionado == null || usuarioSelecionado.length == 0' ion-button (click)='addUsuario(unidade.key, galpao.key, usuario)'>Cadastrar</button>
-        <!-- <button class='fica' *ngIf='usuarioSelecionado != 0' ion-button (click)='alteraUsuario(unidade.key, galpao.key)'>Cadastrar</button> -->
+        <button class='fica' *ngIf='usuarioSelecionado == null || usuarioSelecionado.length == 0' ion-button (click)='addUsuario(usuario)'>Cadastrar</button>
       </ion-buttons>
     </form>
   </div>
